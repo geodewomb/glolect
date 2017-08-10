@@ -18,7 +18,7 @@
 <li><a href="faq">FAQ</a></li>
 </ul>
 </nav>
-<main>
+<main class="easter">
 <section class="scrips">
 <!--#include virtual="year-a/week-35" -->
 </section>
