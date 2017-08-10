@@ -5,6 +5,7 @@
 <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet"> 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <body>
+<svg id="swipe" viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="0 0 100 0 100 100" /></svg>
 <header>
 <a href=""><h1>Glo Lec</h1><h1 class="bigger">+</h1></a>
 <h2>daily scriptures from the Revised Common Lectionary + complete bible reading plan</h2>
