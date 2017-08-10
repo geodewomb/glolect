@@ -20,7 +20,7 @@
 </nav>
 <main class="easter">
 <section class="scrips">
-<!--#include virtual="year-a/week-35" -->
+<!--#include virtual="year-a/week-35/scrips.html" -->
 </section>
 </main>
 </body>
