@@ -1,81 +1,96 @@
 
+/* reset and defaults */
+
 html,body,div,ul,li,h1,h2,h3,h4,h5,h6,
 p,a,img,mark,small,section,article,header,nav,main {
 margin: 0;
 padding: 0;
 border: 0;
-font: normal 16px 'Istok Web',sans-serif;
 box-sizing: border-box;
 }
 
 html, body {
 height: 100%;
+font: normal 16px 'Istok Web',sans-serif;
 }
 
-svg {
-pointer-events: none;
+header a, nav a { 
+text-decoration: none;
 }
 
-svg g {
-pointer-events: visiblePainted;
-}
+/* svg colors */
 
-svg.generic-l #out { fill: #dddddd; }
-svg.generic-l #in { fill: #aaaaaa; }
+svg { pointer-events: none; }
+svg g { pointer-events: visiblePainted; }
 
-svg.generic-d #out { fill: #aaaaaa; }
-svg.generic-d #in { fill: #dddddd; }
+svg.generic-l #out                    { fill: #dddddd; }
+svg.generic-l #in                     { fill: #aaaaaa; }
 
-svg.advent #out { fill: #5f5fd3; }
-svg.advent #in { fill: #afafe9; }
+svg.generic-d #out                    { fill: #aaaaaa; }
+svg.generic-d #in                     { fill: #dddddd; }
+
+svg.advent #out                       { fill: #5f5fd3; }
+svg.advent #in                        { fill: #afafe9; }
 
 svg.christmas #out, svg.nativity #out { fill: #aaaaff; }
-svg.christmas #in, svg.nativity #in { fill: #ff0066; }
+svg.christmas #in, svg.nativity #in   { fill: #ff0066; }
 
-svg.epiphanyday #out { fill: #ffeeaa; }
-svg.epiphanyday #in { fill: #54d3bc; }
+svg.epiphanyday #out                  { fill: #ffeeaa; }
+svg.epiphanyday #in                   { fill: #54d3bc; }
 
-svg.epiphany #out, svg.baptism #out { fill: #5fd3bc; }
-svg.epiphany #in, svg.baptism #in { fill: #d5ffe6; }
+svg.epiphany #out, svg.baptism #out   { fill: #5fd3bc; }
+svg.epiphany #in, svg.baptism #in     { fill: #d5ffe6; }
 
-svg.transfiguration #out { fill: #aaffee; }
-svg.transfiguration #in { fill: #d0b95c; }
+svg.transfiguration #out              { fill: #aaffee; }
+svg.transfiguration #in               { fill: #d0b95c; }
 
-svg.ashwednesday #out {fill: #eeebf3; }
-svg.ashwednesday #in { fill: #ddafe9; }
+svg.ashwednesday #out                 { fill: #eeebf3; }
+svg.ashwednesday #in                  { fill: #ddafe9; }
 
-section.daybar svg.ashwednesday #out { fill: #dedbe3; }
-section.dayber svg.ashwednesday #in { fill: #ddafe9; }
+section.tribar svg.ashwednesday #out  { fill: #dedbe3; }
+section.triber svg.ashwednesday #in   { fill: #ddafe9; }
 
-svg.lent #out, svg.palmsunday #out { fill: #8a6491; }
-svg.lent #in, svg.palmsunday #in { fill: #ddafe9; }
+svg.lent #out, svg.palmsunday #out    { fill: #8a6491; }
+svg.lent #in, svg.palmsunday #in      { fill: #ddafe9; }
 
-svg.holyweek #out, svg.holymonday #out { fill: #ff0066; }
-svg.holyweek #in, svg.holymonday #in {fill: #a02c5a; }
+svg.holyweek #out, svg.holymonday #out{ fill: #ff0066; }
+svg.holyweek #in, svg.holymonday #in  { fill: #a02c5a; }
 
-svg.easter #out { fill: #cbab37; }
-svg.easter #in { fill: #e9ddaf; }
+svg.easter #out                       { fill: #cbab37; }
+svg.easter #in                        { fill: #e9ddaf; }
 
-svg.ascension #out { fill: #cbab37; }
-svg.ascension #in { fill: #c83771; }
+svg.ascension #out                    { fill: #cbab37; }
+svg.ascension #in                     { fill: #c83771; }
 
-svg.pentecost #out { fill: #ff8080; }
-svg.pentecost #in { fill: #ffd5d5; }
+svg.pentecost #out                    { fill: #ff8080; }
+svg.pentecost #in                     { fill: #ffd5d5; }
 
-svg.trinity #out { fill: #ffe9e9; }
-svg.trinity #in { fill: #ffcc00; }
+svg.trinity #out                      { fill: #ffe9e9; }
+svg.trinity #in                       { fill: #ffcc00; }
 
-section.daybar svg.trinity #out { fill: #fdd7d7; }
-section.daybar svg.trinity #in { fill: #ffcc00; }
+section.tribar svg.trinity #out       { fill: #fdd7d7; }
+section.tribar svg.trinity #in        { fill: #ffcc00; }
 
-svg.ordinary #out, svg.proper #out { fill: #abc837; }
-svg.ordinary #in, svg.proper #in { fill: #dde9af; }
+svg.ordinary #out, svg.proper #out    { fill: #abc837; }
+svg.ordinary #in, svg.proper #in      { fill: #dde9af; }
 
-svg.allsaints #out { fill: #abc837; }
-svg.allsaints #in { fill: #8a916f; }
+svg.allsaints #out                    { fill: #abc837; }
+svg.allsaints #in                     { fill: #8a916f; }
 
-svg.christtheking #out { fill: #dde9af; }
-svg.christtheking #in { fill: #ffcc00; }
+svg.christtheking #out                { fill: #dde9af; }
+svg.christtheking #in                 { fill: #ffcc00; }
+
+
+/* general styles */
+
+svg#swipe {
+color: #000000;
+position: absolute;
+top: 0;
+right: 0;
+width: 300px;
+height: 300px;
+}
 
 header {
 padding: 0px 16px;
@@ -86,13 +101,6 @@ top: 0px;
 left: 0px;
 }
 
-@media screen and (min-height: 780px) {
-header { height: 145px; padding: 16px;}
-}
-
-header a {
-text-decoration: none;
-}
 
 header h1 {
 color: #a02c5a;
@@ -124,7 +132,6 @@ min-height: calc(100% - 120px);
 max-width: 100%;
 overflow: hidden;
 }
-
 
 @media screen and (min-height: 780px) {
 main { padding-top: 300px; min-height: calc(100% - 145px); }
@@ -232,95 +239,7 @@ transform: scale(2);
 pointer-events: none;
 }
 
-section.weekinfo {
-position: absolute;
-top: 125px;
-left: 190px;
-width: 420px;
-color: #b79a26;
-text-align: center;
-padding: 0 45px;
-}
-
-@media screen and (min-height: 780px) {
-section.weekinfo { top: 150px; }
-}
-
-section.weekinfo div.arrow-l {
-position: absolute;
-left: 0px;
-top: 0px;
-}
-
-section.weekinfo div.arrow-r {
-position: absolute;
-right: 0px;
-top: 0px;
-}
-section.weekinfo div {
-line-height: 0px;
-}
-
-section.weekinfo h1 {
-font-weight: bold;
-font-size: 20px;
-text-align: center;
-padding: 4px;
-}
-
-section.weekinfo svg {
-height: 60px;
-width: 36px;
-pointer-events: all;
-}
-
-section.weekinfo svg:hover #out {
-fill: #ff0066;
-} 
-
-img.tri-white {
-position: absolute;
-top: -185px;
-left: 288px;
-width: 220px;
-height: 248px;
-} 
-
-img.tri-white-left {
-position: absolute;
-top: 40px;
-left: 328px;
-width: 40px;
-height: 45px;
-}
-
-img.tri-white-right {
-position: absolute;
-top: 40px;
-left: 428px;
-width: 40px;
-height: 45px;
-}
-
-img.tri-white-flip {
-position: absolute;
-top: 31px;
-left: 353px;
-width: 90px;
-height: 100px;
-}
-
-main.thisweek img.tri-white {
-position: absolute;
-top: -60px;
-left: 197px;
-width: 402px;
-height: 359px;
-}
-
-main section.today {
-display: none;
-}
+/* specific content styles */
 
 section.scrips {
 position: relative;
