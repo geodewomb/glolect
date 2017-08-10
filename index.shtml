@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="etc/styles.css">
+<link href="https://fonts.googleapis.com/css?family=Istok+Web:400,400i,700" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet"> 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<body>
+<header>
+<a href=""><h1>Glo Lec</h1><h1 class="bigger">+</h1></a>
+<h2>daily scriptures from the Revised Common Lectionary + complete bible reading plan</h2>
+</header>
+<section class="tribar">
+<!--#include virtual="etc/tribar.html" -->
+</section>
+<nav>
+<ul>
+<li><a href="browse">BROWSE</a></li>
+<li><a href="faq">FAQ</a></li>
+</ul>
+</nav>
+<main>
+<section class="scrips">
+<!--#include virtual="year-a/week-35" -->
+</section>
+</main>
+</body>
+</html>

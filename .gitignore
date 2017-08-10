@@ -1,4 +1,6 @@
 *.html
+
 *.shtml
-*.css
+!index.shtml
+
 *.txt

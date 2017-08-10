@@ -1,0 +1,591 @@
+
+html,body,div,ul,li,h1,h2,h3,h4,h5,h6,
+p,a,img,mark,small,section,article,header,nav,main {
+margin: 0;
+padding: 0;
+border: 0;
+font: normal 16px 'Istok Web',sans-serif;
+box-sizing: border-box;
+}
+
+html, body {
+height: 100%;
+}
+
+svg {
+pointer-events: none;
+}
+
+svg g {
+pointer-events: visiblePainted;
+}
+
+svg.generic-l #out { fill: #dddddd; }
+svg.generic-l #in { fill: #aaaaaa; }
+
+svg.generic-d #out { fill: #aaaaaa; }
+svg.generic-d #in { fill: #dddddd; }
+
+svg.advent #out { fill: #5f5fd3; }
+svg.advent #in { fill: #afafe9; }
+
+svg.christmas #out, svg.nativity #out { fill: #aaaaff; }
+svg.christmas #in, svg.nativity #in { fill: #ff0066; }
+
+svg.epiphanyday #out { fill: #ffeeaa; }
+svg.epiphanyday #in { fill: #54d3bc; }
+
+svg.epiphany #out, svg.baptism #out { fill: #5fd3bc; }
+svg.epiphany #in, svg.baptism #in { fill: #d5ffe6; }
+
+svg.transfiguration #out { fill: #aaffee; }
+svg.transfiguration #in { fill: #d0b95c; }
+
+svg.ashwednesday #out {fill: #eeebf3; }
+svg.ashwednesday #in { fill: #ddafe9; }
+
+section.daybar svg.ashwednesday #out { fill: #dedbe3; }
+section.dayber svg.ashwednesday #in { fill: #ddafe9; }
+
+svg.lent #out, svg.palmsunday #out { fill: #8a6491; }
+svg.lent #in, svg.palmsunday #in { fill: #ddafe9; }
+
+svg.holyweek #out, svg.holymonday #out { fill: #ff0066; }
+svg.holyweek #in, svg.holymonday #in {fill: #a02c5a; }
+
+svg.easter #out { fill: #cbab37; }
+svg.easter #in { fill: #e9ddaf; }
+
+svg.ascension #out { fill: #cbab37; }
+svg.ascension #in { fill: #c83771; }
+
+svg.pentecost #out { fill: #ff8080; }
+svg.pentecost #in { fill: #ffd5d5; }
+
+svg.trinity #out { fill: #ffe9e9; }
+svg.trinity #in { fill: #ffcc00; }
+
+section.daybar svg.trinity #out { fill: #fdd7d7; }
+section.daybar svg.trinity #in { fill: #ffcc00; }
+
+svg.ordinary #out, svg.proper #out { fill: #abc837; }
+svg.ordinary #in, svg.proper #in { fill: #dde9af; }
+
+svg.allsaints #out { fill: #abc837; }
+svg.allsaints #in { fill: #8a916f; }
+
+svg.christtheking #out { fill: #dde9af; }
+svg.christtheking #in { fill: #ffcc00; }
+
+header {
+padding: 0px 16px;
+background-color: #ffffff;
+height: 120px;
+position: relative;
+top: 0px;
+left: 0px;
+}
+
+@media screen and (min-height: 780px) {
+header { height: 145px; padding: 16px;}
+}
+
+header a {
+text-decoration: none;
+}
+
+header h1 {
+color: #a02c5a;
+font-size: 36px;
+display: inline;
+text-transform: uppercase;
+letter-spacing: 2px;
+font-family: 'Lato',sans-serif;
+}
+
+header h1.bigger {
+position: relative;
+top: 4px;
+left: -5px;
+font-size: 52px;
+}
+
+header h2 {
+display: inline;
+color: #555555;
+font-family: 'Lato',sans-serif;
+}
+
+main {
+position: relative;
+background-color: #dadada;
+padding-top: 220px;
+min-height: calc(100% - 120px);
+max-width: 100%;
+overflow: hidden;
+}
+
+
+@media screen and (min-height: 780px) {
+main { padding-top: 300px; min-height: calc(100% - 145px); }
+}
+
+main.generic {
+padding-top: 20px;
+}
+
+main:after {
+clear: both;
+content=' ';
+}
+
+main.advent { background-color: #eaebfd; }
+main.christmas { background-color: #eeeedd; }
+main.epiphany { background-color: #ddf3dd; }
+main.lent { background-color: #e8e8ef; }
+main.holyweek { background-color: #eeeedd; }
+main.easter { background-color: #faeecf; }
+main.ordinary { background-color: #e8f2d8; }
+
+.advent h1 { color: #5f5fd3; }
+.advent h2 { color: #5f5fd3; }
+.christmas h1 { color: #a02c5a; }
+.christmas h2 { color: #a02c5a; }
+.epiphany h1 { color: #3fb39c; }
+.epiphany h2 { color: #3fb39c; }
+.lent h1 { color: #8a6f91; }
+.lent h2 { color: #8a6f91; }
+.holyweek h1 { color: #a02c5a; }
+.holyweek h2 { color: #a02c5a; }
+.easter h1 { color: #bb9b27; }
+.easter h2 { color: #bb9b27; }
+.ordinary h1 { color: #8a916f; }
+.ordinary h2 { color: #8a916f; }
+
+nav {
+position: absolute;
+top: 135px;
+padding: 0 8px;
+z-index: 10;
+}
+
+@media screen and (min-height: 780px) {
+nav { top: 160px; }
+}
+
+nav li {
+margin-bottom: 28px;
+}
+
+nav a {
+color: #ff0066;
+font-family: 'Lato',sans-serif;
+font-size: 28px;
+letter-spacing: 1px;
+text-decoration: none;
+padding: 8px 12px;
+border-radius: 6px;
+}
+
+nav a:hover {
+background-color: #ffffff;
+}
+
+section.tribar {
+height: 80px;
+top: 75px;
+width: 100%;
+overflow-x: hidden;
+overflow-y: visible;
+white-space: nowrap;
+position: absolute;
+z-index: 5;
+font-size: 0px;
+}
+
+@media screen and (min-height: 780px) {
+section.tribar { top: 100px; }
+}
+
+section.tribar svg {
+height: 40px;
+width: 45px;
+margin-left: -15px;
+vertical-align: text-top;
+}
+
+section.tribar svg:hover #out {
+stroke: #ff0066;
+stroke-width: 2;
+}
+
+section.tribar svg.now {
+height: 80px;
+width: 90px;
+margin-left: -37px;
+margin-right: -23px;
+vertical-align: text-top;
+}
+
+section.tribar svg.now g {
+transform: scale(2);
+pointer-events: none;
+}
+
+section.weekinfo {
+position: absolute;
+top: 125px;
+left: 190px;
+width: 420px;
+color: #b79a26;
+text-align: center;
+padding: 0 45px;
+}
+
+@media screen and (min-height: 780px) {
+section.weekinfo { top: 150px; }
+}
+
+section.weekinfo div.arrow-l {
+position: absolute;
+left: 0px;
+top: 0px;
+}
+
+section.weekinfo div.arrow-r {
+position: absolute;
+right: 0px;
+top: 0px;
+}
+section.weekinfo div {
+line-height: 0px;
+}
+
+section.weekinfo h1 {
+font-weight: bold;
+font-size: 20px;
+text-align: center;
+padding: 4px;
+}
+
+section.weekinfo svg {
+height: 60px;
+width: 36px;
+pointer-events: all;
+}
+
+section.weekinfo svg:hover #out {
+fill: #ff0066;
+} 
+
+img.tri-white {
+position: absolute;
+top: -185px;
+left: 288px;
+width: 220px;
+height: 248px;
+} 
+
+img.tri-white-left {
+position: absolute;
+top: 40px;
+left: 328px;
+width: 40px;
+height: 45px;
+}
+
+img.tri-white-right {
+position: absolute;
+top: 40px;
+left: 428px;
+width: 40px;
+height: 45px;
+}
+
+img.tri-white-flip {
+position: absolute;
+top: 31px;
+left: 353px;
+width: 90px;
+height: 100px;
+}
+
+main.thisweek img.tri-white {
+position: absolute;
+top: -60px;
+left: 197px;
+width: 402px;
+height: 359px;
+}
+
+main section.today {
+display: none;
+}
+
+section.scrips {
+position: relative;
+text-align: center;
+padding: 30px;
+left: 30px;
+}
+
+@media screen and (min-width: 800px) {
+section.scrips { left: 0px; }
+}
+
+section.scrips article {
+vertical-align: text-top;
+pointer-events: none;
+display: inline-block;
+text-align: center;
+position: relative;
+padding: 20px;
+background-size: contain;
+width: 225px;
+min-height: 225px;
+padding: 0px 40px;
+margin-left: -60px;
+margin-top:16px;
+}
+
+section.scrips img {
+width: 100%;
+position: absolute;
+top: 0px;
+left: 0px;
+z-index: 1;
+}
+
+section.scrips h1 {
+position: relative;
+top: -22px;
+letter-spacing: 1px;
+font-family: 'Lato',sans-serif;
+text-transform: uppercase;
+padding-bottom: 3px;
+z-index: 5;
+}
+
+section.scrips h2 {
+position: relative;
+top: -22px;
+font-size: 13px;
+z-index: 5;
+font-weight: bold;
+color: #000000;
+}
+
+section.scrips h3 {
+position: relative;
+top: -22px;
+color: #ff0066;
+font-size: 12px;
+z-index: 5;
+text-transform: uppercase;
+padding-bottom: 3px;
+}
+
+section.scrips p {
+pointer-events: all;
+position: relative;
+top: -22px;
+z-index: 5;
+font-size: 14px;
+line-height: 1;
+padding: 3px;
+color: #000000;
+}
+
+section.scrips p span {
+color: #888888;
+margin-right: -3px;
+}
+
+section.scrips p a {
+font-size: 14px;
+text-decoration: none;
+line-height: 1;
+color: #000000;
+padding: 0 3px;
+background-color: #ffffff;
+border-radius: 6px;
+}
+
+section.scrips a:hover {
+color: #ff0066;
+}
+
+section.browser {
+position: relative;
+margin-left: 200px;
+margin-bottom: 40px;
+}
+
+section.browser a {
+text-decoration: none;
+}
+
+
+section.browser #title {
+text-align: right;
+position: absolute;
+left: -50px;
+}
+
+section.browser #title a {
+text-align: center;
+display: inline-block;
+padding: 6px 12px;
+margin-right: 4px;
+border-radius: 6px;
+}
+
+section.browser #title a:hover {
+background-color: #eaeaea;
+}
+
+section.browser #title a.selected {
+background: #ffffff;
+pointer-events: none;
+}
+
+section.browser #title h1 {
+color: #a02c5a;
+font-family: 'Lato',sans-serif;
+font-size: 20px;
+text-transform: uppercase;
+}
+
+section.browser #title h2 {
+color: #a02c5a;
+font-size: 14px;
+text-align: center;
+}
+
+section.browser #switcher a {
+position: relative;
+margin: 8px 2px;
+}
+
+section.browser #switcher a:hover {
+background-color: #eaeaea;
+}
+
+section.browser #switcher h1{
+font-size: 16px;
+padding: 2px 2px;
+}
+
+section.browser a.go-archive {
+color: #777777;
+font-size: 16px;
+text-transform: none;
+left: -16px;
+margin-right: 16px;
+}
+
+section.browser #switcher a.go-archive:hover {
+color: #ff0066;
+background-color: transparent;
+}
+
+section.browser #information {
+padding-left: 20px;
+border-left: solid 2px #a02c5a;
+max-width: 550px;
+margin-left: 300px;
+}
+
+section.browser #information h2 {
+font-family: 'Lato',sans-serif;
+font-size: 16px;
+color: #ff0066;
+padding: 4px 0px 2px 4px;
+}
+
+section.browser #information p {
+font-family: 'Istok Web',sans-serif;
+font-size: 14px;
+padding: 4px;
+}
+
+section.browser #information p span {
+color: #666666;
+}
+
+section.by-season {
+position: relative;
+top: 20px;
+left: 60px;
+}
+
+section.by-season section#row1 { margin-left: 240px; }
+
+section.by-season section#row2 { margin-left: 180px; }
+
+section.by-season article {
+position: relative;
+display: inline-block;
+padding: 20px 20px;
+}
+
+section.by-season h1 {
+position: absolute;
+top: -20px;
+left: 30%;
+padding: 3px 10px;
+border-radius: 6px;
+white-space: nowrap;
+text-align: center;
+text-transform: uppercase;
+font-family: 'Lato',sans-serif;
+}
+
+section.by-season a {
+color: inherit;
+text-decoration: none;
+}
+
+section.by-season h1:hover {
+background-color: #eaeaea;
+}
+
+section.by-season .christmas h1 { color: #ff0066;  left: 10px;}
+
+section.by-season .holyweek h1 { color: #ff0066; left: -20px;}
+
+section.by-season .ordinary h1 { color: #8ba817;}
+
+section.by-season svg {
+float: left;
+margin-left: -12px;
+margin-bottom: 12px;
+}
+
+section.by-season svg:hover #out {
+stroke: #ffffff;
+stroke-width: 2;
+}
+
+
+section.by-season #morelinks {
+position: absolute;
+top: 0px;
+left: -30px;
+}
+
+section.by-season #morelinks a {
+text-decoration: none;
+color: #444444;
+}
+
+section.by-season #morelinks h1 {
+float: left;
+clear: both;
+margin-bottom: 10px;
+display: inline-block;
+position: relative;
+top: 0;
+left: 0;
+}
+
