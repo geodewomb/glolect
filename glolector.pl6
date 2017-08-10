@@ -16,7 +16,7 @@ say "done";
 
 }
 
-sub deduce_letter(%day) {
+sub deduce_year(%day) {
 
   my @yearlett = <c a b>;
   my $mod = 0;
@@ -168,7 +168,7 @@ sub process_data($lectdat) {
         # send completed week off to the printers
         unless $y == 7 { next; }  
         unless $line ~~ /'=['.+']'\t/ { say "Sunday, but not Feast day. Verify data: $line"; }
-        @workweek[0]<year> = deduce_letter(@workweek[7]);
+        @workweek[0]<year> = deduce_year(@workweek[7]);
         make_week(@workweek);
 
         # reset working week
@@ -184,7 +184,7 @@ sub process_data($lectdat) {
         if $line.lc ~~ /advent/ {
           redirect_final_week(@workweek[0]<year>,@workweek[0]<num>);
           @workweek[0]<num> = 1;
-          say "building year {@week[0]<year>}";
+          say "built year {@workweek[0]<year>}";
         }
       }
       default { say "Don't know what to do with: $line"; }
@@ -195,8 +195,9 @@ sub process_data($lectdat) {
 sub redirect_final_week($y,$w) {
 
   return if $y eq 'x';
+  unless ".htaccess".IO.e { say "Did not update .htaccess, no file."; return; }
   my $z = swap($y);
-  my $path = slurp('etc/path.txt') or '/';
+  my $path = slurp('etc/path.txt') or $path = '/';
 
   my $hta = slurp(".htaccess"); 
   if $hta ~~ / \s'/year-'$y'/week-'\d\d\s / { spurt ".htaccess", $hta.subst($/, " /year-{$y}/week-{$w} ", :g); }
