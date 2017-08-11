@@ -36,7 +36,6 @@
 <polygon id="out" points="40,40 17.5,0 22.5,0 45,40 22.5,80 17.5,80" fill="#a02c5a"></polygon>
 </g></svg>
 </a>
-
 </section>
 <section class="scrips">
 <!--#include virtual="year-a/week-35/scrips.html" -->
@@ -44,3 +43,5 @@
 </main>
 </body>
 </html>
+
+

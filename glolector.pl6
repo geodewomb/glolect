@@ -5,16 +5,8 @@ use v6;
 # step one
 process_data('lectdat.txt');
 
-# step two
-build();
 
 ### subroutines ##########################################
-
-sub build() {
-
-say "done";
-
-}
 
 sub deduce_year(%day) {
 
@@ -32,6 +24,7 @@ sub gateway($ref) {   ### links to scripture text (not implemented)
 
 sub html_daily(%d) {   ### constructs index.html for daily entries
 
+  # find either/or options and format
   while %d<scrips> ~~ / '{' .+? '}' / {
     my $eitheror = $/.Str.split('|').join("<br>\n<span>or</span> ");
     $eitheror = $eitheror.split(['{','}']).join;
@@ -39,6 +32,7 @@ sub html_daily(%d) {   ### constructs index.html for daily entries
     %d<scrips> = $/.prematch ~ $eitheror ~ $/.postmatch;
   }
 
+  # divide scripture string and tag with html
   my @scrips = %d<scrips>.split(';');
   for @scrips {
     given $_ {
@@ -50,7 +44,8 @@ sub html_daily(%d) {   ### constructs index.html for daily entries
     }
   }
   %d<scrips> = @scrips.join("\n");
-    
+  
+  # make html chunk for a day
   my @day = <_ Monday Tuesday Wednesday Thursday Friday Saturday Sunday>;
   my @month = <_ Jan Feb March April May June July Aug Sept Oct Nov Dec>;
 
@@ -62,12 +57,13 @@ sub html_daily(%d) {   ### constructs index.html for daily entries
   END
 }
 
-sub index_weekly($scrips,$y,$num) {
-
+sub index_weekly($scrips,$y,$num) { ### make entire index file for a week
+  
   my $head = slurp("etc/weekly_head.html").chomp;
   my $fore = '<a href="../week-' ~ $num + 1 ~ '">prev</a>';
   my $back = '<a href="../week-' ~ $num - 1 ~ '">next</a>';
-
+  
+  
   return qq:to/END/;
   <!DOCTYPE html>
   <title>Glo Lect | Year {$y.uc} | Week {$num}</title>
@@ -84,7 +80,8 @@ sub index_weekly($scrips,$y,$num) {
   END
 }
 
-sub html_weekly(@w) {
+
+sub html_weekly(@w) { ### makes actual html file for a week out of daily chunks
 
   my @scrips;
   for 1..7 { push @scrips, "<article>\n" ~ @w[$_]<scrips> ~ "</article>"; }
@@ -137,15 +134,7 @@ sub make_week(@week) {
   
 }
 
-sub prepare {
-
-# for ('a','b','c') -> $y {
-#   mkdir "year-$y" unless "year-$y".IO.e;
-#   for (0..58) -> $w { mkdir "year-$y/week-$w" unless "$y/week-$w".IO.e; }
-# }
-}
-
-sub process_data($lectdat) {
+sub process_data($lectdat) { ### sort of the main program i guess
 
   my %weekinfo = year => 'x', num => 1, season => 'ordinary';
   my @workweek;
@@ -192,7 +181,7 @@ sub process_data($lectdat) {
   }  
 }
 
-sub redirect_final_week($y,$w) {
+sub redirect_final_week($y,$w) { ### set up htaccess redirects to navigate trickily between years
 
   return if $y eq 'x';
   unless ".htaccess".IO.e { say "Did not update .htaccess, no file."; return; }
@@ -210,7 +199,7 @@ sub redirect_final_week($y,$w) {
   
 }
 
-sub swap($y) {
+sub swap($y) { ### figure out what the next year letter is
   my %swap = a => 'b', b => 'c', c => 'a';
   return %swap{$y};
 }
