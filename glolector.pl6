@@ -57,17 +57,22 @@ sub html_daily(%d) {   ### constructs index.html for daily entries
   END
 }
 
-sub index_weekly($scrips,$y,$num) { ### make entire index file for a week
+sub html_weekly(@w) { ### makes actual html file for a week out of daily chunks
+
+  my @scrips;
+  for 1..7 { push @scrips, "<article>\n" ~ @w[$_]<scrips> ~ "</article>"; }
+  my $scripstr = @scrips.join("\n");
+  return $scripstr;
+}
   
-  my $head = slurp("etc/weekly_head.html").chomp;
-  my $fore = '<a href="../week-' ~ $num + 1 ~ '">prev</a>';
-  my $back = '<a href="../week-' ~ $num - 1 ~ '">next</a>';
-  
+sub index_weekly($scrips,%i) { ### make entire index file for a week
   
   return qq:to/END/;
   <!DOCTYPE html>
-  <title>Glo Lect | Year {$y.uc} | Week {$num}</title>
-  {$head}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Glo Lect | Year {%i<year>.uc} | Week {%i<num>}</title>
+  
   <section class="next">
   {$fore}
   {$back}
@@ -81,14 +86,6 @@ sub index_weekly($scrips,$y,$num) { ### make entire index file for a week
 }
 
 
-sub html_weekly(@w) { ### makes actual html file for a week out of daily chunks
-
-  my @scrips;
-  for 1..7 { push @scrips, "<article>\n" ~ @w[$_]<scrips> ~ "</article>"; }
-  my $scripstr = @scrips.join("\n");
-  return $scripstr;
-}
-  
 
 sub lets_call_it_a_day($line) {   ### splits lectdata line into various info
 
@@ -126,8 +123,8 @@ sub make_week(@week) {
   my $html = html_weekly(@week);
   spurt "$dir/scrips.html", $html;
 
-# my $index = index_weekly($html,@week[0]<year>,@week[0]<num>);
-# spurt "$dir/index.shtml", $index;
+  my $index = index_weekly($html,@week[0]);
+  spurt "$dir/index.shtml", $index;
 
   my $info = "{@week[0]<year>}|{@week[0]<num>}|{@week[0]<season>}";
   spurt "$dir/info.txt", $info;
