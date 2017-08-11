@@ -32,17 +32,17 @@
 /* reset and defaults */
 
 html,body,div,ul,li,h1,h2,h3,h4,h5,h6,
-p,a,img,mark,small,section,article,header,nav,main {
+p,a,svg,img,mark,small,section,article,header,nav,main {
 margin: 0;
 padding: 0;
 border: 0;
 box-sizing: border-box;
-font: normal 16px 'Istok Web',sans-serif;
+font-size: 0px;
 }
 
-html, body {
-height: 100%;
-}
+h1,h2,h3,h4,h5,h6,p { font: normal 16px 'Istok Web', sans-serif; }
+
+html, body { height: 100%; }
 
 svg { pointer-events: none; }
 svg g { pointer-events: visiblePainted; }
@@ -114,24 +114,18 @@ svg.christtheking #in                 { fill: #ffcc00; }
 
 /* general styles */
 
-div.swash {
-width: 475px;
-position: absolute;
-top: 0;
-}
-
 svg#swipe-l {
 position: absolute;
 top: 0;
 left: 0;
 fill: #ffffff;
-height: 610px;
+height: 605px;
 }
 
 svg#swipe-r {
 position: absolute;
 top: 0;
-right: 0;
+left: -258px;
 fill: #ffffff;
 height: 120px;
 }
@@ -170,10 +164,11 @@ font-family: 'Lato',sans-serif;
 }
 
 nav h1 span.bigger {
+font-size: 58px;
+font-family: 'Istok Web',sans-serif;
 position: relative;
-top: 4px;
-left: -5px;
-font-size: 56px;
+top: 5px;
+left: -3px;
 }
 
 nav h2 {
@@ -206,7 +201,7 @@ section.tribar svg {
 display: inline-block;
 height: 40px;
 width: 45px;
-margin-left: -19px;
+margin-left: -15px;
 vertical-align: text-top;
 }
 
@@ -218,7 +213,7 @@ stroke-width: 2;
 section.tribar svg.now{
 height: 80px;
 width: 90px;
-margin-left: -42px;
+margin-left: -38px;
 margin-right: -23px;
 vertical-align: text-top;
 }
