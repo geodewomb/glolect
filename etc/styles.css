@@ -1,3 +1,81 @@
+@font-face {
+  font-family: 'Istok Web';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('Istok Web Regular'), local('IstokWeb-Regular'),
+       url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-regular.svg#IstokWeb') format('svg'); /* Legacy iOS */
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+@font-face { font-family: ‘chunk-webfont’;
+src: url(‘../../includes/fonts/chunk-webfont.svg’) format(‘svg’);}
+}
+
+@font-face {
+  font-family: 'Istok Web';
+  font-style: italic;
+  font-weight: 400;
+  src: url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-italic.eot'); /* IE9 Compat Modes */
+  src: local('Istok Web Italic'), local('IstokWeb-Italic'),
+       url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-italic.woff2') format('woff2'), /* Super Modern Browsers */
+       url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-italic.woff') format('woff'), /* Modern Browsers */
+       url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-italic.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-italic.svg#IstokWeb') format('svg'); /* Legacy iOS */
+}
+@font-face {
+  font-family: 'Istok Web';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-700.eot'); /* IE9 Compat Modes */
+  src: local('Istok Web Bold'), local('IstokWeb-Bold'),
+       url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
+       url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-700.woff') format('woff'), /* Modern Browsers */
+       url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-700.svg#IstokWeb') format('svg'); /* Legacy iOS */
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/~geneva/etc/fonts/lato-v13-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('Lato Regular'), local('Lato-Regular'),
+       url('/~geneva/etc/fonts/lato-v13-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/~geneva/etc/fonts/lato-v13-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('/~geneva/etc/fonts/lato-v13-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('/~geneva/etc/fonts/lato-v13-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('/~geneva/etc/fonts/lato-v13-latin-regular.svg#Lato') format('svg'); /* Legacy iOS */
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/~geneva/etc/fonts/lato-v13-latin-700.eot'); /* IE9 Compat Modes */
+  src: local('Lato Bold'), local('Lato-Bold'),
+       url('/~geneva/etc/fonts/lato-v13-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/~geneva/etc/fonts/lato-v13-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
+       url('/~geneva/etc/fonts/lato-v13-latin-700.woff') format('woff'), /* Modern Browsers */
+       url('/~geneva/etc/fonts/lato-v13-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('/~geneva/etc/fonts/lato-v13-latin-700.svg#Lato') format('svg'); /* Legacy iOS */
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 900;
+  src: url('/~geneva/etc/fonts/lato-v13-latin-900.eot'); /* IE9 Compat Modes */
+  src: local('Lato Black'), local('Lato-Black'),
+       url('/~geneva/etc/fonts/lato-v13-latin-900.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/~geneva/etc/fonts/lato-v13-latin-900.woff2') format('woff2'), /* Super Modern Browsers */
+       url('/~geneva/etc/fonts/lato-v13-latin-900.woff') format('woff'), /* Modern Browsers */
+       url('/~geneva/etc/fonts/lato-v13-latin-900.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('/~geneva/etc/fonts/lato-v13-latin-900.svg#Lato') format('svg'); /* Legacy iOS */
+}
 
 /* reset and defaults */
 
