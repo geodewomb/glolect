@@ -85,7 +85,7 @@ svg.christtheking #in                 { fill: #ffcc00; }
 /* general styles */
 
 div.swash {
-width: 835px;
+width: 475px;
 position: absolute;
 top: 0;
 }
@@ -200,7 +200,7 @@ pointer-events: none;
 
 main {
 position: relative;
-margin-top: 200px;
+padding-top: 200px;
 max-width: 100%;
 overflow: hidden;
 }
@@ -212,77 +212,71 @@ content=' ';
 
 /* specific content styles */
 
+section.info {
+position: relative;
+left: 270px;
+top: 20px;
+text-align: center;
+width: 400px;
+}
+
+section.info svg.left {
+position: absolute;
+top: 0;
+left: 0;
+}
+
+section.info svg { pointer-events: all; }
+section.info a:hover svg #out { fill: #ff0066; }
+
+section.info svg.right {
+position: absolute;
+top: 0;
+right: 0;
+}
+
+section.info h1 {
+margin-top: 4px;
+padding: 8px;
+font-weight: bold;
+font-size: 18px;
+}
+
 section.scrips {
 margin-top: 100px;
-padding: 100px;
 }
 
 section.scrips article {
-vertical-align: text-top;
-pointer-events: none;
 display: inline-block;
 text-align: center;
-position: relative;
-padding: 20px;
-background-size: contain;
-width: 225px;
-min-height: 225px;
-padding: 0px 40px;
-margin-left: -60px;
-margin-top:16px;
-}
-
-section.scrips img {
-width: 100%;
-position: absolute;
-top: 0px;
-left: 0px;
-z-index: 1;
+vertical-align: text-top;
 }
 
 section.scrips h1 {
-position: relative;
-top: -22px;
 letter-spacing: 1px;
 font-family: 'Lato',sans-serif;
 text-transform: uppercase;
 padding-bottom: 3px;
-z-index: 5;
 }
 
 section.scrips h2 {
-position: relative;
-top: -22px;
 font-size: 13px;
-z-index: 5;
 font-weight: bold;
 color: #000000;
 }
 
 section.scrips h3 {
-position: relative;
-top: -22px;
 color: #ff0066;
 font-size: 12px;
-z-index: 5;
 text-transform: uppercase;
 padding-bottom: 3px;
 }
 
 section.scrips p {
-pointer-events: all;
-position: relative;
-top: -22px;
-z-index: 5;
 font-size: 14px;
 line-height: 1;
 padding: 3px;
 color: #000000;
-}
-
-section.scrips p span {
-color: #888888;
-margin-right: -3px;
 }
 
 section.scrips p a {
