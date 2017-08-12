@@ -299,13 +299,13 @@ sub weekly_index($scrips,%i) { ### make entire index file for a week
   </header>
   <main class="{%i<season>}">
   <section class="info">
-  <a href="../week-{%i<num> - 1}">
+  <a href="{$path}/week-{%i<num> - 1}">
   <svg class="{%i<season>} left" viewBox="0 0 45 80" height="80" width="45"><g>
   <polygon id="out" points="0,40 22.5,0 27.5,0 5,40 27.5,80 22.5,80" fill="#a02c5a"></polygon>
   </g></svg>
   </a>
   <!--#include virtual="info.html" -->
-  <a href="../week-{%i<num> + 1}">
+  <a href="{$path}/week-{%i<num> + 1}">
   <svg class="{%i<season>} right" viewBox="0 0 45 80" height="80" width="45"><g>
   <polygon id="out" points="40,40 17.5,0 22.5,0 45,40 22.5,80 17.5,80" fill="#a02c5a"></polygon>
   </g></svg>
