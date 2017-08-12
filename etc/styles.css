@@ -211,7 +211,6 @@ section.tribar svg:hover #out {
 stroke: #ff0066;
 stroke-width: 2;
 }
-
 section.tribar svg.now{
 height: 80px;
 width: 90px;
@@ -221,7 +220,6 @@ vertical-align: text-top;
 }
 
 section.tribar svg.now g {
-transform: scale(2);
 pointer-events: none;
 }
 
