@@ -339,7 +339,7 @@ sub weekly_info(@week) {
   }
   my @month = <_ January February March April May June July August September October November December>;
 
-  my $datestr = "{@week[1]<date>.day} {@week[1]<date>.month}";
+  my $datestr = "{@week[1]<date>.day} {@month[@week[1]<date>.month]}";
   if @week[1]<date>.year ≠ @week[7]<date>.year { $datestr ~= " {@week[1]<date>.year}"; }
   $datestr ~= " – {@week[7]<date>.day} {@month[@week[7]<date>.month]} {@week[7]<date>.year} | Year {@week[0]<year>.uc}";
 
