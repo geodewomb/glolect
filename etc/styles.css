@@ -72,10 +72,7 @@ main.easter h2 { color: #bb9b27; }
 main.ordinary h1 { color: #8a916f; }
 main.ordinary h2 { color: #8a916f; }
 
-svg.generic-l #out                    { fill: #dddddd; }
-svg.generic-l #in                     { fill: #aaaaaa; }
-svg.generic-d #out                    { fill: #aaaaaa; }
-svg.generic-d #in                     { fill: #dddddd; }
+svg.generic #out, svg.generic #in     { fill: #ffffff00; }
 svg.advent #out                       { fill: #5f5fd3; }
 svg.advent #in                        { fill: #afafe9; }
 svg.christmas #out, svg.nativity #out { fill: #aaaaff; }
@@ -211,6 +208,12 @@ section.tribar svg:hover #out {
 stroke: #ff0066;
 stroke-width: 2;
 }
+
+section.tribar svg.generic:hover #out {
+stroke: #ffffff00;
+stroke-width: 0;
+}
+
 section.tribar svg.now{
 height: 80px;
 width: 90px;
