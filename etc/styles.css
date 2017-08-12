@@ -118,15 +118,17 @@ svg#swipe-l {
 position: absolute;
 top: 0;
 left: 0;
-fill: #ffffff;
 height: 605px;
+}
+
+svg#swipe-l polygon,svg#swipe-r polygon{
+fill: #ffffff;
 }
 
 svg#swipe-r {
 position: absolute;
 top: 0;
 left: -258px;
-fill: #ffffff;
 height: 120px;
 }
 
