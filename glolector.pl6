@@ -17,11 +17,14 @@ sub deduce_year(%day) {
   return @yearlett[(%day<date>.year + $mod) % 3];
 }
 
-sub gateway($str) {   ### links to scripture text (not implemented)
+sub gateway {   ### links to scripture text (not implemented)
 
-  my $gateway = "http://www.biblegateway.com/bible?passage=$str";
+  my $ref = shift @_;
+  my $query = $ref.subst('&', ',', :global);
 
-  my $ref = $str.subst('&', ' & ');
+  my $gateway = "http://www.biblegateway.com/bible?passage=$query";
+
+ $ref = $str.subst('&', ' & ');
 
   my $link = '<a href="' ~ $gateway ~ '">' ~ $ref ~ '</a>';
   return $link;
@@ -30,10 +33,15 @@ sub gateway($str) {   ### links to scripture text (not implemented)
 sub html_daily(%d) {   ### constructs index.html for daily entries
 
   # find either/or options and format
-  while %d<scrips> ~~ / '{' .+? '}' / {
-    my $eitheror = $/.Str.split('|').join("<br>\n<span>or</span> ");
-    $eitheror = $eitheror.split(['{','}']).join;
-    $eitheror = '<p class="eitheror">' ~ $eitheror.split(';').join("<br>\n") ~ "</p>";
+  while %d<scrips> ~~ / '{' (.+?) '}' / {
+    my @eitheror = "$0".split('|');
+    for @eitheror -> $e {
+      my @scrips = $e.split(';');
+      $_ = gateway($_) for @scrips;
+      $e = $e.join("<br>\n");
+    }
+    my $eitheror = '<p class="eitheror">' ~ @eitheror.join("<br>or ") ~ "</p>";
+
     %d<scrips> = $/.prematch ~ $eitheror ~ $/.postmatch;
   }
 
