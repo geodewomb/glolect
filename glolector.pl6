@@ -219,7 +219,7 @@ sub process_data($lectdat) { ### sort of the main program i guess
         if $line.lc ~~ /advent/ {
           redirect_final_week(@workweek[0]<year>,@workweek[0]<num>);
           @workweek[0]<num> = 1;
-          say "built year {@workweek[0]<year>}";
+          say "built year {@workweek[0]<year>}" unless @workweek[0]<year> eq 'x';
         }
       }
       default { say "Don't know what to do with: $line"; }
@@ -237,11 +237,11 @@ sub redirect_final_week($y,$w) { ### set up htaccess redirects to navigate trick
 
   my $hta = slurp(".htaccess"); 
   if $hta ~~ / \s'/year-'$y'/week-'\d\d\s / { spurt ".htaccess", $hta.subst($/, " /year-{$y}/week-{$w} ", :g); }
-  else { spurt ".htaccess", "Redirect 302 /year-{$y}/week-{$w} {$path}/year-{$z}/week-1\n", :append; }
+  else { spurt ".htaccess", "Redirect 302 {$path}/year-{$y}/week-{$w} {$path}/year-{$z}/week-1\n", :append; }
 
   $hta = slurp(".htaccess"); 
   if $hta ~~/ '/year-'$y'/week-'\d\d\n / { spurt ".htaccess", $hta.subst($/, "/year-{$y}/week-{$w - 1}\n", :g); }
-  else { spurt ".htaccess", "Redirect 302 /year-{$z}/week-0 {$path}/year-{$y}/week-{$w -1}\n", :append; }
+  else { spurt ".htaccess", "Redirect 302 {$path}/year-{$z}/week-0 {$path}/year-{$y}/week-{$w -1}\n", :append; }
   
 }
 
@@ -299,13 +299,13 @@ sub weekly_index($scrips,%i) { ### make entire index file for a week
   </header>
   <main class="{%i<season>}">
   <section class="info">
-  <a href="{$path}/week-{%i<num> - 1}">
+  <a href="{$path}/year-{%i<year>}/week-{%i<num> - 1}">
   <svg class="{%i<season>} left" viewBox="0 0 45 80" height="80" width="45"><g>
   <polygon id="out" points="0,40 22.5,0 27.5,0 5,40 27.5,80 22.5,80" fill="#a02c5a"></polygon>
   </g></svg>
   </a>
   <!--#include virtual="info.html" -->
-  <a href="{$path}/week-{%i<num> + 1}">
+  <a href="{$path}/year-{%i<year>}/week-{%i<num> + 1}">
   <svg class="{%i<season>} right" viewBox="0 0 45 80" height="80" width="45"><g>
   <polygon id="out" points="40,40 17.5,0 22.5,0 45,40 22.5,80 17.5,80" fill="#a02c5a"></polygon>
   </g></svg>
