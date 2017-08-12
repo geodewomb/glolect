@@ -67,22 +67,50 @@ sub html_weekly(@w) { ### makes actual html file for a week out of daily chunks
   
 sub index_weekly($scrips,%i) { ### make entire index file for a week
   
-# return qq:to/END/;
-# <!DOCTYPE html>
-# <meta charset="utf-8">
-# <meta name="viewport" content="width=device-width, initial-scale=1">
-# <title>Glo Lect | Year {%i<year>.uc} | Week {%i<num>}</title>
-# 
-# <section class="next">
-# {$fore}
-# {$back}
-# </section>
-# <section class="scrips">
-# {$scrips}
-# </section>
-# </body>
-# </html>
-# END
+  my $path = "etc/path.txt" or $path = '';
+
+  return qq:to/END/;
+  <!DOCTYPE html>
+  <title>Glo Lect | Year {%i<year>.uc} | Week {%i<num>}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="{$path}/etc/styles.css"> 
+  <body class="{%i<season>}">
+  <svg id="swipe-l" viewBox="0 0 40 90" preserveAspectRatio="none"><polygon points="0 0 40 0 0 90" fill="#ffffff00"/></svg>
+  <svg id="swipe-r" viewBox="0 0 540 90" preserveAspectRatio="none"><polygon points="0 0 500 0 540 90 0 90" fill="#ffffff00"/></svg>
+  <nav>
+  <a href=""><h1>Glo Lec<span class="bigger">+</span></h1></a>
+  <h2>daily scriptures from the Revised Common Lectionary<br>
+  + complete bible reading plan</h2>
+  <li><a href="{$path}/browse">BROWSE</a></li>
+  <li><a href="{$path}/faq">FAQ</a></li>
+  </ul>
+  </nav>
+  <header>
+  <section class="tribar">
+  <!--#include virtual="tribar.html" -->
+  </section>
+  </header>
+  <main class="{%i<season>}">
+  <section class="info">
+  <a href="../week-{%i<num> - 1}">
+  <svg class="{%i<season>} left" viewBox="0 0 45 80" height="80" width="45"><g>
+  <polygon id="out" points="0,40 22.5,0 27.5,0 5,40 27.5,80 22.5,80" fill="#a02c5a"></polygon>
+  </g></svg>
+  </a>
+  <!--#include virtual="info.html" -->
+  <a href="../week-{%i<num> + 1}">
+  <svg class="{%i<season>} right" viewBox="0 0 45 80" height="80" width="45"><g>
+  <polygon id="out" points="40,40 17.5,0 22.5,0 45,40 22.5,80 17.5,80" fill="#a02c5a"></polygon>
+  </g></svg>
+  </a>
+  </section>
+  <section class="scrips">
+  <!--#include virtual="scrips.html" -->
+  </section>
+  </body>
+  </html>
+  END
 }
 
 
@@ -177,8 +205,8 @@ sub make_week(@week) {
   my $html = html_weekly(@week);
   spurt "$dir/scrips.html", $html;
 
-# my $index = index_weekly($html,@week[0]);
-# spurt "$dir/index.shtml", $index;
+  my $index = index_weekly($html,@week[0]);
+  spurt "$dir/index.shtml", $index;
 
   my $info = "{@week[0]<year>}|{@week[0]<num>}|{@week[0]<season>}";
   spurt "$dir/info.txt", $info;
