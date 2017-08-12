@@ -19,7 +19,11 @@ sub deduce_year(%day) {
 
 sub gateway($ref) {   ### links to scripture text (not implemented)
 
-  my $link = '<a href=" ">' ~ $ref ~ '</a>';
+  my $gateway = "http://www.biblegateway.com/bible?passage=$ref";
+
+  $ref = $ref.subst('&', ' & ');
+
+  my $link = '<a href="' ~ $gateway ~ '">' ~ $ref ~ '</a>';
   return $link;
 }
 
