@@ -2,8 +2,9 @@
 use v6;
 
 
-# step one
 process_data('lectdat.txt');
+
+set_homepage();
 
 
 ### subroutines ##########################################
@@ -139,7 +140,8 @@ sub make_week(@week) {
     mkdir $dir unless $dir.IO.e;
  
     @week[$d]<scrips> = html_daily(@week[$d]);
-    spurt "$dir/scrips.html", @week[$d]<scrips>; 
+    spurt "$dir/scrips.html", @week[$d]<scrips>;
+    spurt "$dir/refer.txt", "{@week[0]<year>}|{@week[0]<num>}"; 
   }
 
   # create files by year/week
@@ -155,6 +157,8 @@ sub make_week(@week) {
 
   my $index = weekly_index($scrips,@week[0]);
   spurt "$dir/index.shtml", $index;
+
+  
 
 }
 
@@ -239,7 +243,17 @@ sub redirect_final_week($y,$w) { ### set up htaccess redirects to navigate trick
   if $hta ~~/ '/year-'$y'/week-'\d\d\n / { spurt ".htaccess", $hta.subst($/, "/year-{$y}/week-{$w - 1}\n", :g); }
   else { spurt ".htaccess", "Redirect 302 /year-{$z}/week-0 {$path}/year-{$y}/week-{$w -1}\n", :append; }
   
+}
+
+sub set_homepage {
   
+  my $today = Date.today;
+  my $lookup = slurp("{$today.year}/{$today.month}/{$today.day}/refer.txt");   
+  my ($y,$w) = $lookup.split('|');
+  copy "year-$y/week-$w/index.shtml", "index.shtml";
+  copy "year-$y/week-$w/tribar.html", "tribar.html";
+  copy "year-$y/week-$w/scrips.html", "scrips.html";
+  copy "year-$y/week-$w/info.html", "info.html";
 }
 
 sub swap($y) { ### figure out what the next year letter is
@@ -267,8 +281,8 @@ sub weekly_index($scrips,%i) { ### make entire index file for a week
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="{$path}/etc/styles.css"> 
   <body class="{%i<season>}">
-  <svg id="swipe-l" viewBox="0 0 40 90" preserveAspectRatio="none"><polygon points="0 0 40 0 0 90" fill="#ffffff00"/></svg>
-  <svg id="swipe-r" viewBox="0 0 540 90" preserveAspectRatio="none"><polygon points="0 0 500 0 540 90 0 90" fill="#ffffff00"/></svg>
+  <svg id="swipe-l" viewBox="0 0 40 90" preserveAspectRatio="none"><polygon points="0 0 40 0 0 90" fill="#ffffff00" /></svg>
+  <svg id="swipe-r" viewBox="0 0 540 90" preserveAspectRatio="none"><polygon points="0 0 500 0 540 90 0 90" fill="#ffffff00" /></svg>
   <nav>
   <a href=""><h1>Glo Lec<span class="bigger">+</span></h1></a>
   <h2>daily scriptures from the Revised Common Lectionary<br>
@@ -325,8 +339,8 @@ sub weekly_info(@week) {
   }
   my @month = <_ January February March April May June July August September October November December>;
 
-  my $datestr = "@week[1]<date>.day @week[1]<date>.month";
-  if @week[1]<date>.year ≠ @week[7]<date>.year { $datestr ~= " @week[1]<date>.year"; }
+  my $datestr = "{@week[1]<date>.day} {@week[1]<date>.month}";
+  if @week[1]<date>.year ≠ @week[7]<date>.year { $datestr ~= " {@week[1]<date>.year}"; }
   $datestr ~= " – {@week[7]<date>.day} {@month[@week[7]<date>.month]} {@week[7]<date>.year} | Year {@week[0]<year>.uc}";
 
   return qq:to/END/;
