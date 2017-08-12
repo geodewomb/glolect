@@ -177,7 +177,7 @@ sub process_data($lectdat) { ### sort of the main program i guess
         given %day<feast> { 
           when !%day<feast> { %day<feast> = %day<season>; }
           when /'NATIV'||'NAME'||'PROP'/ { }
-          when /EASTER\sDAY/ { %day<feast> = "holyweek"; }
+          when /EASTER\sDAY/ { %day<feast> = "holyweek"; proceed; }
           default { @workweek[0]<feast> = %day<feast>.comb(/<:L>+/).join('').lc }
         }
 
@@ -193,7 +193,6 @@ sub process_data($lectdat) { ### sort of the main program i guess
         @workweek[0]<feast> = @workweek[0]<season> unless @workweek[0]<feast>;
 
         # send completed week off to the printers
-        say @workweek;
         make_week(@workweek);
         
         # add to tribar info
@@ -310,7 +309,7 @@ sub weekly_index($scrips,%i) { ### make entire index file for a week
 sub weekly_info(@week) {
 
   my @numth = <th st nd rd th th th th th th>;
-  my $num = @week[0]<num>;
+  my $num = @week[0]<count>;
   my $th = $num.substr(*-1,1);
 
   my $title;
