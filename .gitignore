@@ -6,3 +6,5 @@
 !index.shtml
 
 *.txt
+
+etc/fonts/*

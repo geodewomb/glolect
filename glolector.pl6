@@ -57,61 +57,6 @@ sub html_daily(%d) {   ### constructs index.html for daily entries
   END
 }
 
-sub html_weekly(@w) { ### makes actual html file for a week out of daily chunks
-
-  my @scrips;
-  for 1..7 { push @scrips, "<article>\n" ~ @w[$_]<scrips> ~ "</article>"; }
-  my $scripstr = @scrips.join("\n");
-  return $scripstr;
-}
-  
-sub index_weekly($scrips,%i) { ### make entire index file for a week
-  
-  my $path = "etc/path.txt" or $path = '';
-
-  return qq:to/END/;
-  <!DOCTYPE html>
-  <title>Glo Lect | Year {%i<year>.uc} | Week {%i<num>}</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="{$path}/etc/styles.css"> 
-  <body class="{%i<season>}">
-  <svg id="swipe-l" viewBox="0 0 40 90" preserveAspectRatio="none"><polygon points="0 0 40 0 0 90" fill="#ffffff00"/></svg>
-  <svg id="swipe-r" viewBox="0 0 540 90" preserveAspectRatio="none"><polygon points="0 0 500 0 540 90 0 90" fill="#ffffff00"/></svg>
-  <nav>
-  <a href=""><h1>Glo Lec<span class="bigger">+</span></h1></a>
-  <h2>daily scriptures from the Revised Common Lectionary<br>
-  + complete bible reading plan</h2>
-  <li><a href="{$path}/browse">BROWSE</a></li>
-  <li><a href="{$path}/faq">FAQ</a></li>
-  </ul>
-  </nav>
-  <header>
-  <section class="tribar">
-  <!--#include virtual="tribar.html" -->
-  </section>
-  </header>
-  <main class="{%i<season>}">
-  <section class="info">
-  <a href="../week-{%i<num> - 1}">
-  <svg class="{%i<season>} left" viewBox="0 0 45 80" height="80" width="45"><g>
-  <polygon id="out" points="0,40 22.5,0 27.5,0 5,40 27.5,80 22.5,80" fill="#a02c5a"></polygon>
-  </g></svg>
-  </a>
-  <!--#include virtual="info.html" -->
-  <a href="../week-{%i<num> + 1}">
-  <svg class="{%i<season>} right" viewBox="0 0 45 80" height="80" width="45"><g>
-  <polygon id="out" points="40,40 17.5,0 22.5,0 45,40 22.5,80 17.5,80" fill="#a02c5a"></polygon>
-  </g></svg>
-  </a>
-  </section>
-  <section class="scrips">
-  <!--#include virtual="scrips.html" -->
-  </section>
-  </body>
-  </html>
-  END
-}
 
 
 
@@ -140,7 +85,7 @@ sub make_svg($season,$link,$flip) {
   <a href="{$link}"><g>
   <polygon id="out" points="{@out[$flip]}" fill="#ffffff00" />
   <polygon id="in" points="{@in[$flip]}" fill="#ffffff00" />
-  <g></a>
+  </g></a>
   </svg>
   END
 }
@@ -202,21 +147,21 @@ sub make_week(@week) {
   my $dir = "year-{@week[0]<year>}/week-{@week[0]<num>}";  
   mkdir $dir unless $dir.IO.e;
 
-  my $html = html_weekly(@week);
-  spurt "$dir/scrips.html", $html;
+  my $info = weekly_info(@week);
+  spurt "$dir/info.html", $info;
 
-  my $index = index_weekly($html,@week[0]);
+  my $scrips = weekly_scrips (@week);
+  spurt "$dir/scrips.html", $scrips;
+
+  my $index = weekly_index($scrips,@week[0]);
   spurt "$dir/index.shtml", $index;
 
-  my $info = "{@week[0]<year>}|{@week[0]<num>}|{@week[0]<season>}";
-  spurt "$dir/info.txt", $info;
-  
 }
 
 sub process_data($lectdat) { ### sort of the main program i guess
 
   my @workweek;
-  @workweek[0] = %( year => 'x', num => 0, season => '' );
+  @workweek[0] = %( year => 'x', num => 0, season => '', count => 0 );
   my @tribar_data;
 
   for $lectdat.IO.lines -> $line {
@@ -229,10 +174,12 @@ sub process_data($lectdat) { ### sort of the main program i guess
 
         # figure out seasons and feast 
         %day<season> = @workweek[0]<season>;
-        if %day<feast> { 
-          @workweek[0]<feast> = %day<feast>.comb(/<:L>+/).join(' ') unless %day<feast> ~~ /'NATIV'||'NAME'||'PROP'||'THANKS'/; 
+        given %day<feast> { 
+          when !%day<feast> { %day<feast> = %day<season>; }
+          when /'NATIV'||'NAME'||'PROP'/ { }
+          when /EASTER\sDAY/ { %day<feast> = "holyweek"; }
+          default { @workweek[0]<feast> = %day<feast>.comb(/<:L>+/).join('').lc }
         }
-        else { %day<feast> = %day<season>.uc; }
 
         # load into working week
         my $y = %day<date>.day-of-week;
@@ -246,6 +193,7 @@ sub process_data($lectdat) { ### sort of the main program i guess
         @workweek[0]<feast> = @workweek[0]<season> unless @workweek[0]<feast>;
 
         # send completed week off to the printers
+        say @workweek;
         make_week(@workweek);
         
         # add to tribar info
@@ -254,6 +202,7 @@ sub process_data($lectdat) { ### sort of the main program i guess
 
         # reset working week
         @workweek[0]<num>++;
+        @workweek[0]<count>++;
         @workweek[0]<feast> = '';
         @workweek.pop until @workweek.elems == 1; 
       }
@@ -261,6 +210,7 @@ sub process_data($lectdat) { ### sort of the main program i guess
       when /^<:Lu>+/ { 
         # change seasons
         @workweek[0]<season> = $line.lc;
+        @workweek[0]<count> = 1;
        
         # setup and reset year on year change 
         if $line.lc ~~ /advent/ {
@@ -280,7 +230,7 @@ sub redirect_final_week($y,$w) { ### set up htaccess redirects to navigate trick
   return if $y eq 'x';
   unless ".htaccess".IO.e { say "Did not update .htaccess, no file."; return; }
   my $z = swap($y);
-  my $path = slurp('etc/path.txt') or $path = ' ';
+  my $path = slurp('etc/path.txt').chomp or $path = ' ';
 
   my $hta = slurp(".htaccess"); 
   if $hta ~~ / \s'/year-'$y'/week-'\d\d\s / { spurt ".htaccess", $hta.subst($/, " /year-{$y}/week-{$w} ", :g); }
@@ -297,3 +247,93 @@ sub swap($y) { ### figure out what the next year letter is
   my %swap = a => 'b', b => 'c', c => 'a';
   return %swap{$y};
 }
+
+
+sub weekly_scrips(@w) { ### makes actual html file for a week out of daily chunks
+
+  my @scrips;
+  for 1..7 { push @scrips, "<article>\n" ~ @w[$_]<scrips> ~ "</article>"; }
+  my $scripstr = @scrips.join("\n");
+  return $scripstr;
+}
+  
+sub weekly_index($scrips,%i) { ### make entire index file for a week
+  
+  my $path = slurp("etc/path.txt").chomp or $path = '';
+
+  return qq:to/END/;
+  <!DOCTYPE html>
+  <title>Glo Lect | Year {%i<year>.uc} | Week {%i<num>}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="{$path}/etc/styles.css"> 
+  <body class="{%i<season>}">
+  <svg id="swipe-l" viewBox="0 0 40 90" preserveAspectRatio="none"><polygon points="0 0 40 0 0 90" fill="#ffffff00"/></svg>
+  <svg id="swipe-r" viewBox="0 0 540 90" preserveAspectRatio="none"><polygon points="0 0 500 0 540 90 0 90" fill="#ffffff00"/></svg>
+  <nav>
+  <a href=""><h1>Glo Lec<span class="bigger">+</span></h1></a>
+  <h2>daily scriptures from the Revised Common Lectionary<br>
+  + complete bible reading plan</h2>
+  <ul>
+  <li><a href="{$path}/browse">BROWSE</a></li>
+  <li><a href="{$path}/faq">FAQ</a></li>
+  </ul>
+  </nav>
+  <header>
+  <section class="tribar">
+  <!--#include virtual="tribar.html" -->
+  </section>
+  </header>
+  <main class="{%i<season>}">
+  <section class="info">
+  <a href="../week-{%i<num> - 1}">
+  <svg class="{%i<season>} left" viewBox="0 0 45 80" height="80" width="45"><g>
+  <polygon id="out" points="0,40 22.5,0 27.5,0 5,40 27.5,80 22.5,80" fill="#a02c5a"></polygon>
+  </g></svg>
+  </a>
+  <!--#include virtual="info.html" -->
+  <a href="../week-{%i<num> + 1}">
+  <svg class="{%i<season>} right" viewBox="0 0 45 80" height="80" width="45"><g>
+  <polygon id="out" points="40,40 17.5,0 22.5,0 45,40 22.5,80 17.5,80" fill="#a02c5a"></polygon>
+  </g></svg>
+  </a>
+  </section>
+  <section class="scrips">
+  <!--#include virtual="scrips.html" -->
+  </section>
+  </main>
+  </body>
+  </html>
+  END
+}
+
+sub weekly_info(@week) {
+
+  my @numth = <th st nd rd th th th th th th>;
+  my $num = @week[0]<num>;
+  my $th = $num.substr(*-1,1);
+
+  my $title;
+  given @week[0]<feast> {
+    when /holyweek/ { $title = "Holy Week and Easter Sunday"; }
+    when /baptism/ { $title = "Week of the Baptism of the Lord"; }
+    when /allsaints/ { $title = "Week of All Saints Day"; }
+    when /christtheking/ { $title = "Week of Christ the King Sunday"; }
+    when /ordinary/ { $title = "{$num}{@numth[$th]} Sunday after Pentecost"; }
+    when /ascension||thanksgiving/ { $title = "Week of {@week[0]<feast>.wordcase} Day"; }
+    when /trinity||transfig||pentecost/ { $title = "Week of {@week[0]<feast>.wordcase} Sunday"; } 
+    default { $num++; $th++; $title = "{$num}{@numth[$th]} Week of {@week[0]<feast>.wordcase}"; }
+  }
+  my @month = <_ January February March April May June July August September October November December>;
+
+  my $datestr = "@week[1]<date>.day @week[1]<date>.month";
+  if @week[1]<date>.year ≠ @week[7]<date>.year { $datestr ~= " @week[1]<date>.year"; }
+  $datestr ~= " – {@week[7]<date>.day} {@month[@week[7]<date>.month]} {@week[7]<date>.year} | Year {@week[0]<year>.uc}";
+
+  return qq:to/END/;
+  <h1>{$title}</h1>
+  <h2>{$datestr}</h2>
+  END
+
+}
+

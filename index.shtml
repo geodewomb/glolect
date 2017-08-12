@@ -4,9 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <body class="easter">
 <svg id="swipe-l" viewBox="0 0 40 90" preserveAspectRatio="none"><polygon points="0 0 40 0 0 90" /></svg>
-<div class="swash">
 <svg id="swipe-r" viewBox="0 0 540 90" preserveAspectRatio="none"><polygon points="0 0 500 0 540 90 0 90" /></svg>
-</div>
 <nav>
 <a href=""><h1>Glo Lec<span class="bigger">+</span></h1></a>
 <h2>daily scriptures from the Revised Common Lectionary<br>
