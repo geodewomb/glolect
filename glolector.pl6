@@ -17,11 +17,11 @@ sub deduce_year(%day) {
   return @yearlett[(%day<date>.year + $mod) % 3];
 }
 
-sub gateway($ref) {   ### links to scripture text (not implemented)
+sub gateway($str) {   ### links to scripture text (not implemented)
 
-  my $gateway = "http://www.biblegateway.com/bible?passage=$ref";
+  my $gateway = "http://www.biblegateway.com/bible?passage=$str";
 
-  $ref = $ref.subst('&', ' & ');
+  my $ref = $str.subst('&', ' & ');
 
   my $link = '<a href="' ~ $gateway ~ '">' ~ $ref ~ '</a>';
   return $link;
