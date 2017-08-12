@@ -335,7 +335,7 @@ sub weekly_info(@week) {
     when /ordinary/ { $title = "{$num}{@numth[$th]} Sunday after Pentecost"; }
     when /ascension||thanksgiving/ { $title = "Week of {@week[0]<feast>.wordcase} Day"; }
     when /trinity||transfig||pentecost/ { $title = "Week of {@week[0]<feast>.wordcase} Sunday"; } 
-    default { $num++; $th++; $title = "{$num}{@numth[$th]} Week of {@week[0]<feast>.wordcase}"; }
+    default { $title = "{$num}{@numth[$th]} Week of {@week[0]<feast>.wordcase}"; }
   }
   my @month = <_ January February March April May June July August September October November December>;
 
