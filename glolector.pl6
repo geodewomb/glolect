@@ -24,7 +24,7 @@ sub gateway {   ### links to scripture text (not implemented)
 
   my $gateway = "http://www.biblegateway.com/bible?passage=$query";
 
- $ref = $str.subst('&', ' & ');
+ $ref = $ref.subst('&', ' & ');
 
   my $link = '<a href="' ~ $gateway ~ '">' ~ $ref ~ '</a>';
   return $link;
@@ -35,10 +35,10 @@ sub html_daily(%d) {   ### constructs index.html for daily entries
   # find either/or options and format
   while %d<scrips> ~~ / '{' (.+?) '}' / {
     my @eitheror = "$0".split('|');
-    for @eitheror -> $e {
-      my @scrips = $e.split(';');
+    for 0..1 -> $e {
+      my @scrips = @eitheror[$e].split(';');
       $_ = gateway($_) for @scrips;
-      $e = $e.join("<br>\n");
+      @eitheror[$e] = @scrips.join("<br>\n");
     }
     my $eitheror = '<p class="eitheror">' ~ @eitheror.join("<br>or ") ~ "</p>";
 
