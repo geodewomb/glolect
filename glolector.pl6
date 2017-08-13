@@ -258,6 +258,9 @@ sub redirect_final_week($y,$w) { ### set up htaccess redirects to navigate trick
 
 sub set_homepage {
   
+  my @day = <_ Mon Tues Wed Thurs Fri Sat Sun>;
+  my @mon = <_ Jan Feb March April May June July Aug Sept Oct Nov Dec>;
+
   my $today = Date.today;
   my $lookup = slurp("{$today.year}/{$today.month}/{$today.day}/refer.txt");   
   my ($y,$w,$f) = $lookup.split('|');
@@ -270,9 +273,13 @@ sub set_homepage {
   my $scrips = slurp("{$today.year}/{$today.month}/{$today.day}/scrips.html");   
   
   my $html = qq:to/END/;
-  $svg
-  <h1>Today's Scriptures:</h1>
+  <article>
+  <h1>TODAY:</h1>
+  <h2>{@day[$today.day-of-week]} {$today.day} {@mon[$today.month]}</h2>
+  </article>
+  <article class="scrips">
   $scrips
+  </article>
   END
 
   spurt 'today.html', $html;

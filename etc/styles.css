@@ -57,20 +57,20 @@ body.holyweek { background-color: #eeeedd; }
 body.easter { background-color: #faeecf; }
 body.ordinary { background-color: #e8f2d8; }
 
-main.advent h1 { color: #5f5fd3; }
-main.advent h2 { color: #5f5fd3; }
-main.christmas h1 { color: #a02c5a; }
-main.christmas h2 { color: #a02c5a; }
-main.epiphany h1 { color: #3fb39c; }
-main.epiphany h2 { color: #3fb39c; }
-main.lent h1 { color: #8a6f91; }
-main.lent h2 { color: #8a6f91; }
-main.holyweek h1 { color: #a02c5a; }
-main.holyweek h2 { color: #a02c5a; }
-main.easter h1 { color: #bb9b27; }
-main.easter h2 { color: #bb9b27; }
-main.ordinary h1 { color: #8a916f; }
-main.ordinary h2 { color: #8a916f; }
+main.advent h1, section.today { color: #5f5fd3; }
+main.advent h2, section.today { color: #5f5fd3; }
+main.christmas h1, section.today { color: #a02c5a; }
+main.christmas h2, section.today { color: #a02c5a; }
+main.epiphany h1, section.today { color: #3fb39c; }
+main.epiphany h2, section.today { color: #3fb39c; }
+main.lent h1, section.today { color: #8a6f91; }
+main.lent h2, section.today { color: #8a6f91; }
+main.holyweek h1, section.today { color: #a02c5a; }
+main.holyweek h2, section.today { color: #a02c5a; }
+main.easter h1, section.today { color: #bb9b27; }
+main.easter h2, section.today { color: #bb9b27; }
+main.ordinary h1, section.today { color: #8a916f; }
+main.ordinary h2, section.today { color: #8a916f; }
 
 svg.generic #out, svg.generic #in     { fill: #ffffff00; }
 svg.advent #out                       { fill: #5f5fd3; }
@@ -226,11 +226,87 @@ section.tribar svg.now g {
 pointer-events: none;
 }
 
+section.today {
+position: absolute;
+top: 10px;
+left: 500px;
+height: 120px;
+z-index: 12px;
+text-align: center;
+-webkit-columns: 3 150px;
+   -moz-columns: 3 150px;
+        columns: 3 150px;
+}
+
+section.today a {
+text-align: center;
+text-decoration: none;
+color: inherit;
+position: relative;
+display: block;
+}
+section.today svg {
+height: 40px;
+width: 45px;
+margin-bottom: 10px;
+}
+
+
+section.today h1, section.today h2 {
+display: none;
+}
+
+section.today a.date {
+height: 120px;
+}
+
+section.today a.date h1 {
+display: block;
+line-height: 1;
+}
+
+section.today a.date h2 {
+display: none;
+}
+
+section.today h3 {
+color: #ff0066;
+font-size: 12px;
+text-transform: uppercase;
+padding-bottom: 3px;
+display: none;
+}
+
+section.today p {
+font: normal 14px 'Istok Web',sans-serif;
+font-size: 14px;
+line-height: 1;
+padding: 3px;
+color: #000000;
+}
+
+section.today p a {
+display: inline-block;
+font: normal 14px 'Istok Web',sans-serif;
+text-decoration: none;
+line-height: 1;
+color: #000000;
+padding: 0 3px;
+background-color: #ffffff;
+border-radius: 6px;
+display: inline-block;
+}
+
+section.today a:hover {
+color: #ff0066;
+}
+
 main {
 position: relative;
-padding-top: 200px;
+top: 200px;
 max-width: 100%;
 overflow: hidden;
+z-index: 0;
 }
 
 main:after {
