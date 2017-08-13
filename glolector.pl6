@@ -2,6 +2,9 @@
 use v6;
 
 
+my $root = '/';
+$root = slurp('etc/path.txt').chomp if 'etc/path.txt'.IO.e;
+
 process_data('lectdat.txt');
 
 set_homepage();
@@ -110,16 +113,13 @@ sub make_tribars(@data) {
   push @pre, %( feast => 'generic' ) for ^15;
   push @post, %( feast => 'generic' ) for ^50;
   
-
-  my $path = slurp('etc/path.txt').chomp or $path = '';
-
   for @data -> $w {
     my @tribar;
     my $flip = 0;
 
     for @pre {
       my $link = '';
-      if $_<year> and $_<num> { $link = "$path/year-{$_<year>}/week-{$_<num>}"; }
+      if $_<year> and $_<num> { $link = "$root/year-{$_<year>}/week-{$_<num>}"; }
       push @tribar, make_svg($_<feast>,$link,$flip);
       $flip = 1 - $flip;
     }
@@ -129,7 +129,7 @@ sub make_tribars(@data) {
     for 1..50 {
       my %w = @post[$_];
       my $link = '';
-      if %w<year> and %w<num> { $link = "$path/year-{%w<year>}/week-{%w<num>}"; }
+      if %w<year> and %w<num> { $link = "$root/year-{%w<year>}/week-{%w<num>}"; }
       push @tribar, make_svg(%w<feast>,$link,$flip);
       $flip = 1 - $flip;
     }
@@ -245,15 +245,14 @@ sub redirect_final_week($y,$w) { ### set up htaccess redirects to navigate trick
   return if $y eq 'x';
   unless ".htaccess".IO.e { say "Did not update .htaccess, no file."; return; }
   my $z = swap($y);
-  my $path = slurp('etc/path.txt').chomp or $path = ' ';
 
   my $hta = slurp(".htaccess"); 
-  if $hta ~~ / \s'/year-'$y'/week-'\d\d\s / { spurt ".htaccess", $hta.subst($/, " /year-{$y}/week-{$w} ", :g); }
-  else { spurt ".htaccess", "Redirect 302 {$path}/year-{$y}/week-{$w} {$path}/year-{$z}/week-1\n", :append; }
+  if $hta ~~ / \s'/year-'$y'/week-'\d\d\s / { spurt ".htaccess", $hta.subst($/, " /year-$y/week-$w ", :g); }
+  else { spurt ".htaccess", "Redirect 302 $root/year-$y/week-$w $root/year-$z/week-1\n", :append; }
 
   $hta = slurp(".htaccess"); 
-  if $hta ~~/ '/year-'$y'/week-'\d\d\n / { spurt ".htaccess", $hta.subst($/, "/year-{$y}/week-{$w - 1}\n", :g); }
-  else { spurt ".htaccess", "Redirect 302 {$path}/year-{$z}/week-0 {$path}/year-{$y}/week-{$w -1}\n", :append; }
+  if $hta ~~/ '/year-'$y'/week-'\d\d\n / { spurt ".htaccess", $hta.subst($/, "/year-$y/week-{$w - 1}\n", :g); }
+  else { spurt ".htaccess", "Redirect 302 $root/year-$z/week-0 $root/year-$y/week-{$w -1}\n", :append; }
   
 }
 
@@ -284,24 +283,23 @@ sub weekly_scrips(@w) { ### makes actual html file for a week out of daily chunk
   
 sub weekly_index($scrips,%i) { ### make entire index file for a week
   
-  my $path = slurp("etc/path.txt").chomp or $path = '';
 
   return qq:to/END/;
   <!DOCTYPE html>
   <title>Glo Lect | Year {%i<year>.uc} | Week {%i<num>}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="{$path}/etc/styles.css"> 
+  <link rel="stylesheet" type="text/css" href="{$root}/etc/styles.css"> 
   <body class="{%i<season>}">
   <svg id="swipe-l" viewBox="0 0 40 90" preserveAspectRatio="none"><polygon points="0 0 40 0 0 90" fill="#ffffff00" /></svg>
   <svg id="swipe-r" viewBox="0 0 540 90" preserveAspectRatio="none"><polygon points="0 0 500 0 540 90 0 90" fill="#ffffff00" /></svg>
   <nav>
-  <a href=""><h1>Glo Lec<span class="bigger">+</span></h1></a>
+  <a href="{$root}"><h1>Glo Lec<span class="bigger">+</span></h1></a>
   <h2>daily scriptures from the Revised Common Lectionary<br>
   + complete bible reading plan</h2>
   <ul>
-  <li><a href="{$path}/browse">BROWSE</a></li>
-  <li><a href="{$path}/faq">FAQ</a></li>
+  <li><a href="{$root}/browse">BROWSE</a></li>
+  <li><a href="{$root}/faq">FAQ</a></li>
   </ul>
   </nav>
   <header>
@@ -311,13 +309,13 @@ sub weekly_index($scrips,%i) { ### make entire index file for a week
   </header>
   <main class="{%i<season>}">
   <section class="info">
-  <a href="{$path}/year-{%i<year>}/week-{%i<num> - 1}">
+  <a href="{$root}/year-{%i<year>}/week-{%i<num> - 1}">
   <svg class="{%i<season>} left" viewBox="0 0 45 80" height="80" width="45"><g>
   <polygon id="out" points="0,40 22.5,0 27.5,0 5,40 27.5,80 22.5,80" fill="#a02c5a"></polygon>
   </g></svg>
   </a>
   <!--#include virtual="info.html" -->
-  <a href="{$path}/year-{%i<year>}/week-{%i<num> + 1}">
+  <a href="{$root}/year-{%i<year>}/week-{%i<num> + 1}">
   <svg class="{%i<season>} right" viewBox="0 0 45 80" height="80" width="45"><g>
   <polygon id="out" points="40,40 17.5,0 22.5,0 45,40 22.5,80 17.5,80" fill="#a02c5a"></polygon>
   </g></svg>
@@ -352,7 +350,7 @@ sub weekly_info(@week) {
   my @month = <_ January February March April May June July August September October November December>;
 
   my $datestr = "{@week[1]<date>.day} {@month[@week[1]<date>.month]}";
-  if @week[1]<date>.year ≠ @week[7]<date>.year { $datestr ~= " {@week[1]<date>.year}"; }
+  if @week[1]<date>.year != @week[7]<date>.year { $datestr ~= " {@week[1]<date>.year}"; }
   $datestr ~= " – {@week[7]<date>.day} {@month[@week[7]<date>.month]} {@week[7]<date>.year} | Year {@week[0]<year>.uc}";
 
   return qq:to/END/;
