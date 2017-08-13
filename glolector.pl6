@@ -260,11 +260,22 @@ sub set_homepage {
   
   my $today = Date.today;
   my $lookup = slurp("{$today.year}/{$today.month}/{$today.day}/refer.txt");   
-  my ($y,$w) = $lookup.split('|');
+  my ($y,$w,$f) = $lookup.split('|');
   copy "year-$y/week-$w/index.shtml", "index.shtml";
   copy "year-$y/week-$w/tribar.html", "tribar.html";
   copy "year-$y/week-$w/scrips.html", "scrips.html";
   copy "year-$y/week-$w/info.html", "info.html";
+
+  my $svg = make_svg($f,$root,0);
+  my $scrips = slurp("{$today.year}/{$today.month}/{$today.day}/scrips.html");   
+  
+  my $html = qq:to/END/;
+  $svg
+  <h1>Today's Scriptures:</h1>
+  $scrips
+  END
+
+  spurt 'today.html', $html;
 }
 
 sub swap($y) { ### figure out what the next year letter is
@@ -307,6 +318,9 @@ sub weekly_index($scrips,%i) { ### make entire index file for a week
   <!--#include virtual="tribar.html" -->
   </section>
   </header>
+  <section class="today">
+  <!--#include virtual="{$root}/today.html" -->
+  </section>
   <main class="{%i<season>}">
   <section class="info">
   <a href="{$root}/year-{%i<year>}/week-{%i<num> - 1}">
