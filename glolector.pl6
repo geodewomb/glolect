@@ -52,7 +52,7 @@ sub html_daily(%d) {   ### constructs index.html for daily entries
   my @scrips = %d<scrips>.split(';');
   for @scrips {
     given $_ {
-      when /'[' (.+) ']'/ { $_ = "<h3>" ~ $0.Str ~ "/h3>"; }
+      when /'[' (.+) ']'/ { $_ = "<h3>" ~ $0.Str ~ "</h3>"; }
       when /'AM'||'PM'/   { $_ = "<h4>" ~ $_ ~ "</h4>"; }
       when /'<p class'/   { next; }
       when /^'(' (.+) ')'$/ { $_ = '<p class="glo">+ ' ~ gateway($0.Str) ~ " +</p>"; } 
@@ -343,8 +343,8 @@ sub weekly_info(@week) {
     when /epiphanyday/ { $title = "Week of Epiphany Day"; }
     when /allsaints/ { $title = "Week of All Saints Day"; }
     when /christtheking/ { $title = "Week of Christ the King Sunday"; }
-    when /ordinary/ { $title = "Week of the {$num}{@numth[$th]} Sunday after Pentecost"; }
-    when /epiphany||easter/ { $title = "Week of the {$num}{@numth[$th]} Sunday after $_"; }
+    when /ordinary/ { $title = "{$num}{@numth[$th]} Sunday after Pentecost"; }
+    when /epiphany||easter/ { $title = "{$num}{@numth[$th]} Sunday after {$_.wordcase}"; }
     when /ascension||thanksgiving/ { $title = "Week of {$_.wordcase} Day"; }
     when /trinity||transfig||pentecost/ { $title = "Week of {$_.wordcase} Sunday"; } 
     default { $title = "{$num}{@numth[$th]} Week of {$_.wordcase}"; }
