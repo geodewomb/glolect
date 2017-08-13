@@ -153,7 +153,7 @@ sub make_week(@week) {
  
     @week[$d]<scrips> = html_daily(@week[$d]);
     spurt "$dir/scrips.html", @week[$d]<scrips>;
-    spurt "$dir/refer.txt", "{@week[0]<year>}|{@week[0]<num>}"; 
+    spurt "$dir/refer.txt", "{@week[0]<year>}|{@week[0]<num>}|{@week[0]<feast>}"; 
   }
 
   # create files by year/week
@@ -340,12 +340,14 @@ sub weekly_info(@week) {
   given @week[0]<feast> {
     when /holyweek/ { $title = "Holy Week and Easter Sunday"; }
     when /baptism/ { $title = "Week of the Baptism of the Lord"; }
+    when /epiphanyday/ { $title = "Week of Epiphany Day"; }
     when /allsaints/ { $title = "Week of All Saints Day"; }
     when /christtheking/ { $title = "Week of Christ the King Sunday"; }
-    when /ordinary/ { $title = "{$num}{@numth[$th]} Sunday after Pentecost"; }
-    when /ascension||thanksgiving/ { $title = "Week of {@week[0]<feast>.wordcase} Day"; }
-    when /trinity||transfig||pentecost/ { $title = "Week of {@week[0]<feast>.wordcase} Sunday"; } 
-    default { $title = "{$num}{@numth[$th]} Week of {@week[0]<feast>.wordcase}"; }
+    when /ordinary/ { $title = "Week of the {$num}{@numth[$th]} Sunday after Pentecost"; }
+    when /epiphany||easter/ { $title = "Week of the {$num}{@numth[$th]} Sunday after $_"; }
+    when /ascension||thanksgiving/ { $title = "Week of {$_.wordcase} Day"; }
+    when /trinity||transfig||pentecost/ { $title = "Week of {$_.wordcase} Sunday"; } 
+    default { $title = "{$num}{@numth[$th]} Week of {$_.wordcase}"; }
   }
   my @month = <_ January February March April May June July August September October November December>;
 
