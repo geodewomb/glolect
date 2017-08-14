@@ -6,6 +6,7 @@ my $root = '/';
 $root = slurp('etc/path.txt').chomp if 'etc/path.txt'.IO.e;
 
 process_data('lectdat.txt');
+make_browser();
 
 set_homepage();
 
@@ -73,7 +74,42 @@ sub html_daily(%d) {   ### constructs index.html for daily entries
   END
 }
 
+sub indexer($html,$title,$season) {
 
+  return qq:to/END/;
+  <!DOCTYPE html>
+  <html>
+  <title>Glo Lect | $title}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Istok+Web:400,400i,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">  
+  <link rel="stylesheet" type="text/css" href="{$root}/etc/styles.css"> 
+  <body class="{$season}">
+  <svg id="swipe-l" viewBox="0 0 40 90" preserveAspectRatio="none"><polygon points="0 0 40 0 0 90" fill="#ffffff00" /></svg>
+  <svg id="swipe-r" viewBox="0 0 540 90" preserveAspectRatio="none"><polygon points="0 0 500 0 540 90 0 90" fill="#ffffff00" /></svg>
+  <nav class="generic">
+  <a href="{$root}"><h1>Glo Lec<span class="bigger">+</span></h1></a>
+  <h2>daily scriptures from the Revised Common Lectionary<br>
+  + complete bible reading plan</h2>
+  <ul>
+  <li><a href="{$root}/browse">BROWSE</a></li>
+  <li><a href="{$root}/faq">FAQ</a></li>
+  </ul>
+  </nav>
+  <header>
+  <section class="tribar">
+  <!--#include virtual="tribar.html" -->
+  </section>
+  </header>
+  <section class="today">
+  <!--#include virtual="{$root}/today.html" -->
+  </section>
+  $html
+  </body>
+  </html>
+  END
+}
 
 
 sub lets_call_it_a_day($line) {   ### splits lectdata line into various info
@@ -89,6 +125,37 @@ sub lets_call_it_a_day($line) {   ### splits lectdata line into various info
   %day<scrips> = $/.postmatch;
   
   return %day;
+} 
+
+sub make_browser {
+  mkdir 'browse' unless 'browse'.IO.e;
+  
+  my $html = qq:to/END/; 
+  <section class="menu">
+  <div id="years">
+  <a class="selected" href="/"><h1>Year A</h1><h2>2016/2017</h2></a>
+  <a href="/"><h1>Year B</h1><h2>2017/2018</h2></a>
+  <a href="/"><h1>Year c</h1><h2>2018/2019</h2></a>
+  <div id="options">
+  <a class="go-archive" href="/">past years</a>
+  <a class="selected" href="/"><h1>By Season</h1></a>
+  <a href="/"><h1>By Month</h1></a>
+  </div>
+  </div>
+  <div id="summary">
+  <h2>Year A focuses on the Bible as a record of God's work in history.</h2>
+  <p><span>Books covered:</span> Matthew, Isaiah, Ezekiel, 1 Peter, Genesis, Romans, Zechariah, Exodus, Philippians, Jonah, 1 Thessalonians, Leviticus, Joshua, Judges</p>
+  <p><span>Plus:</span> 1 & 2 Chronicles, Ezra, Obadiah, Nahum, 2 & 3 John, Jude</p> 
+  </div>
+  </section>
+  <section class="by-season">
+  <div id="morelinks">
+  <a href="/">Sundays + Feast Days</a>
+  <a href="/">All of 2016/2017</a>
+  </div>
+  END
+
+  spurt 'browse/index.shtml', indexer($html,"Browse",'generic');
 }
 
 sub make_svg($season,$link,$flip) {
@@ -231,6 +298,7 @@ sub process_data($lectdat) { ### sort of the main program i guess
         if $line.lc ~~ /advent/ {
           redirect_final_week(@workweek[0]<year>,@workweek[0]<num>);
           @workweek[0]<num> = 1;
+          @workweek[0]<register> = '';
           say "built year {@workweek[0]<year>}" unless @workweek[0]<year> eq 'x';
         }
       }
@@ -304,37 +372,10 @@ sub weekly_scrips(@w) { ### makes actual html file for a week out of daily chunk
 }
   
 sub weekly_index($scrips,%i) { ### make entire index file for a week
-  
 
-  return qq:to/END/;
-  <!DOCTYPE html>
-  <html>
-  <title>Glo Lect | Year {%i<year>.uc} | Week {%i<num>}</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css?family=Istok+Web:400,400i,700" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">  
-  <link rel="stylesheet" type="text/css" href="{$root}/etc/styles.css"> 
-  <body class="{%i<season>}">
-  <svg id="swipe-l" viewBox="0 0 40 90" preserveAspectRatio="none"><polygon points="0 0 40 0 0 90" fill="#ffffff00" /></svg>
-  <svg id="swipe-r" viewBox="0 0 540 90" preserveAspectRatio="none"><polygon points="0 0 500 0 540 90 0 90" fill="#ffffff00" /></svg>
-  <nav class="generic">
-  <a href="{$root}"><h1>Glo Lec<span class="bigger">+</span></h1></a>
-  <h2>daily scriptures from the Revised Common Lectionary<br>
-  + complete bible reading plan</h2>
-  <ul>
-  <li><a href="{$root}/browse">BROWSE</a></li>
-  <li><a href="{$root}/faq">FAQ</a></li>
-  </ul>
-  </nav>
-  <header>
-  <section class="tribar">
-  <!--#include virtual="tribar.html" -->
-  </section>
-  </header>
-  <section class="today">
-  <!--#include virtual="{$root}/today.html" -->
-  </section>
+  my $title = "Year {%i<year>.uc} | Week {%i<num>}";
+  
+  my $html = qq:to/END/;
   <main class="{%i<season>}">
   <section class="info">
   <a href="{$root}/year-{%i<year>}/week-{%i<num> - 1}">
@@ -356,6 +397,8 @@ sub weekly_index($scrips,%i) { ### make entire index file for a week
   </body>
   </html>
   END
+
+  return indexer($html,$title,%i<season>);
 }
 
 sub weekly_info(@week) {
