@@ -497,23 +497,24 @@ section.menu #summary p span {
 color: #666666;
 }
 
-section.by-season {
-position: relative;
-top: 20px;
-left: 60px;
+section.yeardat {
 }
 
-section.by-season section#row1 { margin-left: 240px; }
+section.yeardat div {
+margin: 20px 50px;
+}
 
-section.by-season section#row2 { margin-left: 180px; }
+section.yeardat #row1 { margin-left: 140px; }
 
-section.by-season article {
+section.yeardat #row2 { margin-left: 95px; }
+
+section.yeardat article {
 position: relative;
 display: inline-block;
 padding: 20px 20px;
 }
 
-section.by-season h1 {
+section.yeardat h1 {
 position: absolute;
 top: -20px;
 left: 30%;
@@ -525,12 +526,12 @@ text-transform: uppercase;
 font-family: 'Lato',sans-serif;
 }
 
-section.by-season a {
+section.yeardat a {
 color: inherit;
 text-decoration: none;
 }
 
-section.by-season h1:hover {
+section.yeardat h1:hover {
 background-color: #eaeaea;
 }
 
@@ -540,30 +541,30 @@ section.by-season .holyweek h1 { color: #ff0066; left: -20px;}
 
 section.by-season .ordinary h1 { color: #8ba817;}
 
-section.by-season svg {
+section.yeardat svg {
 float: left;
 margin-left: -12px;
 margin-bottom: 12px;
 }
 
-section.by-season svg:hover #out {
+section.yeardat svg:hover #out {
 stroke: #ffffff;
 stroke-width: 2;
 }
 
 
-section.by-season #morelinks {
+section.yeardat #morelinks {
 position: absolute;
 top: 0px;
 left: -30px;
 }
 
-section.by-season #morelinks a {
+section.yeardat #morelinks a {
 text-decoration: none;
 color: #444444;
 }
 
-section.by-season #morelinks h1 {
+section.yeardat #morelinks h1 {
 float: left;
 clear: both;
 margin-bottom: 10px;

@@ -139,20 +139,28 @@ sub make_browser {
     my $monum = 0;
     my $flip = 1;
 
-    my @by-s = '<article class="advent">', '<h1>ADVENT</h1>';
-    my @by-m = '<article class="novdec">', '<h1> NOV / DEC</h1>';
+    my @by-s = '<div id="row1">', '<article class="advent">', '<h1>ADVENT</h1>';
+    my @by-m = '<div id="row1">', '<article class="novdec">', '<h1> NOV / DEC</h1>';
   
     for "year-$y/yeardat.txt".IO.lines -> $line {
       my ($w, $s, $f, $m) = $line.split('|');
 
       unless $s eq $season { 
-        push @by-s, qq|</article>\n<article class="{$s}">|; 
-        push @by-s, qq|<h1>{$s.uc}</h1>|;
+        push @by-s, qq|</article>|;
+        given $s {
+          when 'lent' { push @by-s, qq|</div>\n<div id="row2">|; proceed; }
+          when 'ordinary' { push @by-s, qq|</div>\n<div id="row3">|; proceed; }
+          default { push @by-s, qq|<article class="{$s}">\n<h1>{$s.uc}</h1>|; }
+        }
         $season = $s;
       }
       unless $m == $monum or ($monum == 0 and $m > 10) { 
-        push @by-m, qq|</article>\n<article class="m{@month[$m]}">|; 
-        push @by-m, qq|<h1>{@month[$m].uc}</h1>|;
+        push @by-m, qq|</article>|;
+        given $m {
+          when 4 { push @by-m, qq|</div>\n<div id="row2">|; proceed; }
+          when 8 { push @by-m, qq|</div>\n<div id="row3">|; proceed; }
+          default { push @by-m, qq|<article class="m{@month[$m]}">\n<h1>{@month[$m].uc}</h1>|; }
+        }
         $monum = $m; 
       }
       my $svg = make_svg($f,"year-$y/week-$w",$flip);
@@ -161,8 +169,8 @@ sub make_browser {
 
       $flip = 1 - $flip;
     }
-    push @by-s, "</article>";
-    push @by-m, "</article>";
+    push @by-s, "</article>\n</div>";
+    push @by-m, "</article>\n</div>";
 
     for ("year-$y/by-season","year-$y/by-month") { mkdir $_ unless $_.IO.e; }
     
@@ -288,12 +296,7 @@ sub make_week(@week) {
   spurt "$dir/index.shtml", $index;
 
   my $regist = "{@week[0]<num>}|{@week[0]<season>}|{@week[0]<feast>}|{@week[7]<date>.month}\n";
-  if "year-{@week[0]<year>}/yeardat.txt".IO.e {
-    spurt "year-{@week[0]<year>}/yeardat.txt", $regist, :append;
-  }
-  else {
-    spurt "year-{@week[0]<year>}/yeardat.txt", $regist;
-  } 
+  spurt "year-{@week[0]<year>}/yeardat.txt", $regist, :append;
 
 }
 
@@ -301,7 +304,11 @@ sub prepare_directories {
   
   for ('year-a','year-b','year-c','browse') {
     mkdir $_ unless $_.IO.e;
+    unlink "$_/yeardat.txt";
+    
   }
+
+  
 }
 
 sub process_data($lectdat) { ### sort of the main program i guess
@@ -323,8 +330,8 @@ sub process_data($lectdat) { ### sort of the main program i guess
         given %day<feast> { 
           when !%day<feast> { %day<feast> = %day<season>; }
           when /'NATIV'||'NAME'||'PROP'/ { }
-          when /EASTER\sDAY/ { %day<feast> = "holyweek"; proceed; }
-          default { @workweek[0]<feast> = %day<feast>.comb(/<:L>+/).join('').lc }
+          when /(HOLY||GOOD||MAU||EAS).+DAY/ { %day<season> = "holyweek"; proceed; }
+          default { @workweek[0]<feast> = %day<feast>.comb(/<:L>+/).join('').lc unless @workweek[0]<feast>; }
         }
 
         # load into working week
@@ -354,7 +361,7 @@ sub process_data($lectdat) { ### sort of the main program i guess
 
       when /^<:Lu>+/ { 
         # change seasons
-        @workweek[0]<season> = $line.lc;
+        @workweek[0]<season> = $line.split(' ').join.lc;
         @workweek[0]<count> = 1;
        
         # setup and reset year on year change 

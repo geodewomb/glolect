@@ -151,8 +151,8 @@ HOLY WEEK
 2017/4/13=[MAUNDY THURSDAY]	Exodus 12:1-4,(5-10),11-14;Psalm 116:1-2,12-19;1 Corinthians 11:23-26;John 13:1-7,31b-35
 2017/4/14=[GOOD FRIDAY]	Isaiah 52:13-53:12;Psalm 22;{Hebrews 10:16-25|Hebrews 4:14-16,5:7-9};John 18&19
 2017/4/15=[HOLY SATURDAY]	{Job 14:1-14|Lamentations 3:1-9,19-24};Psalm 31:1-4,15-16;1 Peter 4:1-8;{Matthew 27:57-66|John 19:38-42}
-EASTER
 2017/4/16=[EASTER DAY]	AM;{Acts 10:34-43|Jeremiah 31:1-6};Psalm 118:1-2,14-24;{1 Corinthians 15:1-11|Acts 10:34-43};{John 20:1-18|Matthew 28:1-10};PM;Isaiah 25:6-9;Psalm 114;1 Corinthians 5:6-8;Luke 24:13-49
+EASTER
 2017/4/17	Acts 2:14a,22-32;Psalm 16;1 Peter 1:3-9;John 20:19-31
 2017/4/18	Acts 2:14-35;(1 Chronicles 8)
 2017/4/19	Psalm 16;(1 Chronicles 9)
@@ -515,8 +515,8 @@ HOLY WEEK
 2018/3/29=[MAUNDY THURSDAY]	Exodus 12:1-4,(5-10),11-14;Psalm 116:1-2,12-19;1 Corinthians 11:23-26;John 13:1-7,31b-35
 2018/3/30=[GOOD FRIDAY]	Isaiah 52:13-53:12;Psalm 22;{Hebrews 10:16-25|Hebrews 4:14-16,5:7-9};John 18&19
 2018/3/31=[HOLY SATURDAY]	{Job 14:1-14|Lamentations 3:1-9,19-24};Psalm 31:1-4,15-16;1 Peter 4:1-8;{Matthew 27:57-66|John 19:38-42}
-EASTER
 2018/4/1=[EASTER DAY]	AM;{Acts 10:34-43|Isaiah 25:6-9};Psalm 118:1-2,14-24;{1 Corinthians 15:1-11|Acts 10:34-43};{John 20:1-18|Mark 16:1-8};PM;Isaiah 25:6-9;Psalm 114;1 Corinthians 5:6b-8;Luke 24:13-49
+EASTER
 2018/4/2	Acts 4:32-35;Psalm 133;1 John 1:1-2:2;John 20:19-31
 2018/4/3	Acts 4:32-37;(Psalm 32)
 2018/4/4	Psalm 133;(Psalm 33)
@@ -909,8 +909,8 @@ HOLY WEEK
 2019/4/18=[MAUNDY THURSDAY]	Exodus 12:1-4,(5-10),11-14;Psalm 116:1-2,12-19;1 Corinthians 11:23-26;John 13:1-7,31b-35
 2019/4/19=[GOOD FRIDAY]	Isaiah 52:13-53:12;Psalm 22;{Hebrews 10:16-25|Hebrews 4:14-16,5:7-9};John 18&19
 2019/4/20=[HOLY SATURDAY]	{Job 14:1-14|Lamentations 3:1-9,19-24};Psalm 31:1-4,15-16;1 Peter 4:1-8;{Matthew 27:57-66|John 19:38-42}
-EASTER
 2019/4/21=[EASTER DAY]	AM;{Acts 10:34-43|Isaiah 65:17-25};Psalm 118:1-2,14-24;{1 Corinthians 15:19-26|Acts 10:34-43};{John 20:1-18|Luke 24:1-12};PM;Isaiah 25:6-9;Psalm 114;1 Corinthians 5:6b-8;Luke 24:13-49
+EASTER
 2019/4/22	Acts 5:27-32;Psalm 118:14-29;Psalm 150;Revelation 1:4-8;John 20:19-31
 2019/4/23	Acts 5:27-32;Acts 1&2
 2019/4/24	Psalm 118;Acts 3&4
