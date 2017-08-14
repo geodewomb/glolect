@@ -258,8 +258,8 @@ sub redirect_final_week($y,$w) { ### set up htaccess redirects to navigate trick
 
 sub set_homepage {
   
-  my @day = <_ Mon Tues Wed Thurs Fri Sat Sun>;
-  my @mon = <_ Jan Feb March April May June July Aug Sept Oct Nov Dec>;
+  my @day = <_ MONDAY TUESDAY WEDNESDAY THURSDAY FRIDAY SATURDAY SUNDAY>;
+  my @mon = <_ JANUARY FEBRUARY MARCH APRIL MAY JUNE JULY AUGUST SEPTEMBER OCTOBER NOVEMBER DECEMBER>;
 
   my $today = Date.today;
   my $lookup = slurp("{$today.year}/{$today.month}/{$today.day}/refer.txt");   
@@ -273,10 +273,14 @@ sub set_homepage {
   my $scrips = slurp("{$today.year}/{$today.month}/{$today.day}/scrips.html");   
   
   my $html = qq:to/END/;
-  <article>
-  <h1>TODAY:</h1>
-  <h2>{@day[$today.day-of-week]} {$today.day} {@mon[$today.month]}</h2>
-  </article>
+  <a href="{$root}" class="date">
+  <h1>TODAY'S SCRIPTURES</h1>
+  <svg class="{$f}" viewBox="0 0 45 40"><g>
+  <polygon id="out" points="0 0 22.5 40 45 0" fill="#ffffff00" />
+  <polygon id="in" points="7.5 3 22.5 17.5 37.5 3" fill="#ffffff00" />
+  </g></svg>
+  <h1>{@day[$today.day-of-week]} {$today.day} {@mon[$today.month]}</h1>
+  </a>
   <article class="scrips">
   $scrips
   </article>
@@ -307,6 +311,8 @@ sub weekly_index($scrips,%i) { ### make entire index file for a week
   <title>Glo Lect | Year {%i<year>.uc} | Week {%i<num>}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Istok+Web:400,400i,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">  
   <link rel="stylesheet" type="text/css" href="{$root}/etc/styles.css"> 
   <body class="{%i<season>}">
   <svg id="swipe-l" viewBox="0 0 40 90" preserveAspectRatio="none"><polygon points="0 0 40 0 0 90" fill="#ffffff00" /></svg>

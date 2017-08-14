@@ -1,3 +1,9 @@
+/*
+@font-face { font-family: 'Lato'; font-style: normal; font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'),
+       url('/~geneva/etc/fonts/lato-v13-latin-regular.woff2') format('woff2'), 
+       url('/~geneva/etc/fonts/lato-v13-latin-regular.woff') format('woff');
+}
 @font-face { font-family: 'Istok Web'; font-style: normal; font-weight: 400;
   src: local('Istok Web Regular'), local('IstokWeb-Regular'),
        url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-regular.woff2') format('woff2'),
@@ -13,11 +19,6 @@
        url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-700.woff2') format('woff2'),
        url('/~geneva/glolect/etc/fonts/istok-web-v10-latin-700.woff') format('woff');
 }
-@font-face { font-family: 'Lato'; font-style: normal; font-weight: 400;
-  src: local('Lato Regular'), local('Lato-Regular'),
-       url('/~geneva/etc/fonts/lato-v13-latin-regular.woff2') format('woff2'), 
-       url('/~geneva/etc/fonts/lato-v13-latin-regular.woff') format('woff');
-}
 @font-face { font-family: 'Lato'; font-style: normal; font-weight: 700;
   src: local('Lato Bold'), local('Lato-Bold'),
        url('/~geneva/etc/fonts/lato-v13-latin-700.woff2') format('woff2'),
@@ -28,7 +29,7 @@
        url('/~geneva/etc/fonts/lato-v13-latin-900.woff2') format('woff2'),
        url('/~geneva/etc/fonts/lato-v13-latin-900.woff') format('woff');
 }
-
+*/
 /* reset and defaults */
 
 html,body,div,ul,li,h1,h2,h3,h4,h5,h6,
@@ -230,25 +231,28 @@ section.today {
 position: absolute;
 top: 10px;
 left: 500px;
-height: 120px;
+height: 100px;
 z-index: 12px;
+text-align: left;
+}
+section.today article.scrips {
+margin: 0px 20px;
 text-align: center;
--webkit-columns: 3 150px;
-   -moz-columns: 3 150px;
-        columns: 3 150px;
+-webkit-columns: 4 170px;
+   -moz-columns: 4 170px;
+        columns: 4 170px;
 }
 
 section.today a {
-text-align: center;
 text-decoration: none;
 color: inherit;
 position: relative;
 display: block;
 }
 section.today svg {
-height: 40px;
-width: 45px;
-margin-bottom: 10px;
+height: 20px;
+width: 22.5px;
+vertical-align: text-top;
 }
 
 
@@ -257,12 +261,12 @@ display: none;
 }
 
 section.today a.date {
-height: 120px;
 }
 
 section.today a.date h1 {
-display: block;
-line-height: 1;
+display: inline-block;
+padding: 0 5px;
+vertical-align: text-top;
 }
 
 section.today a.date h2 {
@@ -280,9 +284,9 @@ display: none;
 section.today p {
 font: normal 14px 'Istok Web',sans-serif;
 font-size: 14px;
-line-height: 1;
-padding: 3px;
 color: #000000;
+display: inline-block;
+line-height: 1;
 }
 
 section.today p a {
@@ -291,7 +295,7 @@ font: normal 14px 'Istok Web',sans-serif;
 text-decoration: none;
 line-height: 1;
 color: #000000;
-padding: 0 3px;
+padding: 3px 6px;
 background-color: #ffffff;
 border-radius: 6px;
 display: inline-block;
@@ -348,12 +352,20 @@ font-size: 18px;
 
 section.scrips {
 margin-top: 100px;
+text-align: center;
 }
 
 section.scrips article {
+width: 170px;
+min-height: 225px;
 display: inline-block;
 text-align: center;
 vertical-align: text-top;
+border-radius: 6px;
+}
+
+section.scrips svg {
+width: 100%;
 }
 
 section.scrips h1 {
@@ -378,7 +390,7 @@ padding-bottom: 3px;
 
 section.scrips p {
 font-size: 14px;
-line-height: 1;
+line-height: 16px;
 padding: 3px;
 color: #000000;
 }
@@ -386,7 +398,7 @@ color: #000000;
 section.scrips p a {
 font-size: 14px;
 text-decoration: none;
-line-height: 1;
+line-height: 16px;
 color: #000000;
 padding: 0 3px;
 background-color: #ffffff;
