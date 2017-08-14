@@ -57,6 +57,7 @@ body.lent { background-color: #e8e8ef; }
 body.holyweek { background-color: #eeeedd; }
 body.easter { background-color: #faeecf; }
 body.ordinary { background-color: #e8f2d8; }
+body.generic { background-color: #dddddd; }
 
    .advent h1,   .advent h2,   .advent h4 { color: #5f5fd3; }
 .christmas h1,.christmas h2,.christmas h4 { color: #a02c5a; }
@@ -70,6 +71,8 @@ body.ordinary { background-color: #e8f2d8; }
 .generic h2 { color: #ff0066; }
 
 svg.generic #out, svg.generic #in     { fill: #ffffff00; }
+svg.generic-d #out, svg.generic-l #in     { fill: #aaaaaa; }
+svg.generic-l #out, svg.generic-d #in     { fill: #dddddd; }
 svg.advent #out                       { fill: #5f5fd3; }
 svg.advent #in                        { fill: #afafe9; }
 svg.christmas #out, svg.nativity #out { fill: #aaaaff; }
@@ -409,68 +412,59 @@ section.scrips a:hover {
 color: #ff0066;
 }
 
-section.browser {
+section.menu {
 position: relative;
-margin-left: 200px;
-margin-bottom: 40px;
+left: 200px;
 }
 
-section.browser a {
+section.menu a {
 text-decoration: none;
+margin: 0px 10px 10px 0px;
 }
 
-
-section.browser #title {
+section.menu #years {
 text-align: right;
-position: absolute;
-left: -50px;
-}
-
-section.browser #title a {
-text-align: center;
+width: 360px;
 display: inline-block;
-padding: 6px 12px;
-margin-right: 4px;
-border-radius: 6px;
+vertical-align: text-top;
 }
 
-section.browser #title a:hover {
+section.menu  a:hover {
 background-color: #eaeaea;
 }
 
-section.browser #title a.selected {
+section.menu a.selected {
 background: #ffffff;
 pointer-events: none;
 }
 
-section.browser #title h1 {
+section.menu #years a {
+text-align: center;
+display: inline-block;
+padding: 6px 12px;
+border-radius: 6px;
+}
+
+section.menu #years h1 {
 color: #a02c5a;
 font-family: 'Lato',sans-serif;
 font-size: 20px;
 text-transform: uppercase;
 }
 
-section.browser #title h2 {
+section.menu #years h2 {
 color: #a02c5a;
 font-size: 14px;
 text-align: center;
 }
 
-section.browser #switcher a {
-position: relative;
-margin: 8px 2px;
-}
-
-section.browser #switcher a:hover {
-background-color: #eaeaea;
-}
-
-section.browser #switcher h1{
+section.menu #options h1{
 font-size: 16px;
 padding: 2px 2px;
 }
 
-section.browser a.go-archive {
+section.menu a.go-archive {
+font-family: 'Istok Web',sans-serif;
 color: #777777;
 font-size: 16px;
 text-transform: none;
@@ -478,32 +472,28 @@ left: -16px;
 margin-right: 16px;
 }
 
-section.browser #switcher a.go-archive:hover {
-color: #ff0066;
-background-color: transparent;
-}
-
-section.browser #information {
+section.menu #summary {
 padding-left: 20px;
 border-left: solid 2px #a02c5a;
 max-width: 550px;
-margin-left: 300px;
+display: inline-block;
+vertical-align: text-top;
 }
 
-section.browser #information h2 {
+section.menu #summary h2 {
 font-family: 'Lato',sans-serif;
 font-size: 16px;
 color: #ff0066;
 padding: 4px 0px 2px 4px;
 }
 
-section.browser #information p {
+section.menu #summary p {
 font-family: 'Istok Web',sans-serif;
 font-size: 14px;
 padding: 4px;
 }
 
-section.browser #information p span {
+section.menu #summary p span {
 color: #666666;
 }
 

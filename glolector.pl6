@@ -79,7 +79,7 @@ sub indexer($html,$title,$season) {
   return qq:to/END/;
   <!DOCTYPE html>
   <html>
-  <title>Glo Lect | $title}</title>
+  <title>Glo Lect | {$title}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css?family=Istok+Web:400,400i,700" rel="stylesheet">
@@ -131,6 +131,7 @@ sub make_browser {
   mkdir 'browse' unless 'browse'.IO.e;
   
   my $html = qq:to/END/; 
+  <main class="generic">
   <section class="menu">
   <div id="years">
   <a class="selected" href="/"><h1>Year A</h1><h2>2016/2017</h2></a>
@@ -153,6 +154,8 @@ sub make_browser {
   <a href="/">Sundays + Feast Days</a>
   <a href="/">All of 2016/2017</a>
   </div>
+  </section>
+  </main>
   END
 
   spurt 'browse/index.shtml', indexer($html,"Browse",'generic');
