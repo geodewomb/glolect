@@ -5,7 +5,10 @@ use v6;
 my $root = '/';
 $root = slurp('etc/path.txt').chomp if 'etc/path.txt'.IO.e;
 
+prepare_directories();
+
 process_data('lectdat.txt');
+
 make_browser();
 
 set_homepage();
@@ -128,6 +131,47 @@ sub lets_call_it_a_day($line) {   ### splits lectdata line into various info
 } 
 
 sub make_browser {
+
+  my @month = <novdec january february march april may june july august september october november december>;
+
+  for ('a','b','c') -> $y {
+    my $season = 'advent';
+    my $monum = 0;
+    my $flip = 1;
+
+    my @by-s = '<article class="advent">', '<h1>ADVENT</h1>';
+    my @by-m = '<article class="novdec">', '<h1> NOV / DEC</h1>';
+  
+    for "year-$y/yeardat.txt".IO.lines -> $line {
+      my ($w, $s, $f, $m) = $line.split('|');
+
+      unless $s eq $season { 
+        push @by-s, qq|</article>\n<article class="{$s}">|; 
+        push @by-s, qq|<h1>{$s.uc}</h1>|;
+        $season = $s;
+      }
+      unless $m == $monum or ($monum == 0 and $m > 10) { 
+        push @by-m, qq|</article>\n<article class="m{@month[$m]}">|; 
+        push @by-m, qq|<h1>{@month[$m].uc}</h1>|;
+        $monum = $m; 
+      }
+      my $svg = make_svg($f,"year-$y/week-$w",$flip);
+      push @by-s, $svg;
+      push @by-m, $svg;
+
+      $flip = 1 - $flip;
+    }
+    push @by-s, "</article>";
+    push @by-m, "</article>";
+
+    for ("year-$y/by-season","year-$y/by-month") { mkdir $_ unless $_.IO.e; }
+    
+    spurt "year-$y/byseason.html", @by-s.join("\n");
+    spurt "year-$y/bymonth.html", @by-m.join("\n");
+  
+  }
+
+
   mkdir 'browse' unless 'browse'.IO.e;
   
   my $html = qq:to/END/; 
@@ -155,6 +199,9 @@ sub make_browser {
   <a href="/">All of 2016/2017</a>
   </div>
   </section>
+  <section class="yeardat">
+  <!--#include virtual="{$root}/year-a/byseason.html" -->
+  </section>
   </main>
   END
 
@@ -167,7 +214,7 @@ sub make_svg($season,$link,$flip) {
   my @in = "7.5 3 22.5 17.5 37.5 3", "7.5 37 22.5 22.5 37.5 37";
 
   return qq:to/END/
-  <svg class="{$season}" viewBox="0 0 45 40">
+  <svg class="{$season}" viewBox="0 0 45 40" height="40px" width="45px">
   <a href="{$link}"><g>
   <polygon id="out" points="{@out[$flip]}" fill="#ffffff00" />
   <polygon id="in" points="{@in[$flip]}" fill="#ffffff00" />
@@ -240,8 +287,21 @@ sub make_week(@week) {
   my $index = weekly_index($scrips,@week[0]);
   spurt "$dir/index.shtml", $index;
 
-  
+  my $regist = "{@week[0]<num>}|{@week[0]<season>}|{@week[0]<feast>}|{@week[7]<date>.month}\n";
+  if "year-{@week[0]<year>}/yeardat.txt".IO.e {
+    spurt "year-{@week[0]<year>}/yeardat.txt", $regist, :append;
+  }
+  else {
+    spurt "year-{@week[0]<year>}/yeardat.txt", $regist;
+  } 
 
+}
+
+sub prepare_directories {
+  
+  for ('year-a','year-b','year-c','browse') {
+    mkdir $_ unless $_.IO.e;
+  }
 }
 
 sub process_data($lectdat) { ### sort of the main program i guess
