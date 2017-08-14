@@ -58,20 +58,16 @@ body.holyweek { background-color: #eeeedd; }
 body.easter { background-color: #faeecf; }
 body.ordinary { background-color: #e8f2d8; }
 
-main.advent h1, section.today { color: #5f5fd3; }
-main.advent h2, section.today { color: #5f5fd3; }
-main.christmas h1, section.today { color: #a02c5a; }
-main.christmas h2, section.today { color: #a02c5a; }
-main.epiphany h1, section.today { color: #3fb39c; }
-main.epiphany h2, section.today { color: #3fb39c; }
-main.lent h1, section.today { color: #8a6f91; }
-main.lent h2, section.today { color: #8a6f91; }
-main.holyweek h1, section.today { color: #a02c5a; }
-main.holyweek h2, section.today { color: #a02c5a; }
-main.easter h1, section.today { color: #bb9b27; }
-main.easter h2, section.today { color: #bb9b27; }
-main.ordinary h1, section.today { color: #8a916f; }
-main.ordinary h2, section.today { color: #8a916f; }
+   .advent h1,   .advent h2,   .advent h4 { color: #5f5fd3; }
+.christmas h1,.christmas h2,.christmas h4 { color: #a02c5a; }
+ .epiphany h1, .epiphany h2, .epiphany h4 { color: #3fb39c; }
+     .lent h1,     .lent h2,     .lent h4 { color: #8a6f91; }
+ .holyweek h1, .holyweek h2, .holyweek h4 { color: #a02c5a; }
+   .easter h1,   .easter h2,   .easter h4 { color: #bb9b27; }
+ .ordinary h1, .ordinary h2, .ordinary h4 { color: #8a916f; }
+
+.generic h1 { color: #a02c5a; }
+.generic h2 { color: #ff0066; }
 
 svg.generic #out, svg.generic #in     { fill: #ffffff00; }
 svg.advent #out                       { fill: #5f5fd3; }
@@ -181,11 +177,10 @@ margin: 0px 0px 50px 16px;
 
 header {
 background-color: #ffffff;
-height: 50px;
 position: absolute;
 width: 100%;
+height: 50px;
 top: 120px;
-left: 0px;
 }
 
 section.tribar {
@@ -307,7 +302,7 @@ color: #ff0066;
 
 main {
 position: relative;
-top: 200px;
+padding-top: 200px;
 max-width: 100%;
 overflow: hidden;
 z-index: 0;
@@ -388,19 +383,24 @@ text-transform: uppercase;
 padding-bottom: 3px;
 }
 
+section.scrips h4 {
+font-size: 12px;
+}
+
 section.scrips p {
 font-size: 14px;
-line-height: 16px;
-padding: 3px;
-color: #000000;
+line-height: 24px;
+}
+
+section.scrips p.eitheror {
+line-height: 18px;
+margin: 3px 0;
 }
 
 section.scrips p a {
 font-size: 14px;
 text-decoration: none;
-line-height: 16px;
 color: #000000;
-padding: 0 3px;
 background-color: #ffffff;
 border-radius: 6px;
 }

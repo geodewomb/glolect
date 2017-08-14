@@ -43,7 +43,7 @@ sub html_daily(%d) {   ### constructs index.html for daily entries
       $_ = gateway($_) for @scrips;
       @eitheror[$e] = @scrips.join("<br>\n");
     }
-    my $eitheror = '<p class="eitheror">' ~ @eitheror.join("<br>or ") ~ "</p>";
+    my $eitheror = '<p class="eitheror">' ~ @eitheror.join("<br><span>or</span> ") ~ "</p>";
 
     %d<scrips> = $/.prematch ~ $eitheror ~ $/.postmatch;
   }
@@ -53,9 +53,9 @@ sub html_daily(%d) {   ### constructs index.html for daily entries
   for @scrips {
     given $_ {
       when /'[' (.+) ']'/ { $_ = "<h3>" ~ $0.Str ~ "</h3>"; }
-      when /'AM'||'PM'/   { $_ = "<h4>" ~ $_ ~ "</h4>"; }
+      when /^AM$||^PM$||NEXT/   { $_ = "<h4>" ~ $_ ~ "</h4>"; }
       when /'<p class'/   { next; }
-      when /^'(' (.+) ')'$/ { $_ = '<p class="glo">+ ' ~ gateway($0.Str) ~ " +</p>"; } 
+      when /^'(' (.+) ')'$/ { $_ = '<p class="glo"><span>+</span> ' ~ gateway($0.Str) ~ " <span>+</span></p>"; } 
       default             { $_ = "<p>" ~ gateway($_) ~ "</p>"; }
     }
   }
@@ -308,6 +308,7 @@ sub weekly_index($scrips,%i) { ### make entire index file for a week
 
   return qq:to/END/;
   <!DOCTYPE html>
+  <html>
   <title>Glo Lect | Year {%i<year>.uc} | Week {%i<num>}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -317,7 +318,7 @@ sub weekly_index($scrips,%i) { ### make entire index file for a week
   <body class="{%i<season>}">
   <svg id="swipe-l" viewBox="0 0 40 90" preserveAspectRatio="none"><polygon points="0 0 40 0 0 90" fill="#ffffff00" /></svg>
   <svg id="swipe-r" viewBox="0 0 540 90" preserveAspectRatio="none"><polygon points="0 0 500 0 540 90 0 90" fill="#ffffff00" /></svg>
-  <nav>
+  <nav class="generic">
   <a href="{$root}"><h1>Glo Lec<span class="bigger">+</span></h1></a>
   <h2>daily scriptures from the Revised Common Lectionary<br>
   + complete bible reading plan</h2>
