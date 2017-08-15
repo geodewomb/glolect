@@ -31,7 +31,7 @@ sub gateway {   ### links to scripture text (not implemented)
 
   my $gateway = "http://www.biblegateway.com/bible?passage=$query";
 
- $ref = $ref.subst('&', ' & ');
+ $ref = $ref.subst('&', ' & ', :global);
 
   my $link = '<a href="' ~ $gateway ~ '">' ~ $ref ~ '</a>';
   return $link;
@@ -47,7 +47,7 @@ sub html_daily(%d) {   ### constructs index.html for daily entries
       $_ = gateway($_) for @scrips;
       @eitheror[$e] = @scrips.join("<br>\n");
     }
-    my $eitheror = '<p class="eitheror">' ~ @eitheror.join("<br><span>or</span> ") ~ "</p>";
+    my $eitheror = '<p class="eitheror">/ ' ~ @eitheror.join("<br><span>or</span> ") ~ " /</p>";
 
     %d<scrips> = $/.prematch ~ $eitheror ~ $/.postmatch;
   }
@@ -131,8 +131,10 @@ sub lets_call_it_a_day($line) {   ### splits lectdata line into various info
 sub make_browser {
 
   my @month = <novdec january february march april may june july august september october november december>;
+  my @split;
 
   for ('a','b','c') -> $y {
+
     my $season = 'advent';
     my $monum = 0;
     my $flip = 1;
@@ -141,7 +143,8 @@ sub make_browser {
     my @by-m = '<div id="row1">', '<article class="novdec">', '<h1> NOV / DEC</h1>';
   
     for "year-$y/yeardat.txt".IO.lines -> $line {
-      my ($w, $s, $f, $m) = $line.split('|');
+      my ($w, $s, $f, $m, $z) = $line.split('|');
+      once { push @split, $z ~ '/' ~ $z+1;}
 
       unless $s eq $season { 
         push @by-s, qq|</article>|;
@@ -176,17 +179,16 @@ sub make_browser {
     spurt "year-$y/bymonth.html", @by-m.join("\n");
   
   }
-
-
+ 
   mkdir 'browse' unless 'browse'.IO.e;
   
   my $html = qq:to/END/; 
-  <main class="generic">
-  <section class="menu">
+  <main>
+  <section class="menu generic">
   <div id="years">
-  <a class="selected" href="/"><h1>Year A</h1><h2>2016/2017</h2></a>
-  <a href="/"><h1>Year B</h1><h2>2017/2018</h2></a>
-  <a href="/"><h1>Year c</h1><h2>2018/2019</h2></a>
+  <a class="selected" href="/"><h1>Year A</h1><h2>{@split[0]}</h2></a>
+  <a href="/"><h1>Year B</h1><h2>{@split[1]}</h2></a>
+  <a href="/"><h1>Year c</h1><h2>{@split[2]}</h2></a>
   <div id="options">
   <a class="go-archive" href="/">past years</a>
   <a class="selected" href="/"><h1>By Season</h1></a>
@@ -199,7 +201,7 @@ sub make_browser {
   <p><span>Plus:</span> 1 & 2 Chronicles, Ezra, Obadiah, Nahum, 2 & 3 John, Jude</p> 
   </div>
   </section>
-  <section class="by-season">
+  <section class="generic">
   <div id="morelinks">
   <a href="/">Sundays + Feast Days</a>
   <a href="/">All of 2016/2017</a>
@@ -312,7 +314,7 @@ sub make_week(@week) {
   my $index = weekly_index($scrips,@week[0]);
   spurt "$dir/index.shtml", $index;
 
-  my $regist = "{@week[0]<num>}|{@week[0]<season>}|{@week[0]<feast>}|{@week[7]<date>.month}\n";
+  my $regist = "{@week[0]<num>}|{@week[0]<season>}|{@week[0]<feast>}|{@week[7]<date>.month}|{@week[7]<date>.year}\n";
   spurt "year-{@week[0]<year>}/yeardat.txt", $regist, :append;
 
 }
