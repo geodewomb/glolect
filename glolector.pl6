@@ -471,9 +471,10 @@ sub weekly_index($scrips,%i) { ### make entire index file for a week
 
 sub weekly_info(@week) {
 
-  my @numth = <th st nd rd th th th th th th>;
+  my @numth = <th st nd rd th th th th th th
+               th th th th th th th th th th
+               th st nd rd th th th th th th>;
   my $num = @week[0]<count>;
-  my $th = $num.substr(*-1,1);
 
   my $title;
   given @week[0]<feast> {
@@ -484,11 +485,11 @@ sub weekly_info(@week) {
     when /epiphanyday/ { $title = "Week of Epiphany Day"; }
     when /allsaints/ { $title = "Week of All Saints Day"; }
     when /christtheking/ { $title = "Week of Christ the King Sunday"; }
-    when /ordinary/ { $title = "{$num}{@numth[$th]} Sunday after Pentecost"; }
-    when /epiphany||easter/ { $title = "{$num}{@numth[$th]} Sunday after {$_.wordcase}"; }
+    when /ordinary/ { $title = "{$num}{@numth[$num]} Sunday after Pentecost"; }
+    when /epiphany||easter/ { $title = "{$num}{@numth[$num]} Sunday after {$_.wordcase}"; }
     when /ascension||thanksgiving/ { $title = "Week of {$_.wordcase} Day"; }
     when /trinity||transfig||pentecost/ { $title = "Week of {$_.wordcase} Sunday"; } 
-    default { $title = "{$num}{@numth[$th]} Week of {$_.wordcase}"; }
+    default { $title = "{$num}{@numth[$num]} Week of {$_.wordcase}"; }
   }
   my @month = <_ January February March April May June July August September October November December>;
 
