@@ -402,11 +402,11 @@ sub redirect_final_week($y,$w) { ### set up htaccess redirects to navigate trick
   my $z = swap($y);
 
   my $hta = slurp(".htaccess"); 
-  if $hta ~~ / \s'/year-'$y'/week-'\d\d\s / { spurt ".htaccess", $hta.subst($/, " /year-$y/week-$w ", :g); }
+  if $hta ~~ / $root'/year-'$y'/week-'(\d\d)\s / { spurt ".htaccess", $hta.subst($0, $w, :g); }
   else { spurt ".htaccess", "Redirect 302 $root/year-$y/week-$w $root/year-$z/week-1\n", :append; }
-
-  $hta = slurp(".htaccess"); 
-  if $hta ~~/ '/year-'$y'/week-'\d\d\n / { spurt ".htaccess", $hta.subst($/, "/year-$y/week-{$w - 1}\n", :g); }
+  
+  $hta = slurp(".htaccess");
+  if $hta ~~/ '/year-'$y'/week-'(\d\d)\n / { spurt ".htaccess", $hta.subst($0, $w - 1, :g); }
   else { spurt ".htaccess", "Redirect 302 $root/year-$z/week-0 $root/year-$y/week-{$w -1}\n", :append; }
   
 }
