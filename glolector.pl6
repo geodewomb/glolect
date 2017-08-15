@@ -267,7 +267,10 @@ sub make_tribars(@data) {
       
 
 sub make_week(@week) {
-  
+
+  my @day = <_ MONDAY TUESDAY WEDNESDAY THURDAY FRIDAY SATURDAY SUNDAY>;
+  my @mon = <_ JANUARY FEBRUARY MARCH APRIL MAY JUNE JULY AUGUST SEPTEMBER OCTOBER NOVEMBER DECEMBER>;
+
   # create files by date
   for 1..7 -> $d {
     my $date = @week[$d]<date>;
@@ -277,6 +280,22 @@ sub make_week(@week) {
     @week[$d]<scrips> = html_daily(@week[$d]);
     spurt "$dir/scrips.html", @week[$d]<scrips>;
     spurt "$dir/refer.txt", "{@week[0]<year>}|{@week[0]<num>}|{@week[0]<feast>}"; 
+    
+    my $svg = make_svg(@week[0]<feast>,$root,0);
+  
+    my $html = qq:to/END/;
+    <section class="today {@week[0]<feast>}">
+    <a href="{$root}" class="date">
+    <h1>TODAY'S SCRIPTURES</h1>
+    $svg
+    <h1>{@day[@week[$d]<date>.day-of-week]} {@week[$d]<date>.day} {@mon[@week[$d]<date>.month]}</h1>
+    </a>
+    <article class="scrips">
+    {@week[$d]<scrips>}
+    </article>
+    </section>
+    END
+    spurt "$dir/index.html", $html;
   }
 
   # create files by year/week
@@ -394,9 +413,6 @@ sub redirect_final_week($y,$w) { ### set up htaccess redirects to navigate trick
 
 sub set_homepage {
   
-  my @day = <_ MONDAY TUESDAY WEDNESDAY THURSDAY FRIDAY SATURDAY SUNDAY>;
-  my @mon = <_ JANUARY FEBRUARY MARCH APRIL MAY JUNE JULY AUGUST SEPTEMBER OCTOBER NOVEMBER DECEMBER>;
-
   my $today = Date.today;
   my $lookup = slurp("{$today.year}/{$today.month}/{$today.day}/refer.txt");   
   my ($y,$w,$f) = $lookup.split('|');
@@ -405,26 +421,8 @@ sub set_homepage {
   copy "year-$y/week-$w/scrips.html", "scrips.html";
   copy "year-$y/week-$w/info.html", "info.html";
 
-  my $svg = make_svg($f,$root,0);
-  my $scrips = slurp("{$today.year}/{$today.month}/{$today.day}/scrips.html");   
+  copy "{$today.year}/{$today.month}/{$today.day}/index.html", "today.html";   
   
-  my $html = qq:to/END/;
-  <section class="today {$f}">
-  <a href="{$root}" class="date">
-  <h1>TODAY'S SCRIPTURES</h1>
-  <svg class="{$f}" viewBox="0 0 45 40"><g>
-  <polygon id="out" points="0 0 22.5 40 45 0" fill="#ffffff00" />
-  <polygon id="in" points="7.5 3 22.5 17.5 37.5 3" fill="#ffffff00" />
-  </g></svg>
-  <h1>{@day[$today.day-of-week]} {$today.day} {@mon[$today.month]}</h1>
-  </a>
-  <article class="scrips">
-  $scrips
-  </article>
-  </section>
-  END
-
-  spurt 'today.html', $html;
 }
 
 sub swap($y) { ### figure out what the next year letter is
