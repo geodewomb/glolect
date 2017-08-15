@@ -5,6 +5,11 @@ use v6;
 my $root = '/';
 $root = slurp('etc/path.txt').chomp if 'etc/path.txt'.IO.e;
 
+my @xday = <_ Monday Tuesday Wednesday Thursday Friday Saturday Sunday>;
+my @day = <_ Mon Tues Wed Thur Fri Sat Sun>;
+my @xmon = <NovDec January February March April May June July August September October November December>;
+my @mon = <_ Jan Feb March April May June July Aug Sept Oct Nov Dec>;
+
 prepare_directories();
 
 process_data('lectdat.txt');
@@ -66,12 +71,9 @@ sub html_daily(%d) {   ### constructs index.html for daily entries
   %d<scrips> = @scrips.join("\n");
   
   # make html chunk for a day
-  my @day = <_ Monday Tuesday Wednesday Thursday Friday Saturday Sunday>;
-  my @month = <_ Jan Feb March April May June July Aug Sept Oct Nov Dec>;
-
   return qq:to/END/;
-  <h1>{@day[%d<date>.day-of-week]}</h1>
-  <h2>{%d<date>.day} {@month[%d<date>.month]}</h2>
+  <h1>{@xday[%d<date>.day-of-week]}</h1>
+  <h2>{%d<date>.day} {@mon[%d<date>.month]}</h2>
   <h3>{%d<feast>}</h3>
   {%d<scrips>}
   END
@@ -130,7 +132,6 @@ sub lets_call_it_a_day($line) {   ### splits lectdata line into various info
 
 sub make_browser {
 
-  my @month = <novdec january february march april may june july august september october november december>;
   my @split;
 
   for ('a','b','c') -> $y {
@@ -160,7 +161,7 @@ sub make_browser {
         given $m {
           when 4 { push @by-m, qq|</div>\n<div id="row2">|; proceed; }
           when 8 { push @by-m, qq|</div>\n<div id="row3">|; proceed; }
-          default { push @by-m, qq|<article class="m{@month[$m]}">\n<h1>{@month[$m].uc}</h1>|; }
+          default { push @by-m, qq|<article class="m{@xmon[$m].lc}">\n<h1>{@xmon[$m].uc}</h1>|; }
         }
         $monum = $m; 
       }
@@ -204,7 +205,7 @@ sub make_browser {
   <section class="generic">
   <div id="morelinks">
   <a href="/">Sundays + Feast Days</a>
-  <a href="/">All of 2016/2017</a>
+  <a href="/">All of {@split[0]}</a>
   </div>
   </section>
   <section class="yeardat">
@@ -270,9 +271,6 @@ sub make_tribars(@data) {
 
 sub make_week(@week) {
 
-  my @day = <_ MONDAY TUESDAY WEDNESDAY THURDAY FRIDAY SATURDAY SUNDAY>;
-  my @mon = <_ JANUARY FEBRUARY MARCH APRIL MAY JUNE JULY AUGUST SEPTEMBER OCTOBER NOVEMBER DECEMBER>;
-
   # create files by date
   for 1..7 -> $d {
     my $date = @week[$d]<date>;
@@ -290,7 +288,7 @@ sub make_week(@week) {
     <a href="{$root}" class="date">
     <h1>TODAY'S SCRIPTURES</h1>
     $svg
-    <h1>{@day[@week[$d]<date>.day-of-week]} {@week[$d]<date>.day} {@mon[@week[$d]<date>.month]}</h1>
+    <h1>{@xday[@week[$d]<date>.day-of-week].uc} {@week[$d]<date>.day} {@xmon[@week[$d]<date>.month].uc}</h1>
     </a>
     <article class="scrips">
     {@week[$d]<scrips>}
@@ -493,11 +491,10 @@ sub weekly_info(@week) {
     when /trinity||transfig||pentecost/ { $title = "Week of {$_.wordcase} Sunday"; } 
     default { $title = "{$num}{@numth[$num]} Week of {$_.wordcase}"; }
   }
-  my @month = <_ January February March April May June July August September October November December>;
 
-  my $datestr = "{@week[1]<date>.day} {@month[@week[1]<date>.month]}";
+  my $datestr = "{@week[1]<date>.day} {@xmon[@week[1]<date>.month]}";
   if @week[1]<date>.year != @week[7]<date>.year { $datestr ~= " {@week[1]<date>.year}"; }
-  $datestr ~= " – {@week[7]<date>.day} {@month[@week[7]<date>.month]} {@week[7]<date>.year} | Year {@week[0]<year>.uc}";
+  $datestr ~= " – {@week[7]<date>.day} {@xmon[@week[7]<date>.month]} {@week[7]<date>.year} | Year {@week[0]<year>.uc}";
 
   return qq:to/END/;
   <h1>{$title}</h1>
