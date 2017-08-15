@@ -105,9 +105,7 @@ sub indexer($html,$title,$season) {
   <!--#include virtual="tribar.html" -->
   </section>
   </header>
-  <section class="today">
   <!--#include virtual="{$root}/today.html" -->
-  </section>
   $html
   </body>
   </html>
@@ -329,7 +327,7 @@ sub process_data($lectdat) { ### sort of the main program i guess
         %day<season> = @workweek[0]<season>;
         given %day<feast> { 
           when !%day<feast> { %day<feast> = %day<season>; }
-          when /'NATIV'||'NAME'||'PROP'/ { }
+          when /NATIV||NAME||PROP||THANKS/ { }
           when /(HOLY||GOOD||MAU||EAS).+DAY/ { %day<season> = "holyweek"; proceed; }
           default { @workweek[0]<feast> = %day<feast>.comb(/<:L>+/).join('').lc unless @workweek[0]<feast>; }
         }
@@ -411,6 +409,7 @@ sub set_homepage {
   my $scrips = slurp("{$today.year}/{$today.month}/{$today.day}/scrips.html");   
   
   my $html = qq:to/END/;
+  <section class="today {$f}">
   <a href="{$root}" class="date">
   <h1>TODAY'S SCRIPTURES</h1>
   <svg class="{$f}" viewBox="0 0 45 40"><g>
@@ -422,6 +421,7 @@ sub set_homepage {
   <article class="scrips">
   $scrips
   </article>
+  </section>
   END
 
   spurt 'today.html', $html;
@@ -479,7 +479,9 @@ sub weekly_info(@week) {
 
   my $title;
   given @week[0]<feast> {
-    when /holyweek/ { $title = "Holy Week and Easter Sunday"; }
+    when /ashwednesday/ { $title = "Week of Ash Wednesday"; }
+    when /palmsunday/ { $title = "Week of Palm Sunday"; }
+    when /holymonday||easterday/ { $title = "Holy Week and Easter Sunday"; }
     when /baptism/ { $title = "Week of the Baptism of the Lord"; }
     when /epiphanyday/ { $title = "Week of Epiphany Day"; }
     when /allsaints/ { $title = "Week of All Saints Day"; }
