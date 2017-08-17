@@ -145,7 +145,7 @@ sub make_browser {
   
     for "year-$y/yeardat.txt".IO.lines -> $line {
       my ($w, $s, $f, $m, $z) = $line.split('|');
-      once { push @split, $z ~ '/' ~ $z+1;}
+      once { push @split, ($z ~ '/' ~ $z+1, $y); }
 
       unless $s eq $season { 
         push @by-s, qq|</article>|;
@@ -176,45 +176,68 @@ sub make_browser {
 
     for ("year-$y/by-season","year-$y/by-month") { mkdir $_ unless $_.IO.e; }
     
-    spurt "year-$y/byseason.html", @by-s.join("\n");
-    spurt "year-$y/bymonth.html", @by-m.join("\n");
+    spurt "year-$y/by-season.html", @by-s.join("\n");
+    spurt "year-$y/by-month.html", @by-m.join("\n");
   
   }
  
   mkdir 'browse' unless 'browse'.IO.e;
-  
-  my $html = qq:to/END/; 
-  <main>
-  <section class="menu generic">
-  <div id="years">
-  <a class="selected" href="/"><h1>Year A</h1><h2>{@split[0]}</h2></a>
-  <a href="/"><h1>Year B</h1><h2>{@split[1]}</h2></a>
-  <a href="/"><h1>Year c</h1><h2>{@split[2]}</h2></a>
-  <div id="options">
-  <a class="go-archive" href="/">past years</a>
-  <a class="selected" href="/"><h1>By Season</h1></a>
-  <a href="/"><h1>By Month</h1></a>
-  </div>
-  </div>
-  <div id="summary">
-  <h2>Year A focuses on the Bible as a record of God's work in history.</h2>
-  <p><span>Books covered:</span> Matthew, Isaiah, Ezekiel, 1 Peter, Genesis, Romans, Zechariah, Exodus, Philippians, Jonah, 1 Thessalonians, Leviticus, Joshua, Judges</p>
-  <p><span>Plus:</span> 1 & 2 Chronicles, Ezra, Obadiah, Nahum, 2 & 3 John, Jude</p> 
-  </div>
-  </section>
-  <section class="generic">
-  <div id="morelinks">
-  <a href="/">Sundays + Feast Days</a>
-  <a href="/">All of {@split[0]}</a>
-  </div>
-  </section>
-  <section class="yeardat">
-  <!--#include virtual="{$root}/year-a/byseason.html" -->
-  </section>
-  </main>
-  END
 
-  spurt 'browse/index.shtml', indexer($html,"Browse",'generic');
+  @split.sort;
+
+  for ('by-season','by-month') -> $type {
+
+    for ('a','b','c') -> $y {
+      my $summary = slurp("etc/info-$y.txt");
+      my @links;
+      
+      my $split;
+      for @split { $split = $_[0] if $_[1] eq $y; }
+
+      for (@split) -> $year {
+        if $year[1] eq $y {
+          push @links, qq|<a class="selected" href=""><h1>Year {$year[1].uc}</h1><h2>{$year[0]}</h2></a>|;
+        } else {
+          push @links, qq|<a href="{$root}/year-{$year[1]}/{$type}"><h1>Year {$year[1].uc}</h1><h2>{$year[0]}</h2></a>|;
+        }
+      }
+      push @links, qq|<div id="options">\n<a class="go-archive" href="{$root}/browse/archive">past years</a>|;
+      if $type eq 'by-season' {
+        push @links, '<a class="selected" href=""><h1>By Season</1></a>';
+        push @links, qq|<a href="{$root}/year-{$y}/by-month"><h1>By Month</h1></a>|;
+      }
+      elsif $type eq 'by-month' {
+        push @links, qq|<a href="{$root}/year-{$y}/by-season"><h1>By Season</1></a>|;
+        push @links, '<a class="selected" href=""><h1>By Month</h1></a>';
+      } 
+     
+      my $html = qq:to/END/;
+      
+      <main>
+      <section class="menu generic">
+      <div id="years">
+      {@links.join("\n")}
+      </div>
+      </div>
+      <div id="summary">
+      $summary
+      </div>
+      </section>
+      <section class="generic">
+      <div id="morelinks">
+      <a href="{$root}/year-{$y}/feasts">Sundays + Feast Days</a>
+      <a href="{$root}/year-{$y}">All of {$split}</a>
+      </div>
+      </section>
+      <section class="yeardat">
+      <!--#include virtual="{$root}/year-{$y}/{$type}.html" -->
+      </section>
+      </main>
+      END
+      
+      spurt "year-$y/$type/index.shtml", indexer($html,"Browse Year {$y.uc}",'generic');
+    }
+  } 
 }
 
 sub make_svg($season,$link,$flip) {
