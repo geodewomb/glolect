@@ -1,15 +1,14 @@
 #!usr/local/bin/perl6
 
-# GLOLECTOR //
-#          //
-#         // A program to build GLOLEC+ lectionary website 
+##### GLOLECTOR //
+#              //
+#             // A program to build GLOLEC+ lectionary website 
 
 
 
-my $root = slurp('etc/path.txt').chomp;
+my $root = ''; $root = slurp('etc/path.txt').chomp if 'etc/path.txt'.IO.e;
 
 my @day-o-w = <_ Monday Tuesday Wednesday Thursday Friday Saturday Sunday>;
-my @day = <_ Mon Tues Wed Thur Fri Sat Sun>;
 my @mon-name = <NovDec January February March April May June July August September October November December>;
 my @mon = <_ Jan Feb March April May June July Aug Sept Oct Nov Dec>;
 
@@ -21,13 +20,14 @@ my @registry = process_data('lectdat.txt');
 make_tribars(@registry);
 make_browser();
 make_faq();
+make_season_and_year();
 
 set_homepage();
 
 
-# subroutines //
-#            //
-#           // in alphabetical order #####################
+##### subroutines //
+#                //
+#               // in alphabetical order #####################
 
 
 
@@ -36,10 +36,7 @@ sub deduce_year( %d ) {
   ### calaculates lectionary year by dividing year by 3
 
   my @letter = <c a b>;
-
-  my $bump = 0;
-  $bump = 1 if %d<season>.lc ~~ /advent||christmas/ and %d<date>.month ~~ /11||12/;
-
+  my $bump = 0; $bump = 1 if %d<season>.lc ~~ /advent||christmas/ and %d<date>.month ~~ /11||12/;
   return @letter[ (%d<date>.year + $bump) % 3 ];
 }
 
@@ -158,85 +155,24 @@ sub lets_call_it_a_day( $line ) {   ### splits lectdata line into various info
 
 sub make_browser {
 
-  my @split;
+  my @year-master = process_yeardat();
+  @year-master.sort;
 
-  for ('a', 'b', 'c') -> $y {
+  # @year-master[0] is year letter, [1] is yyyy/yyyy
+  # we want the array sorted by letter, but also know what date for each year below
 
-    my $season = 'advent';
-    my $monum = 0;
-    my $flip = 1;
-
-    my @by-s = '<div id="row1">', '<article class="advent">', '<h1>ADVENT</h1>';
-    my @by-m = '<div id="row1">', '<article class="novdec">', '<h1> NOV / DEC</h1>';
-  
-    for "year-$y/yeardat.txt".IO.lines -> $line {
-
-      my ($w, $s, $f, $m, $z) = $line.split('|');
-      once { push @split, ($z ~ '/' ~ $z+1, $y); }
-
-
-      # divide data in html by season
-
-      unless $s eq $season { 
-        push @by-s, qq|</article>|;
-
-        given $s {
-          when 'lent'     { push @by-s, qq|</div>\n<div id="row2">|; proceed; }
-          when 'holyweek' { push @by-s, qq|<article class="{ $s }">\n<h1>HOLY WEEK</h1>|; }
-          when 'ordinary' { push @by-s, qq|</div>\n<div id="row3">\n<article class="{ $s }">\n<h1>PENTECOST / ORDINARY</h1>|; }
-          default         { push @by-s, qq|<article class="{ $s }">\n<h1>{ $s.uc }</h1>|; }
-        }
-        $season = $s;
-      }
-
-
-      # divide data in html by month
-
-      unless $m == $monum or ($monum == 0 and $m > 10) { 
-        push @by-m, qq|</article>|;
-
-        given $m {
-          when 4  { push @by-m, qq|</div>\n<div id="row2">|; proceed; }
-          when 8  { push @by-m, qq|</div>\n<div id="row3">|; proceed; }
-          default { push @by-m, qq|<article class="{ @mon-name[$m].lc }">\n<h1>{ @mon-name[$m].uc }</h1>|; }
-        }
-        $monum = $m; 
-      }
-
-      # add triangle to both season and month lists
-
-      my $svg = make_svg($f,"$root/year-$y/week-$w",$flip);
-      push @by-s, $svg;
-      push @by-m, $svg;
-
-      $flip = 1 - $flip;
-    }
-
-    push @by-s, "</article>\n</div>";
-    push @by-m, "</article>\n</div>";
-
-    # write month and season lists to file
-
-     for ("year-$y/by-season","year-$y/by-month") { mkdir $_ unless $_.IO.e; }
-    
-     spurt "year-$y/by-season.html", @by-s.join("\n");
-     spurt "year-$y/by-month.html", @by-m.join("\n");
-  
-  }
- 
-  mkdir 'browse' unless 'browse'.IO.e;
-
-  @split.sort;
-
-  for ('by-season','by-month') -> $type {
+  for ('by-season','by-month') -> $type {  # make browse files for each year x season and month
 
     for ('a','b','c') -> $y {
 
+      my $yyyy-yyyy; for @year-master { $yyyy-yyyy = $_[0] if $_[1] eq $y };
+
       my $summary = slurp("etc/info-$y.txt");
 
+      # make the browse navigation
       my @links;
 
-      for (@split) -> $year {
+      for (@year-master) -> $year {
         if $year[1] eq $y { push @links, qq|<a class="selected" href="">|;  } 
         else              { push @links, qq|<a href="{ $root }/year-{ $year[1] }/{ $type }">|; }
         push @links, qq|<h1>Year { $year[1].uc }</h1><h2>{ $year[0] }</h2></a>|;
@@ -252,10 +188,8 @@ sub make_browser {
         push @links, qq|<a href="{ $root }/year-{ $y }/by-season"><h1>By Season</h1></a>|;
         push @links, '<a class="selected" href=""><h1>By Month</h1></a>';
       } 
-     
       
-      my $split;
-      for @split { $split = $_[0] if $_[1] eq $y };
+      # and assemble the file 
 
       my $html = qq:to/END/;
       <main>
@@ -271,7 +205,7 @@ sub make_browser {
       <section class="yeardat">
       <div id="morelinks">
       <a href="{ $root }/year-{ $y }/feasts"><h1>Sundays + Feast Days</h1></a>
-      <a href="{ $root }/year-{ $y }"><h1>All of { $split }</h1></a>
+      <a href="{ $root }/year-{ $y }"><h1>All of { $yyyy-yyyy }</h1></a>
       </div>
       <!--#include virtual="{ $root }/year-{ $y }/{ $type }.html" -->
       </section>
@@ -295,6 +229,37 @@ sub make_faq {
   </main>
   END
   spurt 'faq/index.shtml', indexer($html,"FAQ",'generic');
+  
+} 
+
+sub make_season_and_year {
+
+  my @seasons = <advent christmas epiphany lent holyweek easter ordinary>;
+
+  for ('a','b','c') -> $y {
+
+    for @seasons -> $s {
+      my $title;
+      given $s {
+        when /holyweek/ { $title = 'Holy Week'; }
+        when /ordinary/ { $title = 'Ordinary / Pentecost'; }
+        default         { $title = $s.wordcase; }
+      }
+      my $html = qq:to/END/;
+      <main class="titled">
+      <h1>All readings for {$title} | Year { $y.uc }</h1>
+      <section class="scrips">
+      <!--#include virtual="scrips.html" -->
+      </section>
+      </main>
+      END
+      spurt "year-$y/$s/index.shtml", indexer($html,"Year {$y.uc} | {$title}",$s);
+      copy 'etc/tribar.html', "year-$y/$s/tribar.html";
+    }
+
+    my $html = qq|<main>\n<section class="scrips"><!--#include virtual="scrips.html"></section>\n</main>|;
+    spurt "year-$y/index.shtml", indexer($html,"Year {$y.uc}",'generic');
+  }
   
 }
 
@@ -484,6 +449,104 @@ sub process_data( $lectdat ) {   ### sort of the main program i guess
     }
   }
   return @tribar-registry;
+}
+
+
+sub process_yeardat {   # prepare triangles for browse pages
+
+  my @split;
+
+  for ('a', 'b', 'c') -> $y {
+
+    my $season = 'advent';
+    my $monum = 0;
+    my $flip = 1;
+
+    my @by-sea = qq:to/END/;
+    <div id="row1">
+    <article class="advent">
+    <a href="{$root}/year-{$y}/advent"><h1>ADVENT</h1></a>
+    END
+    my @by-mon = qq:to/END/;
+    <div id="row1">
+    <article class="novdec">
+    <a href=""><h1> NOV / DEC</h1></a>
+    END
+  
+    # while we're here we are also going to make the scrips pages for season and year!
+    my @year-scrips;
+    my @season-scrips;
+
+    for "year-$y/yeardat.txt".IO.lines -> $line {
+
+      my ($w, $s, $f, $m, $z) = $line.split('|');
+      once { push @split, ($z ~ '/' ~ $z + 1, $y); }
+
+      my $week = slurp("year-$y/week-$w/scrips.html");
+      push @year-scrips, $week;
+
+      # divide data in html by season
+
+      unless $s eq $season {
+
+        push @by-sea, '</article>';
+        my $title;
+        given $s {
+          when 'lent'     { push @by-sea, qq|</div>\n<div id="row2">|; proceed; }
+          when 'holyweek' { $title = 'HOLY WEEK'; }
+          when 'ordinary' { push @by-sea, qq|</div>\n<div id="row3">|; $title = 'PENTECOST / ORDINARY'; }
+          default         { $title = $s.uc }
+        }
+        push @by-sea, qq|<article class="{ $s }">\n<a href="{$root}/year-{$y}/{$s}"><h1>{ $title }</h1></a>|;
+
+        # store and reset season scriptures
+        mkdir "year-$y/$season" unless "year-$y/$season".IO.e;
+        spurt "year-$y/$season/scrips.html", @season-scrips.join("\n");
+        
+        $season = $s;
+        @season-scrips = ();
+      }
+      push @season-scrips, $week;
+
+      # divide data in html by month
+
+      unless $m == $monum or ($monum == 0 and $m > 10) { 
+        push @by-mon, qq|</article>|;
+
+        given $m {
+          when 4  { push @by-mon, qq|</div>\n<div id="row2">|; proceed; }
+          when 8  { push @by-mon, qq|</div>\n<div id="row3">|; proceed; }
+          default { push @by-mon, qq|<article class="{ @mon-name[$m].lc }"><a href=""><h1>{ @mon-name[$m].uc }</h1></a>|; }
+        }
+        $monum = $m; 
+      }
+
+      # add triangle to both season and month browse lists
+
+      my $svg = make_svg($f,"$root/year-$y/week-$w",$flip);
+      push @by-sea, $svg;
+      push @by-mon, $svg;
+
+      $flip = 1 - $flip;
+
+     
+    }
+
+    push @by-sea, "</article>\n</div>";
+    push @by-mon, "</article>\n</div>";
+    mkdir "year-$y/$season" unless "year-$y/$season".IO.e;
+    spurt "year-$y/$season/scrips.html", @season-scrips.join("\n");
+
+    # write month/season lists and year scrips to file
+
+     for ("year-$y/by-season","year-$y/by-month") { mkdir $_ unless $_.IO.e; }
+    
+     spurt "year-$y/by-season.html", @by-sea.join("\n");
+     spurt "year-$y/by-month.html", @by-mon.join("\n");
+
+     spurt "year-$y/scrips.html", @year-scrips.join("\n");
+  }
+  return @split;
 }
 
 
