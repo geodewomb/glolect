@@ -257,7 +257,7 @@ sub make_season_and_year {
       copy 'etc/tribar.html', "year-$y/$s/tribar.html";
     }
 
-    my $html = qq|<main>\n<section class="scrips"><!--#include virtual="scrips.html"></section>\n</main>|;
+    my $html = qq|<main>\n<section class="scrips">\n<!--#include virtual="scrips.html" -->\n</section>\n</main>|;
     spurt "year-$y/index.shtml", indexer($html,"Year {$y.uc}",'generic');
   }
   
@@ -483,7 +483,7 @@ sub process_yeardat {   # prepare triangles for browse pages
       once { push @split, ($z ~ '/' ~ $z + 1, $y); }
 
       my $week = slurp("year-$y/week-$w/scrips.html");
-      push @year-scrips, $week;
+      push @year-scrips, qq|<div class="week">\n{$week}\n</div>|;
 
       # divide data in html by season
 
@@ -506,7 +506,7 @@ sub process_yeardat {   # prepare triangles for browse pages
         $season = $s;
         @season-scrips = ();
       }
-      push @season-scrips, $week;
+      push @season-scrips, qq|<div class="week">\n{$week}\n</div>|;
 
       # divide data in html by month
 
