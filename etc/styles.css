@@ -162,8 +162,7 @@ text-decoration: none;
 
 nav a.generic {
 display: block;
-margin: 28px 16px 65px 16px;
-padding: 6px;
+margin: 28px 0 32px 0;
 color: #a02c5a;
 font-size: 40px;
 text-transform: uppercase;
@@ -598,21 +597,21 @@ margin-bottom: 10px;
 color: #444444;
 }
 
-section.faq {
+section.text {
 margin: 0 50px 0 220px;
 max-width: 850px;
 }
 
-section.faq h1 {
+section.text h1 {
 font-size: 20px;
 font-family: 'Lato',sans-serif;
 text-transform: uppercase;
 }
 
-section.faq h2 {
+section.text h2 {
 padding: 20px 0 5px 0;
 }
 
-section.faq p {
+section.text p {
 padding: 5px 0;
 

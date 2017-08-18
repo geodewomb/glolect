@@ -130,7 +130,9 @@ sub indexer( $content, $title, $season ) {  ### wrap content in site-wide index 
   </section>
   </header>
   <!--#include virtual="{ $root }/today.html" -->
+  <main>
   $content
+  </main>
   </body>
   </html>
   END
@@ -192,7 +194,6 @@ sub make_browser {
       # and assemble the file 
 
       my $html = qq:to/END/;
-      <main>
       <section class="menu generic">
       <div id="years">
       { @links.join("\n") }
@@ -209,7 +210,6 @@ sub make_browser {
       </div>
       <!--#include virtual="{ $root }/year-{ $y }/{ $type }.html" -->
       </section>
-      </main>
       END
       
       spurt "year-$y/$type/index.shtml", indexer($html,"Browse Year {$y.uc}",'generic');
@@ -222,11 +222,9 @@ sub make_faq {
 
   mkdir 'faq' unless 'faq'.IO.e;
   my $html = qq:to/END/;
-  <main class="generic">
-  <section class="faq">
+  <section class="text">
   <!--#include virtual="{ $root }/etc/faq.html" -->
   </section>
-  </main>
   END
   spurt 'faq/index.shtml', indexer($html,"FAQ",'generic');
   
@@ -246,18 +244,18 @@ sub make_season_and_year {
         default         { $title = $s.wordcase; }
       }
       my $html = qq:to/END/;
-      <main class="titled">
+      <section class="text">
       <h1>All readings for {$title} | Year { $y.uc }</h1>
+      </section>
       <section class="scrips">
       <!--#include virtual="scrips.html" -->
       </section>
-      </main>
       END
       spurt "year-$y/$s/index.shtml", indexer($html,"Year {$y.uc} | {$title}",$s);
       copy 'etc/tribar.html', "year-$y/$s/tribar.html";
     }
 
-    my $html = qq|<main>\n<section class="scrips">\n<!--#include virtual="scrips.html" -->\n</section>\n</main>|;
+    my $html = qq|<!--#include virtual="scrips.html" -->|;
     spurt "year-$y/index.shtml", indexer($html,"Year {$y.uc}",'generic');
   }
   
@@ -544,6 +542,14 @@ sub process_yeardat {   # prepare triangles for browse pages
      spurt "year-$y/by-season.html", @by-sea.join("\n");
      spurt "year-$y/by-month.html", @by-mon.join("\n");
 
+     my $yyyy; for @split { $yyyy = $_[0] if $y eq $_[1]; }
+     push @year-scrips, '</section>';
+     unshift @year-scrips, qq:to/END/;
+     <section class="text">
+     <h1>All of Year {$y.uc} | {$yyyy}</h1>
+     </section>
+     <section class="scrips">
+     END
      spurt "year-$y/scrips.html", @year-scrips.join("\n");
   }
   return @split;
@@ -604,7 +610,6 @@ sub weekly_index( $scrips, %i ) {    ### make entire index file for a week
   my $title = "Year {%i<year>.uc} | Week {%i<num>}";
   
   my $html = qq:to/END/;
-  <main class="{ %i<season> }">
   <section class="info">
   <a href="{ $root }/year-{ %i<year> }/week-{ %i<num> - 1 }">
   <svg class="{ %i<season> } left" viewBox="0 0 45 80" height="80" width="45"><g>
@@ -621,9 +626,6 @@ sub weekly_index( $scrips, %i ) {    ### make entire index file for a week
   <section class="scrips">
   <!--#include virtual="scrips.html" -->
   </section>
-  </main>
-  </body>
-  </html>
   END
 
   return indexer($html,$title,%i<season>);

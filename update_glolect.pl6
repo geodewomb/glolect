@@ -1,17 +1,18 @@
-#!/usr/bin/local/perl6
+#!/usr/local/bin/perl6
 
 
 my $today = Date.today;
 my $lookup = "{$today.year}/{$today.month}/{$today.day}"; 
+my $root = '/home/geneva/public_html/glolect';
 
-if "$lookup/refer.txt".IO.e and "$lookup/index.html".IO.e {
+if "$root/$lookup/refer.txt".IO.e and "$root/$lookup/index.html".IO.e {
 
-  my ($y,$w,$f) = slurp("$lookup/refer.txt").split('|');
+  my ($y,$w,$f) = slurp("$root/$lookup/refer.txt").split('|');
 
-  copy "year-$y/week-$w/index.shtml", "index.shtml";
-  copy "year-$y/week-$w/tribar.html", "tribar.html";
-  copy "year-$y/week-$w/scrips.html", "scrips.html";
-  copy "year-$y/week-$w/info.html", "info.html";
+  copy "$root/year-$y/week-$w/index.shtml", "$root/index.shtml";
+  copy "$root/year-$y/week-$w/tribar.html", "$root/tribar.html";
+  copy "$root/year-$y/week-$w/scrips.html", "$root/scrips.html";
+  copy "$root/year-$y/week-$w/info.html", "$root/info.html";
 
-  copy "$lookup/index.html", "today.html";   
+  copy "$root/$lookup/index.html", "$root/today.html";   
 }
