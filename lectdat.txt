@@ -195,6 +195,7 @@ EASTER
 2017/5/26	Psalm 68;John 17:1-19;(1 Chronicles 29)
 2017/5/27	1 Peter 4&5;(2 Chronicles 1)
 2017/5/28=[7 EASTER]	Acts 1:6-14;Psalm 68:1-10,32-35;1 Peter 4:12-14,5:6-11;John 17:1-11;(or ASCENSION);NEXT
+ORDINARY
 2017/5/29	Acts 2:1-41;(2 Chronicles 2)
 2017/5/30	Numbers 11:4-35;(2 Chronicles 3)
 2017/5/31	Psalm 104;(2 Chronicles 4)
@@ -202,7 +203,6 @@ EASTER
 2017/6/2	John 20:19-23;(2 Chronicles 6)
 2017/6/3	John 7:25-44;(2 Chronicles 7)
 2017/6/4=[PENTECOST]	{Acts 2:1-21;Psalm 104:24-34,35b;1 Corinthians 12:3b-13|Numbers 11:24-30;Psalm 104:24-34,35b;Acts 2:1-21};{John 20:19-23|John 7:37-39}
-ORDINARY
 2017/6/5	Genesis 1:1-2:4;Psalm 8;2 Corinthians 13:11-14;Matthew 28:16-20
 2017/6/6	Genesis 1&2&3&4
 2017/6/7	Psalm 8;Genesis 5&6&7
@@ -409,9 +409,9 @@ ADVENT
 2017/12/21	Psalm 89;(Psalm 12)
 2017/12/22	Romans 16;(Psalm 13)
 2017/12/23	Luke 1:26-38;(Psalm 14)
-CHRISTMAS
 2017/12/24=[4 ADVENT]	2 Samuel 7:1-11,16;{Luke 1:46-55|Psalm 89:1-4,19-26};Romans 16:25-27;Luke 1:26-38;PM;[NATIVITY 1];Isaiah 9:2-7;Psalm 96;Titus 2:11-14;Luke 2:1-14,(15-20)
 2017/12/25=[NATIVITY 2]	Isaiah 62:6-12;Psalm 97;Titus 3:4-7;Luke 2:(1-7),8-20;PM;[NATIVITY 3];Isaiah 52:7-10;Psalm 98;Hebrews 1:1-4,(5-12);John 1:1-14
+CHRISTMAS
 2017/12/26	Isaiah 61:10-62:3;Psalm 148;Galatians 4:4-7;Luke 2:22-40
 2017/12/27	Isaiah 61;(Psalm 15)	
 2017/12/28	Psalm 148;(Psalm 16)
@@ -559,6 +559,7 @@ EASTER
 2018/5/11	Acts 1:1-26;Psalm 1
 2018/5/12	1 John 5:9-21;John 17
 2018/5/13=[7 EASTER]	Acts 1:15-17,21-26;Psalm 1;1 John 5:9-13;John 17:6-19;(or ASCENSION)
+ORDINARY
 2018/5/14	Acts 2:1-21;Ezekiel 37:1-14;Psalm 104:24-35;Romans 8:22-27;John 15:26-27,16:4-15
 2018/5/15	Acts 2:1-41;(Psalm 41)
 2018/5/16	Ezekiel 37:1-14;(Psalm 42)
@@ -566,7 +567,6 @@ EASTER
 2018/5/18	Romans 8:18-27;(Psalm 44)
 2018/5/19	John 15:18-16:16
 2018/5/20=[PENTECOST]	{Acts 2:1-21;Psalm 104:24-34,35b;Romans 8:22-27|Ezekiel 37:1-14;Psalm 104:24-34,35b;Acts 2:1-21};John 15:26-27,16:4b-15
-ORDINARY
 2018/5/21	Isaiah 6:1-8;Psalm 29;Romans 8:12-17;John 3:1-17
 2018/5/22	Isaiah 6:1-13;1 Samuel 1
 2018/5/23	Psalm 29;1 Samuel 2
@@ -953,6 +953,7 @@ EASTER
 2019/5/31	Acts 16:16-17:34;Psalm 97
 2019/6/1	Revelation 22:7-21;John 17:20-26;Acts 18
 2019/6/2=[7 EASTER]	Acts 16:16-34;Psalm 97;Revelation 22:12-14,16-17,20-21;John 17:20-26;(or ASCENSION)
+ORDINARY
 2019/6/3	Acts 2:1-21;Genesis 11:1-9;Psalm 104:24-35;Romans 8:14-17;John 14:8-17,25-27
 2019/6/4	Acts 2:1-41;Acts 19&20
 2019/6/5	Genesis 11:1-9;Acts 21&22
@@ -960,7 +961,6 @@ EASTER
 2019/6/7	Romans 8:1-17;Acts 25&26
 2019/6/8	John 14:5-31;Acts 27&28
 2019/6/9=[PENTECOST]	{Acts 2:1-21;Psalm 104:24-34,35b;Romans 8:14-17|Genesis 11:1-9;Psalm 104:24-34,35b;Acts 2:1-21};John 14:8-17,(25-27)
-ORDINARY
 2019/6/10	Proverbs 8:1-4,22-31;Psalm 8;Romans 5:1-5;John 16:12-15
 2019/6/11	Proverbs 8;(Psalm 100)
 2019/6/12	Psalm 8;(Psalm 101)

@@ -231,7 +231,7 @@ position: absolute;
 top: 10px;
 left: 500px;
 height: 100px;
-z-index: 12px;
+z-index: 12;
 text-align: left;
 }
 section.today article.scrips {
@@ -259,13 +259,19 @@ section.today h1, section.today h2 {
 display: none;
 }
 
+
 section.today a.date {
 }
 
 section.today a.date h1 {
 display: inline-block;
+font-size: 14px;
 padding: 0 5px;
 vertical-align: text-top;
+}
+
+section.today a.date h1:hover {
+color: #ff0066;
 }
 
 section.today a.date h2 {
@@ -479,6 +485,7 @@ section.menu #summary {
 padding-left: 20px;
 border-left: solid 2px #a02c5a;
 max-width: 620px;
+min-height: 121px;
 display: inline-block;
 vertical-align: text-top;
 }
@@ -501,6 +508,7 @@ color: #666666;
 }
 
 section.yeardat {
+position: relative;
 padding-top: 20px;
 }
 
@@ -508,9 +516,10 @@ section.yeardat div {
 margin: 20px 50px;
 }
 
-section.yeardat #row1 { margin-left: 140px; }
+section.yeardat #row1 { margin-left: 320px; }
 
-section.yeardat #row2 { margin-left: 95px; }
+section.yeardat #row2 { margin-left: 210px; }
+section.yeardat #row3 { margin-left: 65px; }
 
 section.yeardat article {
 position: relative;
@@ -557,24 +566,26 @@ stroke-width: 2;
 }
 
 
-section.yeardat #morelinks {
+#morelinks {
 position: absolute;
-top: 0px;
-left: -30px;
+top: 0;
+left: 80px;
 }
 
-section.yeardat #morelinks a {
+#morelinks a {
+font-size: 14px;
 text-decoration: none;
 color: #444444;
+text-transform: uppercase;
+font-family: 'Lato',sans-serif;
+display: block;
 }
 
-section.yeardat #morelinks h1 {
-float: left;
-clear: both;
-margin-bottom: 10px;
+#morelinks a h1 {
 display: inline-block;
 position: relative;
 top: 0;
 left: 0;
+margin-bottom: 10px;
+color: #444444;
 }
-

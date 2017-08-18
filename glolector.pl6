@@ -151,7 +151,8 @@ sub make_browser {
         push @by-s, qq|</article>|;
         given $s {
           when 'lent' { push @by-s, qq|</div>\n<div id="row2">|; proceed; }
-          when 'ordinary' { push @by-s, qq|</div>\n<div id="row3">|; proceed; }
+          when 'holyweek' { push @by-s, qq|<article class="{$s}">\n<h1>HOLY WEEK</h1>|; }
+          when 'ordinary' { push @by-s, qq|</div>\n<div id="row3">\n<article class="{$s}">\n<h1>PENTECOST / ORDINARY</h1>|; }
           default { push @by-s, qq|<article class="{$s}">\n<h1>{$s.uc}</h1>|; }
         }
         $season = $s;
@@ -165,7 +166,7 @@ sub make_browser {
         }
         $monum = $m; 
       }
-      my $svg = make_svg($f,"year-$y/week-$w",$flip);
+      my $svg = make_svg($f,"$root/year-$y/week-$w",$flip);
       push @by-s, $svg;
       push @by-m, $svg;
 
@@ -223,13 +224,11 @@ sub make_browser {
       $summary
       </div>
       </section>
-      <section class="generic">
-      <div id="morelinks">
-      <a href="{$root}/year-{$y}/feasts">Sundays + Feast Days</a>
-      <a href="{$root}/year-{$y}">All of {$split}</a>
-      </div>
-      </section>
       <section class="yeardat">
+      <div id="morelinks">
+      <a href="{$root}/year-{$y}/feasts"><h1>Sundays + Feast Days</h1></a>
+      <a href="{$root}/year-{$y}"><h1>All of {$split}</h1></a>
+      </div>
       <!--#include virtual="{$root}/year-{$y}/{$type}.html" -->
       </section>
       </main>
@@ -310,9 +309,8 @@ sub make_week(@week) {
     my $html = qq:to/END/;
     <section class="today {@week[0]<feast>}">
     <a href="{$root}" class="date">
-    <h1>TODAY'S SCRIPTURES</h1>
     $svg
-    <h1>{@xday[@week[$d]<date>.day-of-week].uc} {@week[$d]<date>.day} {@xmon[@week[$d]<date>.month].uc}</h1>
+    <h1>TODAY'S READINGS | {@xday[@week[$d]<date>.day-of-week].uc} {@week[$d]<date>.day} {@xmon[@week[$d]<date>.month].uc}</h1>
     </a>
     <article class="scrips">
     {@week[$d]<scrips>}
