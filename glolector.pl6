@@ -163,7 +163,7 @@ sub make_browser {
         given $m {
           when 4 { push @by-m, qq|</div>\n<div id="row2">|; proceed; }
           when 8 { push @by-m, qq|</div>\n<div id="row3">|; proceed; }
-          default { push @by-m, qq|<article class="m{@xmon[$m].lc}">\n<h1>{@xmon[$m].uc}</h1>|; }
+          default { push @by-m, qq|<article class="{@xmon[$m].lc}">\n<h1>{@xmon[$m].uc}</h1>|; }
         }
         $monum = $m; 
       }

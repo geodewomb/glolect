@@ -69,6 +69,14 @@ body.generic { background-color: #dddddd; }
    .easter h1,   .easter h2,   .easter h4 { color: #bb9b27; }
  .ordinary h1, .ordinary h2, .ordinary h4 { color: #8a916f; }
 
+.novdec h1, .july h1  { color: #5f5fd3; }
+.may h1, { color: #a02c5a; }
+.january h1, .august h1 { color: #3fb39c; }
+.march h1, .october h1{ color: #8a6f91; }
+ .april h1, .november h1 { color: #ff0066; }
+.february h1,  .september h1 { color: #bb9b27; }
+.june h1 { color: #8a916f; }
+
 
 svg.generic #out, svg.generic #in     { fill: #ffffff00; }
 svg.generic-d #out, svg.generic-l #in     { fill: #aaaaaa; }
