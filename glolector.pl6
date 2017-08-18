@@ -94,7 +94,7 @@ sub indexer($html,$title,$season) {
   <svg id="swipe-l" viewBox="0 0 40 90" preserveAspectRatio="none"><polygon points="0 0 40 0 0 90" fill="#ffffff00" /></svg>
   <svg id="swipe-r" viewBox="0 0 540 90" preserveAspectRatio="none"><polygon points="0 0 500 0 540 90 0 90" fill="#ffffff00" /></svg>
   <nav class="generic">
-  <a href="{$root}"><h1>Glo Lec<span class="bigger">+</span></h1></a>
+  <a class="generic" href="{$root}">Glo Lec<span class="bigger">+</span></a>
   <h2>daily scriptures from the Revised Common Lectionary<br>
   + complete bible reading plan</h2>
   <ul>
@@ -203,11 +203,11 @@ sub make_browser {
       }
       push @links, qq|<div id="options">\n<a class="go-archive" href="{$root}/browse/archive">past years</a>|;
       if $type eq 'by-season' {
-        push @links, '<a class="selected" href=""><h1>By Season</1></a>';
+        push @links, '<a class="selected" href=""><h1>By Season</h1></a>';
         push @links, qq|<a href="{$root}/year-{$y}/by-month"><h1>By Month</h1></a>|;
       }
       elsif $type eq 'by-month' {
-        push @links, qq|<a href="{$root}/year-{$y}/by-season"><h1>By Season</1></a>|;
+        push @links, qq|<a href="{$root}/year-{$y}/by-season"><h1>By Season</h1></a>|;
         push @links, '<a class="selected" href=""><h1>By Month</h1></a>';
       } 
      
@@ -236,6 +236,7 @@ sub make_browser {
       END
       
       spurt "year-$y/$type/index.shtml", indexer($html,"Browse Year {$y.uc}",'generic');
+      copy "etc/tribar.html", "year-$y/$type/tribar.html";
     }
   } 
 }
@@ -439,10 +440,13 @@ sub set_homepage {
   my $today = Date.today;
   my $lookup = slurp("{$today.year}/{$today.month}/{$today.day}/refer.txt");   
   my ($y,$w,$f) = $lookup.split('|');
+  
   copy "year-$y/week-$w/index.shtml", "index.shtml";
   copy "year-$y/week-$w/tribar.html", "tribar.html";
   copy "year-$y/week-$w/scrips.html", "scrips.html";
   copy "year-$y/week-$w/info.html", "info.html";
+
+  copy "year-$y/by-season/index.shtml", "browse/index.shtml";
 
   copy "{$today.year}/{$today.month}/{$today.day}/index.html", "today.html";   
   

@@ -59,6 +59,8 @@ body.easter { background-color: #faeecf; }
 body.ordinary { background-color: #e8f2d8; }
 body.generic { background-color: #dddddd; }
 
+.generic h1 { color: #a02c5a; }
+.generic h2 { color: #ff0066; }
    .advent h1,   .advent h2,   .advent h4 { color: #5f5fd3; }
 .christmas h1,.christmas h2,.christmas h4 { color: #a02c5a; }
  .epiphany h1, .epiphany h2, .epiphany h4 { color: #3fb39c; }
@@ -67,8 +69,6 @@ body.generic { background-color: #dddddd; }
    .easter h1,   .easter h2,   .easter h4 { color: #bb9b27; }
  .ordinary h1, .ordinary h2, .ordinary h4 { color: #8a916f; }
 
-.generic h1 { color: #a02c5a; }
-.generic h2 { color: #ff0066; }
 
 svg.generic #out, svg.generic #in     { fill: #ffffff00; }
 svg.generic-d #out, svg.generic-l #in     { fill: #aaaaaa; }
@@ -152,8 +152,9 @@ font-size: 28px;
 text-decoration: none;
 }
 
-nav h1 {
-margin: 28px 16px 80px 16px;
+nav a.generic {
+display: block;
+margin: 28px 16px 65px 16px;
 padding: 6px;
 color: #a02c5a;
 font-size: 40px;
@@ -162,7 +163,7 @@ letter-spacing: 2px;
 font-family: 'Lato',sans-serif;
 }
 
-nav h1 span.bigger {
+nav a.generic span.bigger {
 font-size: 58px;
 font-family: 'Istok Web',sans-serif;
 position: relative;
@@ -284,6 +285,7 @@ font: normal 14px 'Istok Web',sans-serif;
 font-size: 14px;
 color: #000000;
 display: inline-block;
+margin: 5px;
 line-height: 1;
 }
 
@@ -476,7 +478,7 @@ margin-right: 16px;
 section.menu #summary {
 padding-left: 20px;
 border-left: solid 2px #a02c5a;
-max-width: 550px;
+max-width: 620px;
 display: inline-block;
 vertical-align: text-top;
 }
@@ -499,6 +501,7 @@ color: #666666;
 }
 
 section.yeardat {
+padding-top: 20px;
 }
 
 section.yeardat div {
@@ -536,11 +539,11 @@ section.yeardat h1:hover {
 background-color: #eaeaea;
 }
 
-section.by-season .christmas h1 { color: #ff0066;  left: 10px;}
+section.yeardat article.christmas h1 { color: #ff0066;  left: 10px;}
 
-section.by-season .holyweek h1 { color: #ff0066; left: -20px;}
+section.yeardat article.holyweek h1 { color: #ff0066; left: -20px;}
 
-section.by-season .ordinary h1 { color: #8ba817;}
+section.yeardat article.ordinary h1 { color: #8ba817;}
 
 section.yeardat svg {
 float: left;
