@@ -15,6 +15,7 @@ prepare_directories();
 process_data('lectdat.txt');
 
 make_browser();
+make_faq();
 
 set_homepage();
 
@@ -238,6 +239,21 @@ sub make_browser {
       copy "etc/tribar.html", "year-$y/$type/tribar.html";
     }
   } 
+}
+
+sub make_faq {
+
+  mkdir 'faq' unless 'faq'.IO.e;
+  my $html = qq:to/END/;
+  <main class="generic">
+  <section class="faq">
+  <!--#include virtual="{$root}/etc/faq.html" -->
+  </section>
+  </main>
+  END
+  spurt 'faq/index.shtml', indexer($html,"FAQ",'generic');
+  copy "etc/tribar.html", "faq/tribar.html";
+  
 }
 
 sub make_svg($season,$link,$flip) {
