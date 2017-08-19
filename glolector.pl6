@@ -16,7 +16,6 @@ my @mon = <_ Jan Feb March April May June July Aug Sept Oct Nov Dec>;
 prepare_dirs();
 
 my @registry = process_data('lectdat.txt');
-
 make_tribars(@registry);
 make_browser();
 make_faq();
@@ -68,7 +67,7 @@ sub html_daily( %d ) {   ### constructs index.html for daily entries
       @eitheror[$e] = @scrips.join("<br>\n");
     }
 
-    my $eitheror = qq|<p class="eitheror">/ { @eitheror.join("<br><span>or</span> ") } /</p>|;
+    my $eitheror = qq|<p class="eitheror">/\c[NBSP]{ @eitheror.join("<br><span>or</span> ") }\c[NBSP]/</p>|;
     %d<scrips> = $/.prematch ~ $eitheror ~ $/.postmatch;
   }
 
@@ -82,7 +81,8 @@ sub html_daily( %d ) {   ### constructs index.html for daily entries
       when / ^AM$||^PM$ /     { $_ = qq|<h4>{ $_ }</h4>|; }
       when / NEXT /           { $_ = '<h4>PM (see next Sunday)</h4>'; }
       when / '<p class' /     { next; }
-      when / ^'(' (.+) ')'$ / { $_ = qq|<p class="glo"><span>+</span> { gateway($0.Str) } <span>+</span></p>|; } 
+      when / '('(or\s.+)')' / { $_ = qq|<h4>{ $0.Str }</h4>|; }
+      when / '(' (.+) ')' /   { $_ = qq|<p class="glo"><span>+</span>\c[NBSP]{ gateway($0.Str) }\c[NBSP]<span>+</span></p>|; } 
       default                 { $_ = qq|<p>{ gateway($_) }</p>|; }
     }
   }
@@ -284,6 +284,7 @@ sub make_tribars( @data ) {
   push @post, %( feast => 'generic' ) for ^50;
   
   for @data -> $w {
+
     my @tribar;
     my $flip = 0;
 
@@ -392,7 +393,7 @@ sub process_data( $lectdat ) {   ### sort of the main program i guess
         %info<count> = 1;
        
       # setup and reset year on year change 
-
+       
         if $line.lc ~~ /advent/ {
           redirect_final_week(%info<year>,%info<num>);
           %info<num> = 1;
@@ -400,7 +401,7 @@ sub process_data( $lectdat ) {   ### sort of the main program i guess
           say "built year {%info<year>}" unless %info<year> eq 'x';
         }
       }
-
+      
       when /\t/      { # process days            
 
         my %day = lets_call_it_a_day($line);
@@ -433,7 +434,8 @@ sub process_data( $lectdat ) {   ### sort of the main program i guess
         @workweek[0] = %info;
         make_week(@workweek);
 
-        push @tribar-registry, %info;
+        my %tri-fo = %info;
+        push @tribar-registry, %tri-fo;
 
       # reset working week
 
@@ -442,6 +444,7 @@ sub process_data( $lectdat ) {   ### sort of the main program i guess
         %info<feast> = '';
         @workweek = ();
       }
+
 
       default { say "Don't know what to do with: $line"; }
     }
