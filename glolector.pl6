@@ -82,7 +82,7 @@ sub html_daily( %d ) {   ### constructs index.html for daily entries
       when / NEXT /           { $_ = '<h4>PM (see next Sunday)</h4>'; }
       when / '<p class' /     { next; }
       when / '('(or\s.+)')' / { $_ = qq|<h4>{ $0.Str }</h4>|; }
-      when / '(' (.+) ')' /   { $_ = qq|<p class="glo"><span>+</span>\c[NBSP]{ gateway($0.Str) }\c[NBSP]<span>+</span></p>|; } 
+      when / ^'(' (.+) ')'$ /   { $_ = qq|<p class="glo"><span>+</span>\c[NBSP]{ gateway($0.Str) }\c[NBSP]<span>+</span></p>|; } 
       default                 { $_ = qq|<p>{ gateway($_) }</p>|; }
     }
   }
