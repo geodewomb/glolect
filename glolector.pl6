@@ -67,7 +67,7 @@ sub html_daily( %d ) {   ### constructs index.html for daily entries
       @eitheror[$e] = @scrips.join("<br>\n");
     }
 
-    my $eitheror = qq|<p class="eitheror">/\c[NBSP]{ @eitheror.join("<br><span>or</span> ") }\c[NBSP]/</p>|;
+    my $eitheror = qq|<p class="eitheror">/\c[NBSP]{ @eitheror.join("\c[NBSP]/ or /\c[NBSP]") }\c[NBSP]/</p>|;
     %d<scrips> = $/.prematch ~ $eitheror ~ $/.postmatch;
   }
 
