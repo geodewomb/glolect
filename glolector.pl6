@@ -605,9 +605,24 @@ sub swap($y) {    ### figure out what the next year letter is
 
 sub weekly_scrips( @w ) {    ### makes actual html file for a week out of daily chunks
 
-  my @scrips;
-  for 1..7 { push @scrips, qq|<article>\n{ @w[$_]<scrips> }\n</article>|; }
-  return @scrips.join("\n");
+  my $mtw;
+  for 1..3 { $mtw ~= qq|<article>\n{ @w[$_]<scrips> }\n</article>|; }
+
+  my $tfs;
+  for 4..6 { $tfs ~= qq|<article>\n{ @w[$_]<scrips> }\n</article>|; }
+
+  return qq:to/END/  
+  <div class="midweek">
+  $mtw
+  $tfs
+  </div>
+  <div class="sunday">
+  <article>
+  { @w[7]<scrips> }
+  </article>
+  </div>
+  END
+  
 }
   
 sub weekly_index( $scrips, %i ) {    ### make entire index file for a week

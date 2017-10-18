@@ -2,11 +2,7 @@
 
 html,body,div,ul,li,h1,h2,h3,h4,h5,h6,
 p,a,svg,img,mark,small,section,article,header,nav,main {
-margin: 0;
-padding: 0;
-border: 0;
-box-sizing: border-box;
-font-size: 0px;
+margin: 0; padding: 0; border: 0; box-sizing: border-box; font-size: 0px;
 }
 
 h1,h2,h3,h4,h5,h6,p { font: normal 16px 'Istok Web', sans-serif; }
@@ -89,6 +85,7 @@ svg#swipe-l polygon,svg#swipe-r polygon{ fill: #ffffff; }
 /* mobile styles */
 
 svg#swipe-r { display: none; }
+
 section.tribar svg {display: none; }
 section.tribar { position: absolute; top: 20px; right: 0; width: 70%; text-align: center; }
 
@@ -390,15 +387,26 @@ text-align: center;
 white-space: nowrap;
 }
 
+section.scrips div.week { display: block; border-bottom: solid 3px #ffffff; margin-bottom: 20px;}
 
 @media screen and (min-width: 600px) {
-section.scrips article { display: inline-block;
-width: 130px; 
-min-height: 225px;
-padding: 0;
-}
+
+section.scrips div { display: inline-block; vertical-align: text-top;}
+section.scrips div.midweek { width: 400px; white-space: normal; vertical-align: text-top;}
+
+section.scrips article { display: inline-block; width: 130px; padding: 0 0 20px 0;}
+section.scrips div.sunday { padding-left: 35px;}
+
 }
 
+@media screen and (min-width: 900px) {
+section.scrips { text-align: center; }
+section.scrips article { min-height: 225px; ivertical-align: text-top;}
+section.scrips div.midweek { display: inline-block; width: auto;}
+section.scrips div.sunday { padding-left: 0px;}
+ 
+
+}
 
 section.scrips article { 
 text-align: center;
@@ -438,10 +446,6 @@ font-size: 12px;
 section.scrips p {
 font-size: 12px;
 margin: 3px 0;
-}
-
-section.scrips p.eitheror {
-
 }
 
 section.scrips p a {
