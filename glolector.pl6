@@ -57,17 +57,19 @@ sub html_daily( %d ) {   ### constructs index.html for daily entries
 
   # find either/or options and format
 
-  while %d<scrips> ~~ / '{' (.+?) '}' / {
+#  while %d<scrips> ~~ / '{' <!after '{'> (.+?) '}' / {
+  while %d<scrips> ~~ / '{' ( <-[ \{\} ]>+  '|' <-[ \{\} ]>+ ) '}' / {
 
-    my @eitheror = "$0".split('|');
-
-    for 0..1 -> $e {
+    my @eitheror = $0.split('|');
+    
+    for 0..3 -> $e {
+      next unless @eitheror[$e];
       my @scrips = @eitheror[$e].split(';');
       $_ = gateway($_) for @scrips;
-      @eitheror[$e] = @scrips.join("<br>\n");
+      @eitheror[$e] = @scrips.join("</p>\n<p>");
     }
 
-    my $eitheror = qq|<p class="eitheror">/\c[NBSP]{ @eitheror.join("\c[NBSP]/ or /\c[NBSP]") }\c[NBSP]/</p>|;
+    my $eitheror = qq|<p>/\c[NBSP]{ @eitheror.join("</p><p>or ") }\c[NBSP]/</p>|;
     %d<scrips> = $/.prematch ~ $eitheror ~ $/.postmatch;
   }
 
@@ -80,7 +82,7 @@ sub html_daily( %d ) {   ### constructs index.html for daily entries
       when / '[' (.+) ']' /   { $_ = qq|<h3>{ $0.Str }</h3>|; }
       when / ^AM$||^PM$ /     { $_ = qq|<h4>{ $_ }</h4>|; }
       when / NEXT /           { $_ = '<h4>PM (see next Sunday)</h4>'; }
-      when / '<p class' /     { next; }
+      when / '<p>' /     { next; }
       when / '('(or\s.+)')' / { $_ = qq|<h4>{ $0.Str }</h4>|; }
       when / ^'(' (.+) ')'$ /   { $_ = qq|<p class="glo">+\c[NBSP]{ gateway($0.Str) }\c[NBSP]+</p>|; } 
       default                 { $_ = qq|<p>{ gateway($_) }</p>|; }
