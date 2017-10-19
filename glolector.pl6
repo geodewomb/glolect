@@ -117,8 +117,8 @@ sub indexer( $content, $title, $season ) {  ### wrap content in site-wide index 
   <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">  
   <link rel="stylesheet" type="text/css" href="{ $root }/etc/styles.css"> 
   <body class="{ $season }">
-  <svg id="swipe-l" viewBox="0 0 40 90" preserveAspectRatio="none"><polygon points="0 0 40 0 0 90" fill="#ffffff00" /></svg>
-  <svg id="swipe-r" viewBox="0 0 540 90" preserveAspectRatio="none"><polygon points="0 0 500 0 540 90 0 90" fill="#ffffff00" /></svg>
+  <svg id="swipe-l" viewBox="0 0 45 40"><polygon points="0 0 45 0 22.5 40" fill="#ffffff00" /></svg>
+  <svg id="swipe-r" viewBox="0 0 45 40"><polygon points="0 40 22.5 0 45 40" fill="#ffffff00" /></svg>
   <nav class="generic">
   <ul>
   <li><a class="generic" href="{ $root }">Glo Lec<span class="bigger">+</span></a></li>
@@ -333,12 +333,11 @@ sub make_week(@week) {
     my $html = qq:to/END/;
     <section class="today { @week[0]<feast> }">
     <a href="{ $root }" class="date">
-    $svg
-    <h1>TODAY'S READINGS | {@day-o-w[@week[$d]<date>.day-of-week].uc} {@week[$d]<date>.day} {@mon-name[@week[$d]<date>.month].uc}</h1>
+    <h1>TODAY | {@day-o-w[@week[$d]<date>.day-of-week].uc} {@week[$d]<date>.day} {@mon-name[@week[$d]<date>.month].uc}</h1>
     </a>
-    <article class="scrips">
+    <section class="scrips">
     { @week[$d]<scrips> }
-    </article>
+    </section>
     </section>
     END
 

@@ -82,397 +82,201 @@ svg.christtheking #in                 { fill: #ffcc00; }
 
 svg#swipe-l polygon,svg#swipe-r polygon{ fill: #ffffff; }
 
-/* mobile styles */
+/* universal styles */
 
-svg#swipe-r { display: none; }
-
-section.tribar svg {display: none; }
-section.tribar { position: absolute; top: 20px; right: 0; width: 70%; text-align: center; }
-
-section.tribar svg.now {display: inline-block; height: 80px; width: 90px;}
-svg#swipe-l { display: block; position: fixed; top: 0; left: 0; width: 60%;}
-
-main { position: relative; top: 200px; }
-
-nav { position: fixed; top: 0; text-align: left; z-index: 20; }
-
-
-section.today { position: absolute; top: 100px; right: 0; width: 70%; text-align: center; }
-section.today svg, section.today a.date h1 { display: none;}
-
-
-section.info { position: absolute; margin: 10px;} 
-
-section.scrips article { display: block; padding: 0 0 20px 0;}
-
-
-
-
-
-/* general styles */
-
-nav a { text-decoration: none; }
 nav ul { list-style-type: none; }
 
-nav li {
-margin: 0px 0px;
-padding: 8px;
-display: block;
-}
-
 nav li a {
-color: #ff0066;
-font-family: 'Lato',sans-serif;
-font-size: 20px;
-padding-left: 8px;
-text-decoration: none;
-}
-
-nav a.generic {
-display: block;
-color: #a02c5a;
-font-size: 30px;
-text-transform: uppercase;
-letter-spacing: 2px;
-font-family: 'Lato',sans-serif;
-}
-
-nav a.generic span.bigger {
-font-size: 46px;
-font-family: 'Istok Web',sans-serif;
-position: relative;
-top: 5px;
-left: -3px;
-}
-
-
-section.today a {
-text-decoration: none;
-color: inherit;
-}
-
-section.today a.date {
-display: block;
-}
-
-
-section.today article.scrips {
-text-align: center;
-}
-
-section.today article.scrips h1, section.today article.scrips h2, section.today article.scrips h3 {
-display: none;
-}
-
-section.today h4 {
-position: absolute;
-font-size: 12px;
-vertical-align: text-top;
-}
-
-
-section.today p {
-font: normal 14px 'Istok Web',sans-serif;
-font-size: 14px;
-color: #000000;
-display: block;
-margin-bottom: 5px;
-line-height: 1;
-vertical-align: text-top;
-}
-
-section.today p.eitheror {
 display: inline-block;
+color: #ff0066; 
+font-family: 'Lato',sans-serif; 
+text-decoration: none; 
 }
 
-section.today p a {
-display: inline-block;
-font: normal 14px 'Istok Web',sans-serif;
-text-decoration: none;
-line-height: 1;
-color: #000000;
-padding: 3px 6px;
-background-color: #ffffff;
-border-radius: 6px;
-display: inline-block;
+nav li a.generic { 
+color: #a02c5a; 
+text-transform: uppercase; 
+letter-spacing: 2px; 
 }
 
-section.today a:hover {
-color: #ff0066;
-}
+nav li a.generic span.bigger { font: 'Istok Web',sans-serif; } 
 
-
-@media screen and (min-width: 600px) {
-
-svg#swipe-l { display: block; position: absolute; top: 300px; left: 0; height: 355px; width: auto;}
-svg#swipe-r { display: block; position: absolute; top: 0; left: -1588px; height: 300px; width: auto;}
-
-nav { position: absolute; top: 220px; z-index: 1; }
-nav a.generic { margin: 14px 0 35px 0; }
-nav li a { border-left: solid 3px #ffffff; }
-
-nav li a:hover { border-left: solid 3px #ff0066; }
-nav a.generic:hover { border-left: solid 3px #ffffff; }
-
-header {
-background-color: #ffffff;
-position: absolute;
-width: calc(100%-240px);
-height: 50px;
-top: 300px;
-left: -240px;
-}
-
-section.tribar {
-white-space: nowrap;
-overflow-x: hidden;
-overflow-y: visible;
+section.tribar { 
+white-space: nowrap; overflow-x: hidden; overflow-y: visible;
 z-index: 5;
-position: relative;
-top: 5px;
+position: relative; top: 5px;
 width: auto;
 }
 
 section.tribar svg {
 display: inline-block;
+width: 45px; 
 height: 40px;
-width: 45px;
 margin-left: -15px;
 vertical-align: text-top;
 }
 
-section.tribar svg:hover #out {
-stroke: #ff0066;
-stroke-width: 2;
+section.tribar svg.now { 
+height: 80px; 
+width: 90px; 
 }
 
-section.tribar svg.generic:hover #out {
-stroke: #ffffff00;
-stroke-width: 0;
-}
+section.tribar svg:hover #out { stroke: #ff0066; stroke-width: 2; }
+section.tribar svg.generic g, section.tribar svg.now g { pointer-events: none; }
 
-section.tribar svg.now{
-height: 80px;
-width: 90px;
-margin-left: -38px;
-margin-right: -23px;
-}
+main { position: relative; max-width: 100%; z-index: 0; }
+main:after { clear: both; content=' '; }
 
-section.tribar svg.now g {
-pointer-events: none;
-}
+section.info { position: relative; margin: 10px; text-align: center; }
 
-section.today {
-position: absolute;
-top: 10px;
-left: 350px;
-height: 100px;
-z-index: 12;
-text-align: left;
-width: auto;
-}
-section.today svg {
-height: 20px;
-width: 22.5px;
-vertical-align: text-top;
-}
-section.today a.date h1 {
-display: inline-block;
-font-size: 20px;
-padding: 0 5px;
-vertical-align: text-top;
-}
-
-section.today a.date h1:hover {
-color: #ff0066;
-}
-
-section.today article.scrips {
-margin-left: 20px;
--webkit-columns: 4 170px;
-   -moz-columns: 4 170px;
-        columns: 4 170px;
-}
-
-main {
-position: relative;
-top: 0;
-padding-top: 235px;
-max-width: 100%;
-overflow: hidden;
-z-index: 0;
-}
-
-main:after {
-clear: both;
-content=' ';
-}
-
-}
-
-@media screen and (min-width: 800px) {
-
-  svg#swipe-r { height: 150px; left: -528px;}
-  nav { top: 30px; } 
-  header { top: 150px; left: -90px; width: calc(100%-90px); }
-  section.today { left: 350px; }
-  main { padding-top: 235px; }
-  svg#swipe-l { top: 0; height: 605px; }
-  nav li { margin: 8px 6px; }
-  nav li a { font-size: 28px; }
-  nav a.generic { font-size: 40px; margin: 14px 0 65px 0; }
-  nav a.generic span.bigger { font-size: 58px; }
-  section.today {
-left: 350px;
-height: 100px;
-text-align: left;
-}
-}
-
-@media screen and (min-width: 950px) {
-
-  svg#swipe-r { height: 120px; left: -258px;}
-  nav { top: 0px; } 
-  header { top: 120px; left: 0px; width: 100%;}
-  section.today { left: 500px; }
-  main { padding-top: 205px; }
-
-}
-
-
-/* specific content styles */
-
-
-@media screen and (min-width: 600px) {
-section.info {
-position: relative;
-left: 270px;
-top: 15px;
-width: 400px;
-}
-}
-
-section.info {
-position: relative;
-text-align: center;
-}
-
-section.info svg.left {
-position: absolute;
-top: 0;
-left: 0;
-}
-
-section.info svg { pointer-events: all; }
+section.info svg { position: absolute; pointer-events: all; }
+section.info svg.left { top: 0; left: 0; }
+section.info svg.right { top: 0; right: 0; }
 section.info a:hover svg #out { fill: #ff0066; }
 
-section.info svg.right {
-position: absolute;
-top: 0;
-right: 0;
-}
-
-section.info h1 {
-margin-top: 4px;
-padding: 8px;
-font-weight: bold;
-font-size: 18px;
+section.info h1 { 
+margin-top: 4px; 
+padding: 8px; 
+font-weight: bold; 
+font-size: 18px; 
 }
 
 
-
-section.scrips {
-margin-top: 100px;
-text-align: center;
-white-space: nowrap;
-}
-
-section.scrips div.week { display: block; border-bottom: solid 3px #ffffff; margin-bottom: 20px;}
-
-@media screen and (min-width: 600px) {
-
+section.scrips { position: relative; text-align: center; }
 section.scrips div { display: inline-block; vertical-align: text-top;}
-section.scrips div.midweek { width: 400px; white-space: normal; vertical-align: text-top;}
 
-section.scrips article { display: inline-block; width: 130px; padding: 0 0 20px 0;}
-section.scrips div.sunday { padding-left: 35px;}
-
-}
-
-@media screen and (min-width: 900px) {
-section.scrips { text-align: center; }
-section.scrips article { min-height: 225px; ivertical-align: text-top;}
-section.scrips div.midweek { display: inline-block; width: auto;}
-section.scrips div.sunday { padding-left: 0px;}
- 
-
+section.scrips div.week { 
+display: block; 
+border-bottom: solid 3px #ffffff; 
+margin-bottom: 20px;
 }
 
 section.scrips article { 
-text-align: center;
+width: 140px; 
+padding: 0 0 20px 0; 
 vertical-align: text-top;
-white-space: normal;
 }
 
-
 section.scrips h1 {
+display: inline-block;
 letter-spacing: 1px;
 font-family: 'Lato',sans-serif;
 text-transform: uppercase;
 padding-bottom: 3px;
 margin-bottom: 3px;
-display: inline-block;
 width: 110px;
 border-bottom: solid 2px;
 }
 
-section.scrips h2 {
-font-size: 13px;
-font-weight: bold;
-color: #000000;
+section.scrips h2 { 
+font-size: 13px; 
+font-weight: bold; 
+color: #000000; 
 }
 
-section.scrips h3 {
-color: #ff0066;
-font-size: 12px;
-text-transform: uppercase;
-padding-bottom: 3px;
+section.scrips h3 { 
+color: #ff0066; 
+text-transform: uppercase; 
+padding-bottom: 3px; 
 }
 
-section.scrips h4 {
-font-size: 12px;
-}
+section.scrips h3, section.scrips h4 { font-size: 12px; }
 
-section.scrips p {
-font-size: 12px;
-margin: 3px 0;
-}
-
-section.scrips p a {
-font-size: 13px;
+section.scrips p { font-size: 14px; margin: 3px 0; }
+section.scrips p a { 
 padding: 0 6px;
-text-decoration: none;
+font-size: 14px; 
+text-decoration: none; 
 color: #000000;
 background-color: #ffffff;
 border-radius: 6px;
 }
+section.scrips p a:hover { color: #ff0066; }
 
-section.scrips a:hover {
-color: #ff0066;
+section.today h1 { padding: 4px; }
+section.today section.scrips {
+-webkit-columns: 170px 3;
+   -moz-columns: 170px 3;
+        columns: 170px 3;
 }
+
+section.today section.scrips h1, section.today section.scrips h2, section.today section.scrips h3 { display: none; }
+
+
+/* tiny <600 pixels */
+
+svg#swipe-l { position: fixed; }
+svg#swipe-r, section.tribar svg { display: none; }
+
+section.tribar svg.now { display: inline-block; }
+
+main { top: 235px; }
+nav { position: fixed; top: 0; text-align: left; }
+
+section.scrips div { display: block; }
+main section.scrips article { display: block; width: 100%;}
+
+
+/* medium 600 - 980 */
+
+@media screen and (min-width: 600px) {
+
+svg#swipe-l { position: absolute; width: 700px; top: 134px; left: -350px;}
+svg#swipe-r { display: block; position: absolute; top: -350px; left: -120px; width: 600px;}
+
+nav { position: absolute; top: 40px; z-index: 1; }
+nav li { padding: 8px; margin-left: 8px; }
+nav li a { border-left: solid 3px #ffffff; font-size: 24px; padding: 3px 8px; }
+nav li a:hover { border-left: solid 3px #ff0066; }
+nav li a.generic { font-size: 40px; margin: 14px 0 75px 0px; }
+nav li a.generic:hover { border-left: solid 3px #ffffff; }
+nav li a.generic span.bigger { font-size: 58px; position: relative; top: 4px; left: -5px;}
+
+header {
+background-color: #ffffff;
+position: absolute; top: 150px; left: -120px;
+width: calc(100% + 120px); height: 50px;
+}
+
+section.today { position: absolute; top: 0; left: 400px; width: calc(100% - 400px);}
+section.today a h1 { display: inline-block; }
+
+
+section.tribar svg { display: inline-block; }
+section.tribar svg.now { margin-left: -38px; margin-right: -23px; }
+
+section.info { position: relative; left: 250px; top: 20px; width: 400px; }
+
+main section.scrips { position: relative; top: 50px; }
+
+main section.scrips div.midweek { display: inline-block; width: 425px; }
+main section.scrips div.sunday { display: inline-block; padding-left: 35px; }
+main section.scrips article { display: inline-block; } 
+
+}
+
+
+
+/* large 980+ */
 
 @media screen and (min-width: 980px) {
 
-  section.scrips article { width: 140px; }
-  section.scrips p, section.scrips p a { font-size: 14px; }
+header { left: 0px; width: 100%;}
+
+/* section.scrips article { min-height: 225px;} */
+main section.scrips div.midweek { display: inline-block; width: auto;}
+main section.scrips div.sunday { padding-left: 0px;}
 
 }
-@media screen and (min-width: 1195px) {
 
-  section.scrips article { width: 170px; }
-  section.scrips p, section.scrips p a { font-size: 14px; }
+@media screen and (min-width: 1200px) {
+
+main section.scrips article { width: 170px; }
 
 }
+
+
+
 
 section.menu {
 position: relative;
@@ -660,4 +464,4 @@ padding: 20px 0 5px 0;
 
 section.text p {
 padding: 5px 0;
-
+}
