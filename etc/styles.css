@@ -124,7 +124,7 @@ width: 90px;
 section.tribar svg:hover #out { stroke: #ff0066; stroke-width: 2; }
 section.tribar svg.generic g, section.tribar svg.now g { pointer-events: none; }
 
-main { position: relative; max-width: 100%; z-index: 0; }
+main { position: relative; max-width: 100%; }
 main:after { clear: both; content=' '; }
 
 section.info { position: relative; margin: 10px; text-align: center; }
@@ -193,7 +193,7 @@ border-radius: 6px;
 }
 section.scrips p a:hover { color: #ff0066; }
 
-section.today h1 { padding: 4px; }
+section.today h1 { padding: 4px; vertical-align: bottom; font-family: 'Lato',sans-serif; font-size: 20px;} 
 section.today section.scrips {
 -webkit-columns: 170px 3;
    -moz-columns: 170px 3;
@@ -205,13 +205,19 @@ section.today section.scrips h1, section.today section.scrips h2, section.today 
 
 /* tiny <600 pixels */
 
-svg#swipe-l { position: fixed; }
+svg#swipe-l { position: fixed; width: 600px; left: -300px; top: 0;}
 svg#swipe-r, section.tribar svg { display: none; }
 
+header { position: absolute; top: 200px; width: 100%;}
+
+section.tribar { text-align: center; }
 section.tribar svg.now { display: inline-block; }
 
 main { top: 235px; }
 nav { position: fixed; top: 0; text-align: left; }
+
+section.today { position: absolute; top: 0; right: 0; text-align: right; width: 200px;}
+section.today a h1 { display: inline-block; }
 
 section.scrips div { display: block; }
 main section.scrips article { display: block; width: 100%;}
@@ -238,20 +244,19 @@ position: absolute; top: 150px; left: -120px;
 width: calc(100% + 120px); height: 50px;
 }
 
-section.today { position: absolute; top: 0; left: 400px; width: calc(100% - 400px);}
-section.today a h1 { display: inline-block; }
+section.today { position: absolute; top: 0; left: calc(20px + 30%); text-align: center; }
 
 
 section.tribar svg { display: inline-block; }
 section.tribar svg.now { margin-left: -38px; margin-right: -23px; }
 
-section.info { position: relative; left: 250px; top: 20px; width: 400px; }
+section.info { position: relative; left: 140px; top: 20px; width: 400px; z-index: 10;}
 
 main section.scrips { position: relative; top: 50px; }
 
 main section.scrips div.midweek { display: inline-block; width: 425px; }
 main section.scrips div.sunday { display: inline-block; padding-left: 35px; }
-main section.scrips article { display: inline-block; } 
+main section.scrips article { display: inline-block; width: 138px;} 
 
 }
 
@@ -264,6 +269,7 @@ main section.scrips article { display: inline-block; }
 header { left: 0px; width: 100%;}
 
 /* section.scrips article { min-height: 225px;} */
+section.info { left: 250px; }
 main section.scrips div.midweek { display: inline-block; width: auto;}
 main section.scrips div.sunday { padding-left: 0px;}
 
