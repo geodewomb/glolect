@@ -119,6 +119,7 @@ sub indexer( $content, $title, $season ) {  ### wrap content in site-wide index 
   <body class="{ $season }">
   <svg id="swipe-l" viewBox="0 0 45 40"><polygon points="0 0 45 0 22.5 40" fill="#ffffff00" /></svg>
   <svg id="swipe-r" viewBox="0 0 45 40"><polygon points="0 40 22.5 0 45 40" fill="#ffffff00" /></svg>
+  <!--#include virtual="{ $root }/today.html" -->
   <nav class="generic">
   <ul>
   <li><a class="generic" href="{ $root }">Glo Lec<span class="bigger">+</span></a></li>
@@ -131,7 +132,6 @@ sub indexer( $content, $title, $season ) {  ### wrap content in site-wide index 
   <!--#include virtual="{ $tribar }" -->
   </section>
   </header>
-  <!--#include virtual="{ $root }/today.html" -->
   <main>
   $content
   </main>
@@ -333,7 +333,7 @@ sub make_week(@week) {
     my $html = qq:to/END/;
     <section class="today { @week[0]<feast> }">
     <a href="{ $root }" class="date">
-    <h1>TODAY | {@day-o-w[@week[$d]<date>.day-of-week].uc} {@week[$d]<date>.day} {@mon-name[@week[$d]<date>.month].uc}</h1>
+    <h1>readings for // {@day-o-w[@week[$d]<date>.day-of-week].uc} {@week[$d]<date>.day} {@mon-name[@week[$d]<date>.month].uc}</h1>
     </a>
     <section class="scrips">
     { @week[$d]<scrips> }

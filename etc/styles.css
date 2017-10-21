@@ -85,20 +85,10 @@ svg#swipe-l polygon,svg#swipe-r polygon{ fill: #ffffff; }
 /* universal styles */
 
 nav ul { list-style-type: none; }
-
-nav li a {
-display: inline-block;
-color: #ff0066; 
-font-family: 'Lato',sans-serif; 
-text-decoration: none; 
+nav li a { display: inline-block; color: #ff0066; 
+font-family: 'Lato',sans-serif; text-decoration: none; 
 }
-
-nav li a.generic { 
-color: #a02c5a; 
-text-transform: uppercase; 
-letter-spacing: 2px; 
-}
-
+nav li a.generic { color: #a02c5a; text-transform: uppercase; }
 nav li a.generic span.bigger { font: 'Istok Web',sans-serif; } 
 
 section.tribar { 
@@ -110,17 +100,12 @@ width: auto;
 
 section.tribar svg {
 display: inline-block;
-width: 45px; 
-height: 40px;
+width: 45px; height: 40px;
 margin-left: -15px;
 vertical-align: text-top;
 }
 
-section.tribar svg.now { 
-height: 80px; 
-width: 90px; 
-}
-
+section.tribar svg.now { height: 80px; width: 90px; }
 section.tribar svg:hover #out { stroke: #ff0066; stroke-width: 2; }
 section.tribar svg.generic g, section.tribar svg.now g { pointer-events: none; }
 
@@ -128,19 +113,16 @@ main { position: relative; max-width: 100%; }
 main:after { clear: both; content=' '; }
 
 section.info { position: relative; margin: 10px; text-align: center; }
-
 section.info svg { position: absolute; pointer-events: all; }
 section.info svg.left { top: 0; left: 0; }
 section.info svg.right { top: 0; right: 0; }
 section.info a:hover svg #out { fill: #ff0066; }
-
 section.info h1 { 
 margin-top: 4px; 
 padding: 8px; 
 font-weight: bold; 
 font-size: 18px; 
 }
-
 
 section.scrips { position: relative; text-align: center; }
 section.scrips div { display: inline-block; vertical-align: text-top;}
@@ -155,6 +137,7 @@ section.scrips article {
 width: 140px; 
 padding: 0 0 20px 0; 
 vertical-align: text-top;
+text-align: center;
 }
 
 section.scrips h1 {
@@ -193,39 +176,62 @@ border-radius: 6px;
 }
 section.scrips p a:hover { color: #ff0066; }
 
-section.today h1 { padding: 4px; vertical-align: bottom; font-family: 'Lato',sans-serif; font-size: 20px;} 
-section.today section.scrips {
--webkit-columns: 170px 3;
-   -moz-columns: 170px 3;
-        columns: 170px 3;
-}
+section.today h1 { padding: 4px; font-family: 'Lato',sans-serif; font-size: 20px;} 
+section.today section.scrips h1, 
+section.today section.scrips h2, 
+section.today section.scrips h3 { display: none; }
 
-section.today section.scrips h1, section.today section.scrips h2, section.today section.scrips h3 { display: none; }
-
+section.text { margin: 0 10px; }
+section.text h1 { font-size: 20px; font-family: 'Lato',sans-serif; text-transform: uppercase; }
+section.text h2 { padding: 20px 0 5px 0; }
+section.text p { padding: 5px 0; }
 
 /* tiny <600 pixels */
 
-svg#swipe-l { position: fixed; width: 600px; left: -300px; top: 0;}
+@media screen and (max-width: 615px) {
+
+svg#swipe-l { position: fixed; width: 200%; right: 20%; top: 0; z-index: -5;}
 svg#swipe-r, section.tribar svg { display: none; }
 
-header { position: absolute; top: 200px; width: 100%;}
+header {
+background-color: #ffffff;
+position: relative;  left: calc(50% - 455px);
+width: calc(50% + 455px); height: 50px;
+}
 
-section.tribar { text-align: center; }
-section.tribar svg.now { display: inline-block; }
+section.tribar svg { display: inline-block; }
+section.tribar svg.now { margin-left: -38px; margin-right: -23px; }
 
-main { top: 235px; }
-nav { position: fixed; top: 0; text-align: left; }
+nav { position: relative; text-align: center; width: 100%; top: -8px; z-index: 1; }
+nav li { padding: 8px 12px; display: inline-block;}
+nav a {font-size: 24px; }
+nav li a.generic { font-size: 28px;}
+nav li a.generic span.bigger { font-size: 40px; position: relative; top: 3px; left: -3px;}
 
-section.today { position: absolute; top: 0; right: 0; text-align: right; width: 200px;}
-section.today a h1 { display: inline-block; }
+section.today { text-align: center; margin: 10px; min-height: 200px;}
+section.today section.scrips { display: inline-block; width: 200px; }
+section.today a { text-decoration: none;}
+section.today a h1 { font-size: 18px; display: inline-block; width: 100%; margin-bottom: 10px;}
+section.scrips p, section.scrips p a { font-size: 18px; }
+section.scrips p { margin: 5px; }
+
+main { padding-top: 35px; }
+section.info { margin-bottom: 5px; }
 
 section.scrips div { display: block; }
+main section.scrips article { padding-top: 20px;}
 main section.scrips article { display: block; width: 100%;}
+}
 
+@media screen and (max-width: 330px) {
+nav a {font-size: 24px; }
+nav li { padding: 8px 6px;}
+section.today a h1 { font-size: 16px;}
+}
 
 /* medium 600 - 980 */
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 616px) {
 
 svg#swipe-l { position: absolute; width: 700px; top: 134px; left: -350px;}
 svg#swipe-r { display: block; position: absolute; top: -350px; left: -120px; width: 600px;}
@@ -234,7 +240,7 @@ nav { position: absolute; top: 40px; z-index: 1; }
 nav li { padding: 8px; margin-left: 8px; }
 nav li a { border-left: solid 3px #ffffff; font-size: 24px; padding: 3px 8px; }
 nav li a:hover { border-left: solid 3px #ff0066; }
-nav li a.generic { font-size: 40px; margin: 14px 0 75px 0px; }
+nav li a.generic { font-size: 40px; margin: 14px 0 75px 0px; letter-spacing: 2px; }
 nav li a.generic:hover { border-left: solid 3px #ffffff; }
 nav li a.generic span.bigger { font-size: 58px; position: relative; top: 4px; left: -5px;}
 
@@ -244,12 +250,18 @@ position: absolute; top: 150px; left: -120px;
 width: calc(100% + 120px); height: 50px;
 }
 
-section.today { position: absolute; top: 0; left: calc(20px + 30%); text-align: center; }
-
 
 section.tribar svg { display: inline-block; }
 section.tribar svg.now { margin-left: -38px; margin-right: -23px; }
 
+section.today { position: absolute; top: 0; right: 0; 230px; text-align: left; width: 460px;}
+section.today a h1 { display: inline-block;  font-size: 20px; margin-bottom: 3px;}
+section.today section.scrips {
+-webkit-columns: 150px 3;
+   -moz-columns: 150px 3;
+        columns: 150px 3;
+}
+main { position: absolute; top: 235px; width: 100%;}
 section.info { position: relative; left: 140px; top: 20px; width: 400px; z-index: 10;}
 
 main section.scrips { position: relative; top: 50px; }
@@ -258,6 +270,10 @@ main section.scrips div.midweek { display: inline-block; width: 425px; }
 main section.scrips div.sunday { display: inline-block; padding-left: 35px; }
 main section.scrips article { display: inline-block; width: 138px;} 
 
+section.text {
+margin: 0 50px 0 220px;
+max-width: 850px;
+}
 }
 
 
@@ -267,6 +283,13 @@ main section.scrips article { display: inline-block; width: 138px;}
 @media screen and (min-width: 980px) {
 
 header { left: 0px; width: 100%;}
+section.today { left: 420px; }
+section.today section.scrips {
+-webkit-columns: 185px 3;
+   -moz-columns: 185px 3;
+        columns: 185px 3;
+}
+section.today section.scrips p, section.today section.scrips p a { font-size: 16px; }
 
 /* section.scrips article { min-height: 225px;} */
 section.info { left: 250px; }
@@ -453,21 +476,3 @@ margin-bottom: 10px;
 color: #444444;
 }
 
-section.text {
-margin: 0 50px 0 220px;
-max-width: 850px;
-}
-
-section.text h1 {
-font-size: 20px;
-font-family: 'Lato',sans-serif;
-text-transform: uppercase;
-}
-
-section.text h2 {
-padding: 20px 0 5px 0;
-}
-
-section.text p {
-padding: 5px 0;
-}
