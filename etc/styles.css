@@ -308,8 +308,8 @@ main section.scrips article { width: 170px; }
 
 
 section.menu {
-position: relative;
-left: 200px;
+text-align: center;
+max-width: 100%;
 }
 
 section.menu a {
@@ -318,9 +318,9 @@ margin: 0px 10px 10px 0px;
 }
 
 section.menu #years {
+padding-left: 120px;
+float: left;
 text-align: right;
-width: 360px;
-display: inline-block;
 vertical-align: text-top;
 }
 
@@ -370,10 +370,9 @@ margin-right: 16px;
 section.menu #summary {
 padding-left: 20px;
 border-left: solid 2px #a02c5a;
-max-width: 620px;
-min-height: 121px;
 display: inline-block;
 vertical-align: text-top;
+text-align: left;
 }
 
 section.menu #summary h2 {
@@ -395,6 +394,7 @@ color: #666666;
 
 section.yeardat {
 position: relative;
+text-align: center;
 padding-top: 20px;
 }
 
