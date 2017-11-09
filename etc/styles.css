@@ -14,14 +14,14 @@ svg g { pointer-events: visiblePainted; }
 
 /* colors */
 
-body.advent { background-color: #eaebfd; }
-body.christmas { background-color: #eeeedd; }
-body.epiphany { background-color: #ddf3dd; }
-body.lent { background-color: #e8e8ef; }
-body.holyweek { background-color: #eeeedd; }
-body.easter { background-color: #faeecf; }
-body.ordinary { background-color: #e8f2d8; }
-body.generic { background-color: #dddddd; }
+body.advent, body.novdec, body.july { background-color: #eaebfd; }
+body.christmas, body.may { background-color: #eeeedd; }
+body.epiphany, body.january, body.august { background-color: #ddf3dd; }
+body.lent, body.march, body.october { background-color: #e8e8ef; }
+body.holyweek, body.april, body.november { background-color: #eeeedd; }
+body.easter, body.february, body.september { background-color: #faeecf; }
+body.ordinary, body.june { background-color: #e8f2d8; }
+body.generic { background-color: #e8e8e8; }
 
 .generic h1 { color: #a02c5a; }
 .generic h2 { color: #ff0066; }
