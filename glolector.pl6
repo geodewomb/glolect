@@ -39,6 +39,30 @@ sub deduce_year( %d ) {
   return @letter[ (%d<date>.year + $bump) % 3 ];
 }
 
+sub find_eitherors( $s ) {
+ 
+  my $string =  $s;
+  # find either/or options and format
+  my token unit { <-[ {}| ]>+ }
+
+  while $string  ~~ / '{' (<unit> ['|' <unit>]+) '}' / { 
+    my @eitheror = $0.split('|');
+    my $i = @eitheror.elems - 1;
+    for 0..@eitheror.elems - 1 -> $e {
+      my @scrips = @eitheror[$e].split(';');
+      for @scrips {
+        next if $_.substr(0,3) eq '<p>';
+        $_ = gateway($_);
+      }
+      @eitheror[$e] = @scrips.join("</p>\n<p>");
+    }
+    
+    my $eitheror = qq|<p>/\c[NBSP]{ @eitheror.join("</p><p>or ") }\c[NBSP]/</p>|;
+    $string =  $/.prematch ~ $eitheror ~ $/.postmatch;
+  }
+  return $string;
+}
+
 
 sub gateway( $ref ) {   
 
@@ -55,28 +79,12 @@ sub gateway( $ref ) {
 
 sub html_daily( %d ) {   ### constructs index.html for daily entries
 
-  # find either/or options and format
-
-#  while %d<scrips> ~~ / '{' <!after '{'> (.+?) '}' / {
-  while %d<scrips> ~~ / '{' ( <-[ \{\} ]>+  '|' <-[ \{\} ]>+ ) '}' / {
-
-    my @eitheror = $0.split('|');
-    
-    for 0..3 -> $e {
-      next unless @eitheror[$e];
-      my @scrips = @eitheror[$e].split(';');
-      $_ = gateway($_) for @scrips;
-      @eitheror[$e] = @scrips.join("</p>\n<p>");
-    }
-
-    my $eitheror = qq|<p>/\c[NBSP]{ @eitheror.join("</p><p>or ") }\c[NBSP]/</p>|;
-    %d<scrips> = $/.prematch ~ $eitheror ~ $/.postmatch;
-  }
-
+  my $scrips = find_eitherors(%d<scrips>);
+  
 
   # divide scripture string and tag with html
 
-  my @list = %d<scrips>.split(';');
+  my @list = $scrips.split(';');
   for @list {
     given $_ {
       when / '[' (.+) ']' /   { $_ = qq|<h3>{ $0.Str }</h3>|; }
