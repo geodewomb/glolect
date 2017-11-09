@@ -240,7 +240,7 @@ sub make_faq {
   
 } 
 
-sub make_season_and_year {
+sub make_season_and_year { # indexes for seasons/years/months
 
   my @seasons = <advent christmas epiphany lent holyweek easter ordinary>;
 
@@ -263,6 +263,23 @@ sub make_season_and_year {
       END
       spurt "year-$y/$s/index.shtml", indexer($html,"Year {$y.uc} | {$title}",$s);
       copy 'etc/tribar.html', "year-$y/$s/tribar.html";
+    }
+    
+    for @mon-name -> $m {
+      next if $m eq 'December';
+      my $title = $m;
+      if $m eq 'NovDec' { $title = "November / December"; }
+      
+      my $html = qq:to/END/;
+      <section class="text">
+      <h1>All readings for {$title} | Year { $y.uc }</h1>
+      </section>
+      <section class="scrips">
+      <!--#include virtual="scrips.html" -->
+      </section>
+      END
+      spurt "year-$y/{$m.lc}/index.shtml", indexer($html,"Year {$y.uc} | {$title}", $m.lc);
+      copy 'etc/tribar.html', "year-$y/{$m.lc}/tribar.html";
     }
 
     my $html = qq|<!--#include virtual="scrips.html" -->|;
@@ -327,16 +344,17 @@ sub make_tribars( @data ) {
 sub make_week(@week) {
 
   # create files by date
+
   for 1..7 -> $d {
     my $date = @week[$d]<date>;
     my $dir = "{$date.year}/{$date.month}/{$date.day}"; 
     mkdir $dir unless $dir.IO.e;
- 
+    
+    # html-ify scriptures
+
     @week[$d]<scrips> = html_daily(@week[$d]);
     spurt "$dir/scrips.html", @week[$d]<scrips>;
     spurt "$dir/refer.txt", "{@week[0]<year>}|{@week[0]<num>}|{@week[0]<feast>}"; 
-    
-    my $svg = make_svg(@week[0]<feast>,$root,0);
   
     my $html = qq:to/END/;
     <section class="today { @week[0]<feast> }">
@@ -367,7 +385,7 @@ sub make_week(@week) {
   my $index = weekly_index($scrips,@week[0]);
   spurt "$dir/index.shtml", $index;
 
-  my $regist = "{@week[0]<num>}|{@week[0]<season>}|{@week[0]<feast>}|{@week[7]<date>.month}|{@week[7]<date>.year}\n";
+  my $regist = "{@week[0]<num>}|{@week[0]<season>}|{@week[0]<feast>}|{@week[1]<date>.month}|{@week[7]<date>.month}|{@week[7]<date>.year}\n";
   spurt "year-{@week[0]<year>}/yeardat.txt", $regist, :append;
 
 }
@@ -386,22 +404,21 @@ sub process_data( $lectdat ) {   ### sort of the main program i guess
 
   my @workweek;
   my %info =  year => 'x', num => 0, season => '', count => 0;
-
   my @tribar-registry;
 
   for $lectdat.IO.lines -> $line {
     given $line {
 
       when /^'#'/    { next; } # no comments
-      
+  
       when /^<:Lu>+/ { # process season header
 
-      # change seasons
+        # change seasons
 
         %info<season> = $line.split(' ').join.lc;
         %info<count> = 1;
        
-      # setup and reset year on year change 
+        # setup and reset year on year change 
        
         if $line.lc ~~ /advent/ {
           redirect_final_week(%info<year>,%info<num>);
@@ -415,7 +432,7 @@ sub process_data( $lectdat ) {   ### sort of the main program i guess
 
         my %day = lets_call_it_a_day($line);
 
-      # figure out seasons and feast 
+        # figure out seasons and feast 
 
         %day<season> = %info<season>;
         given %day<feast> { 
@@ -425,12 +442,12 @@ sub process_data( $lectdat ) {   ### sort of the main program i guess
           default { %info<feast> = %day<feast>.comb(/<:L>+/).join('').lc unless %info<feast>; }
         }
 
-      # load into working week
+        # load into working week
 
         my $y = %day<date>.day-of-week;
         @workweek[$y] = %day;
 
-      # once the week has 7 days wrap it up add final info
+        # once the week has reached Sunday, wrap it up add final info
 
         next unless $y == 7;
         unless $line ~~ / '=[' .+ ']' \t / { say "Sunday, but not Feast day. Verify data: $line"; }
@@ -438,15 +455,14 @@ sub process_data( $lectdat ) {   ### sort of the main program i guess
         %info<year> = deduce_year(@workweek[7]);
         %info<feast> = %info<season> unless %info<feast>;
 
-      # send completed week off to the printers
+        # send completed week off to the printers
 
         @workweek[0] = %info;
         make_week(@workweek);
 
-        my %tri-fo = %info;
-        push @tribar-registry, %tri-fo;
+        push @tribar-registry, %info;
 
-      # reset working week
+        # reset working week
 
         %info<num>++;
         %info<count>++;
@@ -480,16 +496,17 @@ sub process_yeardat {   # prepare triangles for browse pages
     my @by-mon = qq:to/END/;
     <div id="row1">
     <article class="novdec">
-    <a href=""><h1> NOV / DEC</h1></a>
+    <a href="{$root}/year-{$y}/novdec"><h1> NOV / DEC</h1></a>
     END
   
     # while we're here we are also going to make the scrips pages for season and year!
     my @year-scrips;
     my @season-scrips;
+    my @month-scrips;
 
     for "year-$y/yeardat.txt".IO.lines -> $line {
 
-      my ($w, $s, $f, $m, $z) = $line.split('|');
+      my ($w, $s, $f, $m, $n, $z) = $line.split('|');
       once { push @split, ($z ~ '/' ~ $z + 1, $y); }
 
       my $week = slurp("year-$y/week-$w/scrips.html");
@@ -519,16 +536,33 @@ sub process_yeardat {   # prepare triangles for browse pages
       push @season-scrips, qq|<div class="week">\n{$week}\n</div>|;
 
       # divide data in html by month
+      
+      if $monum == 0 and $m > 10 { $m = 0; }
+      if $monum == 0 and $n > 10 { $n = 0; }
 
-      unless $m == $monum or ($monum == 0 and $m > 10) { 
+      unless $n == $monum {
+        if $m == $monum { push @month-scrips, qq|<div class="week">\n{$week}\n</div>|; } 
         push @by-mon, qq|</article>|;
 
-        given $m {
+        given $n {
           when 4  { push @by-mon, qq|</div>\n<div id="row2">|; proceed; }
           when 8  { push @by-mon, qq|</div>\n<div id="row3">|; proceed; }
-          default { push @by-mon, qq|<article class="{ @mon-name[$m].lc }"><a href=""><h1>{ @mon-name[$m].uc }</h1></a>|; }
+          default { push @by-mon, qq|<article class="{ @mon-name[$n].lc }"><a href="{$root}/year-{$y}/{@mon-name[$n].lc}"><h1>{ @mon-name[$n].uc }</h1></a>|; }
         }
-        $monum = $m; 
+
+        # store and reset month scriptures
+        say "year-$y/{@mon-name[$monum].lc}";
+        mkdir "year-$y/{@mon-name[$monum].lc}" unless "year-$y/{@mon-name[$monum].lc}".IO.e;
+        spurt "year-$y/{@mon-name[$monum].lc}/scrips.html", @month-scrips.join("\n");
+
+        $monum = $n; 
+        @month-scrips = ();
+      }
+      push @month-scrips, qq|<div class="week">\n{$week}\n</div>|;
+
+      LAST { 
+        mkdir "year-$y/{@mon-name[$monum].lc}" unless "year-$y/{@mon-name[$monum].lc}".IO.e;
+        spurt "year-$y/{@mon-name[$monum].lc}/scrips.html", @month-scrips.join("\n");
       }
 
       # add triangle to both season and month browse lists
@@ -538,14 +572,11 @@ sub process_yeardat {   # prepare triangles for browse pages
       push @by-mon, $svg;
 
       $flip = 1 - $flip;
-
-     
+    
     }
 
     push @by-sea, "</article>\n</div>";
     push @by-mon, "</article>\n</div>";
-    mkdir "year-$y/$season" unless "year-$y/$season".IO.e;
-    spurt "year-$y/$season/scrips.html", @season-scrips.join("\n");
 
     # write month/season lists and year scrips to file
 
