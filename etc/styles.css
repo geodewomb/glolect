@@ -276,19 +276,20 @@ padding: 20px 20px;
 
 section.yeardat h1 {
 position: absolute;
-top: -20px;
-left: 30%;
+top: -16px;
+left: calc(50% - 50px);
 padding: 3px 10px;
-border-radius: 6px;
+border-radius: 6px;i
+min-width: 100px;
 white-space: nowrap;
 text-align: center;
 text-transform: uppercase;
 font-family: 'Lato',sans-serif;
 }
 section.yeardat h1:hover { background-color: #eaeaea;}
-section.yeardat article.christmas h1 { color: #ff0066;  left: 10px;}
-section.yeardat article.holyweek h1 { color: #ff0066; left: -20px;}
-section.yeardat article.ordinary h1 { color: #8ba817;}
+section.yeardat article.christmas h1 { color: #ff0066; }
+section.yeardat article.holyweek h1 { color: #ff0066; }
+section.yeardat article.ordinary h1 { color: #8ba817; left: calc(50% - 92px); }
 
 section.yeardat a { color: inherit; text-decoration: none; }
 
@@ -338,7 +339,7 @@ main section.scrips article { display: block; width: 100%;}
 
 section.menu #summary { padding: 10px 0; }
 section.menu #summary h2 { max-width: 280px; padding: 5px 0;}
-
+section.yeardat div {display: inline; }
 }
 
 @media screen and (max-width: 350px) {
@@ -428,8 +429,6 @@ section.today section.scrips p, section.today section.scrips p a { font-size: 16
 section.info { left: 250px; }
 main section.scrips div.midweek { display: inline-block; width: auto;}
 main section.scrips div.sunday { padding-left: 0px;}
-section#morelinks { position: absolute; left: 40px; top: 150px; }
-section#morelinks a { display: block; margin: 15px;}
 
 section.menu {
 text-align: left;
@@ -455,8 +454,10 @@ section.menu #summary h2 {
 padding: 4px 0px 2px 4px;
 }
 
-section#morelinks {position: absolute; top: 130px; left: 30px;}
-section#morelinks a { display: block; margin: 15px;}
+section#morelinks {float: left; vertical-align: text-top; padding-left: 30px;}
+section#morelinks a { display: block; margin: 15px 0;}
+section.yeardat { display: inline-block; vertical-align: text-top; width: calc( 100% - 250px); text-align: left;}
+section.yeardat article.ordinary h1 { color: #8ba817; left: 180px;}
 /*section.yeardat #row1 { margin-left: 320px; }
 section.yeardat #row2 { margin-left: 210px; }
 section.yeardat #row3 { margin-left: 65px; } */
