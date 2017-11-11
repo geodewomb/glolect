@@ -127,6 +127,7 @@ sub indexer( $content, $title, $season ) {  ### wrap content in site-wide index 
   <body class="{ $season }">
   <svg id="swipe-l" viewBox="0 0 45 40"><polygon points="0 0 45 0 22.5 40" fill="#ffffff00" /></svg>
   <svg id="swipe-r" viewBox="0 0 45 40"><polygon points="0 40 22.5 0 45 40" fill="#ffffff00" /></svg>
+  <p id="subtitle">daily scriptures + complete Bible reading plan<br>following the Revised Common Lectionary</p>
   <!--#include virtual="{ $root }/today.html" -->
   <nav class="generic">
   <ul>
@@ -213,11 +214,11 @@ sub make_browser {
       $summary
       </div>
       </section>
-      <section class="yeardat">
-      <div id="morelinks">
+      <section id="morelinks">
       <a href="{ $root }/year-{ $y }/feasts"><h1>Sundays + Feast Days</h1></a>
-      <a href="{ $root }/year-{ $y }"><h1>All of { $yyyy-yyyy }</h1></a>
-      </div>
+      <a href="{ $root }/year-{ $y }"><h1>All of Year { $y.uc }</h1></a>
+      </section>
+      <section class="yeardat">
       <!--#include virtual="{ $root }/year-{ $y }/{ $type }.html" -->
       </section>
       END
@@ -359,7 +360,7 @@ sub make_week(@week) {
     my $html = qq:to/END/;
     <section class="today { @week[0]<feast> }">
     <a href="{ $root }" class="date">
-    <h1>readings for // {@day-o-w[@week[$d]<date>.day-of-week].uc} {@week[$d]<date>.day} {@mon-name[@week[$d]<date>.month].uc}</h1>
+    <h1>// {@day-o-w[@week[$d]<date>.day-of-week].uc} {@week[$d]<date>.day} {@mon-name[@week[$d]<date>.month].uc}</h1>
     </a>
     <section class="scrips">
     { @week[$d]<scrips> }
@@ -551,7 +552,6 @@ sub process_yeardat {   # prepare triangles for browse pages
         }
 
         # store and reset month scriptures
-        say "year-$y/{@mon-name[$monum].lc}";
         mkdir "year-$y/{@mon-name[$monum].lc}" unless "year-$y/{@mon-name[$monum].lc}".IO.e;
         spurt "year-$y/{@mon-name[$monum].lc}/scrips.html", @month-scrips.join("\n");
 
