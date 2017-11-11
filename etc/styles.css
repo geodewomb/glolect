@@ -445,7 +445,7 @@ padding-left: 20px;
 display: inline-block; 
 vertical-align: text-top; 
 text-align: left;
-max-width: calc(100% - 580px); 
+max-width: calc(100% - 530px); 
 } 
 
 section.menu #summary p { max-width: 590px; }
@@ -454,13 +454,12 @@ section.menu #summary h2 {
 padding: 4px 0px 2px 4px;
 }
 
-section#morelinks {float: left; vertical-align: text-top; padding-left: 30px;}
+section#morelinks { position: absolute; left: 30px; top: 125px;}
 section#morelinks a { display: block; margin: 15px 0;}
-section.yeardat { display: inline-block; vertical-align: text-top; width: calc( 100% - 250px); text-align: left;}
+section.yeardat { margin-left: 150px; text-align: left; max-width: calc( 100% - 240px); }
 section.yeardat article.ordinary h1 { color: #8ba817; left: 180px;}
-/*section.yeardat #row1 { margin-left: 320px; }
-section.yeardat #row2 { margin-left: 210px; }
-section.yeardat #row3 { margin-left: 65px; } */
+section.yeardat #row1 { position: relative; left: 90px; }
+section.yeardat #row2 { position: relative; left: 45px; }
 }
 
 @media screen and (min-width: 1200px) {
