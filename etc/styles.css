@@ -21,7 +21,7 @@ body.lent, body.march, body.october        { background-color: #e8e8ef; }
 body.holyweek, body.april, body.november   { background-color: #eeeedd; }
 body.easter, body.february, body.september { background-color: #faeecf; }
 body.ordinary, body.june                   { background-color: #e8f2d8; }
-body.generic                               { background-color: #ffffff; }
+body.generic                               { background-color: #eeeeee;; }
 
 .generic h1 { color: #a02c5a; }
 .generic h2 { color: #ff0066; }
@@ -55,10 +55,10 @@ svg.epiphany #out, svg.baptism #out   { fill: #5fd3bc; }
 svg.epiphany #in, svg.baptism #in     { fill: #d5ffe6; }
 svg.transfiguration #out              { fill: #aaffee; }
 svg.transfiguration #in               { fill: #d0b95c; }
-svg.ashwednesday #out                 { fill: #eeebf3; }
-svg.ashwednesday #in                  { fill: #ddafe9; }
-/* section.tribar svg.ashwednesday #out  { fill: #dedbe3; }
-section.triber svg.ashwednesday #in   { fill: #ddafe9; } */
+/* svg.ashwednesday #out                 { fill: #eeebf3; }
+svg.ashwednesday #in                  { fill: #ddafe9; } */
+svg.ashwednesday #out  { fill: #dedbe3; }
+svg.ashwednesday #in   { fill: #ddafe9; } 
 svg.lent #out, svg.palmsunday #out    { fill: #8a6491; }
 svg.lent #in, svg.palmsunday #in      { fill: #ddafe9; }
 svg.holyweek #out, svg.holymonday #out{ fill: #ff0066; }
@@ -69,10 +69,10 @@ svg.ascension #out                    { fill: #cbab37; }
 svg.ascension #in                     { fill: #c83771; }
 svg.pentecost #out                    { fill: #ff8080; }
 svg.pentecost #in                     { fill: #ffd5d5; }
-svg.trinity #out                      { fill: #ffe9e9; }
-svg.trinity #in                       { fill: #ffcc00; }
-/* section.tribar svg.trinity #out       { fill: #fdd7d7; }
-section.tribar svg.trinity #in        { fill: #ffcc00; } */
+/* svg.trinity #out                      { fill: #ffe9e9; }
+svg.trinity #in                       { fill: #ffcc00; } */
+svg.trinity #out       { fill: #fdd7d7; }
+svg.trinity #in        { fill: #ffcc00; } 
 svg.ordinary #out, svg.proper #out    { fill: #abc837; }
 svg.ordinary #in, svg.proper #in      { fill: #dde9af; }
 svg.allsaints #out                    { fill: #abc837; }
@@ -174,8 +174,9 @@ border-radius: 6px;
 section.scrips p a:hover { color: #ff0066; }
 
 section.today h1 { padding: 4px; font-family: 'Lato',sans-serif; font-size: 20px; color: #a02c5a;} 
+section.today section.scrips { margin-top: 3px; }
 section.today section.scrips h4 { color: #ff0066;}
-section.today section.scrips p {color: #666666; margin: 0 0 6px 0;}
+section.today section.scrips p {color: #888888; margin: 0 0 3px 0;}
 section.today section.scrips h1, 
 section.today section.scrips h2, 
 section.today section.scrips h3 { display: none; }
@@ -288,7 +289,7 @@ text-align: center;
 text-transform: uppercase;
 font-family: 'Lato',sans-serif;
 }
-section.yeardat h1:hover { background-color: #eaeaea;}
+section.yeardat h1:hover { background-color: #ffffff;}
 section.yeardat article.christmas h1 { color: #ff0066; }
 section.yeardat article.holyweek h1 { color: #ff0066; }
 section.yeardat article.ordinary h1 { color: #8ba817; left: calc(50% - 92px); }
@@ -391,6 +392,7 @@ section.tribar svg.now { margin-left: -38px; margin-right: -23px; }
 section.today { position: absolute; top: 0; right: 0; text-align: left;}
 section.today h1 { display: inline-block;  font-size: 15px; font-weight: 700; margin-bottom: 3px;}
 section.today section.scrips {
+height: 150px;
 -webkit-columns: 180px 3;
    -moz-columns: 180px 3;
         columns: 180px 3;
@@ -426,12 +428,16 @@ section#morelinks a { display: inline-block; margin: 15px;}
 @media screen and (min-width: 980px) {
 
 header { left: -60px; width: calc(100% + 60px);}
-section.today { left: 450px; }
-section.today h1 { position: relative; left: 25px; }
+section.today { left: 470px; }
+section.today h1 { position: relative; left: 5px; }
 section.today section.scrips {
--webkit-columns: 180px 4;
-   -moz-columns: 180px 4;
-        columns: 180px 4;
+padding-top: 3px;
+height: 110px;
+max-width: 800px;
+-webkit-columns: 200px 4;
+   -moz-columns: 200px 4;
+        columns: 200px 4;
+column-fill: auto;
 }
 section.today section.scrips p, section.today section.scrips p a { font-size: 16px; }
 
