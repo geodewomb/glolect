@@ -128,7 +128,7 @@ sub indexer( $content, $title, $season ) {  ### wrap content in site-wide index 
   <body class="{ $season }">
   <svg id="swipe-l" viewBox="0 0 45 40"><polygon points="0 0 45 0 22.5 40" fill="#ffffff00" /></svg>
   <svg id="swipe-r" viewBox="0 0 45 40"><polygon points="0 40 22.5 0 45 40" fill="#ffffff00" /></svg>
-  <p id="subtitle">daily scriptures + complete Bible reading plan<br>following the Revised Common Lectionary</p>
+  <p id="subtitle">daily scriptures from the Revised Common Lectionary<br>+ complete Bible reading plan</p>
   <!--#include virtual="{ $root }/today.html" -->
   <nav class="generic">
   <ul>
