@@ -104,7 +104,7 @@ margin-left: -15px; vertical-align: text-top;
 
 section.tribar svg.now { height: 80px; width: 90px; }
 section.tribar svg:hover #out { stroke: #ff0066; stroke-width: 2; }
-section.tribar svg.generic-l g, section.tribar svg.generic-d g, section.tribar svg.now g { pointer-events: none; }
+section.tribar svg.generic g, section.tribar svg.generic-l g, section.tribar svg.generic-d g, section.tribar svg.now g { pointer-events: none; }
 
 main { position: relative; max-width: 100%; }
 main:after { clear: both; content=' '; }
