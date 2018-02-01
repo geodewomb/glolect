@@ -116,7 +116,7 @@ section.info svg.right { top: 0; right: 0; }
 section.info a:hover svg #out { fill: #ff0066; }
 section.info h1 { 
 margin-top: 4px; 
-padding: 8px; 
+padding: 10px 8px 6px 8px; 
 font-weight: bold; 
 font-size: 18px; 
 }
@@ -182,7 +182,7 @@ section.today section.scrips h2,
 section.today section.scrips h3 { display: none; }
 
 section.text { margin: 0 10px; }
-section.text h1 { font-size: 20px; font-family: 'Lato',sans-serif; text-transform: uppercase; }
+section.text h1 { text-align: center; font-size: 20px; font-family: 'Lato',sans-serif; text-transform: uppercase; }
 section.text h2 { padding: 20px 0 5px 0; }
 section.text p { padding: 5px 0; }
 
@@ -367,7 +367,7 @@ section.yeardat article { clear: both; min-width: 150px;}
  svg#swipe-l { display: none; position: absolute; width: 900px; top: 165px; left: -509px;}
 svg#swipe-r { position: absolute; top: -1000px; left: 390px; width: 1300px; }
 
-p#subtitle { position: absolute; top: 15px; left: 32px; color: #666666; font-size: 13px; line-height: 26px;}
+p#subtitle { position: absolute; top: 15px; left: 32px; color: #666666; font-size: 13px;}
 
 /* svg#swipe-l { position: fixed; width: 900px; top: 165px; left: -450px;}
 svg#swipe-r { display: block; position: fixed; top: -450px; left: 445px; width: 700px;} */
@@ -412,6 +412,8 @@ margin: 0 50px 0 220px;
 max-width: 850px;
 }
 
+section.text h1 { text-align: left; }
+
 section.menu #years {
 display: inline-block;
 vertical-align: text-top; 
@@ -444,9 +446,9 @@ section.today section.scrips p, section.today section.scrips p a { font-size: 16
 
 /* section.scrips article { min-height: 225px;} */
 section.info { left: 190px; }
-main section.scrips div.midweek { display: inline-block; width: auto;}
-main section.scrips div.sunday { padding-left: 0px;}
-
+section.scrips div.week { 
+display: inline-block; 
+}
 section.menu {
 text-align: left;
 }
