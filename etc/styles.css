@@ -303,9 +303,9 @@ section.yeardat svg:hover #out { stroke: #ff0066; stroke-width: 2; }
 
 /* tiny <600 pixels */
 
-@media screen and (max-width: 615px) {
+@media screen and (max-width: 980px) {
 
-svg#swipe-l { position: fixed; width: 200%; right: 20%; top: 0; z-index: -5;}
+svg#swipe-l { position: fixed; width: 200%; right: 20%; top: 0; z-index: -5; display: none; }
 svg#swipe-r, section.tribar svg { display: none; }
 
 p#subtitle { display: none; }
@@ -319,20 +319,21 @@ width: calc(50% + 455px); height: 50px;
 section.tribar svg { display: inline-block; }
 section.tribar svg.now { margin-left: -38px; margin-right: -23px; }
 
-nav { position: relative; text-align: center; width: 100%; top: -8px; z-index: 1; }
+nav { position: relative; text-align: center; width: 100%; background-color: #ffffff; z-index: 1; }
 nav li { padding: 8px 12px; display: inline-block;}
 nav a {font-size: 22px; }
-nav li a.generic { font-size: 28px;}
-nav li a.generic span.bigger { font-size: 40px; position: relative; top: 3px; left: -3px;}
+nav li a.generic { font-size: 24px;}
+nav li a.generic span.bigger { font-size: 32px; position: relative; top: 2px; left: -2px;}
 
-section.today { text-align: center; margin: 10px; min-height: 200px;}
+section.today { text-align: center; padding: 10px; min-height: 200px; background-color: #ffffff;}
 section.today section.scrips { display: inline-block; width: 200px; }
 section.today a { text-decoration: none;}
-section.today a h1 { font-size: 18px; display: inline-block; width: 100%; margin-bottom: 10px;}
+section.today a h1 { font-size: 16px; display: inline-block; width: 100%; margin-bottom: 10px;}
 
 body.generic section.today { display: none; }
 
 section.scrips p, section.scrips p a { font-size: 18px; }
+section.today section.scrips p a { font-size: 22px; }
 section.scrips p { margin: 5px; }
 
 main { padding-top: 35px; background-color: inherit;}
@@ -361,9 +362,9 @@ section.yeardat article { clear: both; min-width: 150px;}
 
 /* medium 600 - 980 */
 
-@media screen and (min-width: 616px) {
+@media screen and (min-width: 980px) {
 
- svg#swipe-l { position: absolute; width: 900px; top: 165px; left: -509px;}
+ svg#swipe-l { display: none; position: absolute; width: 900px; top: 165px; left: -509px;}
 svg#swipe-r { position: absolute; top: -1000px; left: 390px; width: 1300px; }
 
 p#subtitle { position: absolute; top: 15px; left: 32px; color: #666666; font-size: 13px; line-height: 26px;}

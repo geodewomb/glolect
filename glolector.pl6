@@ -246,6 +246,17 @@ sub make_season_and_year { # indexes for seasons/years/months
   my @seasons = <advent christmas epiphany lent holyweek easter ordinary>;
 
   for ('a','b','c') -> $y {
+      
+      my $html = qq:to/END/;
+      <section class="text">
+      <h1>Sundays and Feast Days | Year { $y.uc }</h1>
+      </section>
+      <section class="scrips">
+      <!--#include virtual="scrips.html" -->
+      </section>
+      END
+      spurt "year-$y/feasts/index.shtml", indexer($html,"Year {$y.uc} | Sundays and Feasts Days", 'generic');
+      copy 'etc/tribar.html', "year-$y/feasts/tribar.html";
 
     for @seasons -> $s {
       my $title;
@@ -283,7 +294,7 @@ sub make_season_and_year { # indexes for seasons/years/months
       copy 'etc/tribar.html', "year-$y/{$m.lc}/tribar.html";
     }
 
-    my $html = qq|<!--#include virtual="scrips.html" -->|;
+    $html = qq|<!--#include virtual="scrips.html" -->|;
     spurt "year-$y/index.shtml", indexer($html,"Year {$y.uc}",'generic');
   }
   
@@ -344,6 +355,8 @@ sub make_tribars( @data ) {
 
 sub make_week(@week) {
 
+   spurt "year-{@week[0]<year>}/feasts/scrips.html", qq|<div class="week">\n<div class="midweek">|, :append;
+    
   # create files by date
 
   for 1..7 -> $d {
@@ -355,7 +368,11 @@ sub make_week(@week) {
 
     @week[$d]<scrips> = html_daily(@week[$d]);
     spurt "$dir/scrips.html", @week[$d]<scrips>;
-    spurt "$dir/refer.txt", "{@week[0]<year>}|{@week[0]<num>}|{@week[0]<feast>}"; 
+    spurt "$dir/refer.txt", "{@week[0]<year>}|{@week[0]<num>}|{@week[0]<feast>}";
+    
+    unless @week[$d]<feast> ~~ /^advent$||^christmas$||^epiphany$||^lent$||^easter$||^ordinary$/ {
+      spurt "year-{@week[0]<year>}/feasts/scrips.html", "<article>\n{@week[$d]<scrips>}\n</article>", :append;
+    }  
   
     my $html = qq:to/END/;
     <section class="today { @week[0]<feast> }">
@@ -389,15 +406,21 @@ sub make_week(@week) {
   my $regist = "{@week[0]<num>}|{@week[0]<season>}|{@week[0]<feast>}|{@week[1]<date>.month}|{@week[7]<date>.month}|{@week[7]<date>.year}\n";
   spurt "year-{@week[0]<year>}/yeardat.txt", $regist, :append;
 
+  my $html = qq|\n</div></div>|;
+  spurt "year-{@week[0]<year>}/feasts/scrips.html", $html, :append;
+
 }
 
 
 sub prepare_dirs {
   
-  for ('year-a','year-b','year-c','browse') {
-    mkdir $_ unless $_.IO.e;
-    unlink "$_/yeardat.txt";
+  for ('a','b','c') {
+    mkdir "year-$_" unless "year-$_".IO.e;
+    unlink "year-$_/yeardat.txt";
+
+    mkdir "year-$_/feasts" unless "year-$_/feasts".IO.e;
   }
+  mkdir 'browse' unless 'browse'.IO.e;
 }
 
 
@@ -406,6 +429,7 @@ sub process_data( $lectdat ) {   ### sort of the main program i guess
   my @workweek;
   my %info =  year => 'x', num => 0, season => '', count => 0;
   my @tribar-registry;
+  my @feasts;
 
   for $lectdat.IO.lines -> $line {
     given $line {
