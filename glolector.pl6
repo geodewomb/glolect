@@ -123,7 +123,8 @@ sub indexer( $content, $title, $season ) {  ### wrap content in site-wide index 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css?family=Istok+Web:400,400i,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">  
-  <link rel="stylesheet" type="text/css" href="{ $root }/etc/styles.css"> 
+  <link rel="stylesheet" type="text/css" media="screen" href="{ $root }/etc/styles.css"> 
+  <link rel="stylesheet" type="text/css" media="print" href="{ $root }/etc/printer-styles.css"> 
   <body class="{ $season }">
   <svg id="swipe-l" viewBox="0 0 45 40"><polygon points="0 0 45 0 22.5 40" fill="#ffffff00" /></svg>
   <svg id="swipe-r" viewBox="0 0 45 40"><polygon points="0 40 22.5 0 45 40" fill="#ffffff00" /></svg>
@@ -355,7 +356,7 @@ sub make_tribars( @data ) {
 
 sub make_week(@week) {
 
-   spurt "year-{@week[0]<year>}/feasts/scrips.html", qq|<div class="week">\n<div class="midweek">|, :append;
+   spurt "year-{@week[0]<year>}/feasts/scrips.html", qq|<div class="week">|, :append;
     
   # create files by date
 
@@ -406,7 +407,7 @@ sub make_week(@week) {
   my $regist = "{@week[0]<num>}|{@week[0]<season>}|{@week[0]<feast>}|{@week[1]<date>.month}|{@week[7]<date>.month}|{@week[7]<date>.year}\n";
   spurt "year-{@week[0]<year>}/yeardat.txt", $regist, :append;
 
-  my $html = qq|\n</div></div>|;
+  my $html = qq|\n</div>|;
   spurt "year-{@week[0]<year>}/feasts/scrips.html", $html, :append;
 
 }
@@ -667,22 +668,11 @@ sub swap($y) {    ### figure out what the next year letter is
 
 sub weekly_scrips( @w ) {    ### makes actual html file for a week out of daily chunks
 
-  my $mtw;
-  for 1..3 { $mtw ~= qq|<article>\n{ @w[$_]<scrips> }\n</article>|; }
+  my $scrips;
+  for 1..7 { $scrips ~= qq|<article>\n{ @w[$_]<scrips> }\n</article>|; }
 
-  my $tfs;
-  for 4..6 { $tfs ~= qq|<article>\n{ @w[$_]<scrips> }\n</article>|; }
-
-  return qq:to/END/  
-  <div class="midweek">
-  $mtw
-  $tfs
-  </div>
-  <div class="sunday">
-  <article>
-  { @w[7]<scrips> }
-  </article>
-  </div>
+  return qq:to/END/;
+  $scrips
   END
   
 }
