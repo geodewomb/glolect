@@ -125,6 +125,17 @@ sub indexer( $content, $title, $season ) {  ### wrap content in site-wide index 
   <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">  
   <link rel="stylesheet" type="text/css" media="screen" href="{ $root }/etc/styles.css"> 
   <link rel="stylesheet" type="text/css" media="print" href="{ $root }/etc/printer-styles.css"> 
+  <link rel="apple-touch-icon" sizes="180x180" href="/~geneva/glolect/etc/favicon/apple-touch-icon.png?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/~geneva/glolect/etc/favicon/favicon-32x32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/~geneva/glolect/etc/favicon/favicon-16x16.png?v=2">
+  <link rel="manifest" href="/~geneva/glolect/etc/favicon/site.webmanifest?v=2">
+  <link rel="mask-icon" href="/~geneva/glolect/etc/favicon/safari-pinned-tab.svg?v=2" color="#5bbad5">
+  <link rel="shortcut icon" href="/~geneva/glolect/etc/favicon/favicon.ico?v=2">
+  <meta name="apple-mobile-web-app-title" content="Glo Lect">
+  <meta name="application-name" content="Glo Lect">
+  <meta name="msapplication-TileColor" content="#ffbbaa">
+  <meta name="msapplication-config" content="/~geneva/glolect/etc/favicon/browserconfig.xml?v=2">
+  <meta name="theme-color" content="#ffffff">
   <body class="{ $season }">
   <svg id="swipe-l" viewBox="0 0 45 40"><polygon points="0 0 45 0 22.5 40" fill="#ffffff00" /></svg>
   <svg id="swipe-r" viewBox="0 0 45 40"><polygon points="0 40 22.5 0 45 40" fill="#ffffff00" /></svg>
@@ -317,12 +328,14 @@ sub make_svg( $season, $link, $flip ) {
 }
 
 sub make_tribars( @data ) {
-
+  say @data;
   my @pre;
   my @post = @data;
   push @pre, %( feast => 'generic' ) for ^15;
   push @post, %( feast => 'generic' ) for ^50;
   
+  for @post { say $_; }
+
   for @data -> $w {
 
     my @tribar;
@@ -344,7 +357,6 @@ sub make_tribars( @data ) {
       push @tribar, make_svg(%w<feast>,$link,$flip);
       $flip = 1 - $flip;
     }
-    
     spurt "year-{$w<year>}/week-{$w<num>}/tribar.html", @tribar.join("\n");
 
     shift @pre;
@@ -378,7 +390,7 @@ sub make_week(@week) {
     my $html = qq:to/END/;
     <section class="today { @week[0]<feast> }">
     <a href="{ $root }" class="date">
-    <h1>// {@day-o-w[@week[$d]<date>.day-of-week].uc} {@week[$d]<date>.day} {@mon-name[@week[$d]<date>.month].uc}</h1>
+    <h1>// {@day-o-w[@week[$d]<date>.day-of-week].uc} // {@week[$d]<date>.day} {@mon-name[@week[$d]<date>.month]}</h1>
     </a>
     <section class="scrips">
     { @week[$d]<scrips> }
@@ -455,7 +467,7 @@ sub process_data( $lectdat ) {   ### sort of the main program i guess
       }
       
       when /\t/      { # process days            
-
+#        say $line;
         my %day = lets_call_it_a_day($line);
 
         # figure out seasons and feast 
@@ -486,7 +498,7 @@ sub process_data( $lectdat ) {   ### sort of the main program i guess
         @workweek[0] = %info;
         make_week(@workweek);
 
-        push @tribar-registry, %info;
+        push @tribar-registry, {%info};
 
         # reset working week
 
@@ -625,7 +637,6 @@ sub process_yeardat {   # prepare triangles for browse pages
 
 
 sub redirect_final_week($y,$w) { ### set up htaccess redirects to navigate trickily between years
-
   return if $y eq 'x';
   unless '.htaccess'.IO.e { say 'Did not update .htaccess, no file.'; return; }
   my $z = swap($y);
@@ -635,8 +646,8 @@ sub redirect_final_week($y,$w) { ### set up htaccess redirects to navigate trick
   else { spurt '.htaccess', "Redirect 302 $root/year-$y/week-$w $root/year-$z/week-1\n", :append; }
   
   $hta = slurp('.htaccess');
-  if $hta ~~/ '/year-'$y'/week-'(\d\d)\n / { spurt '.htaccess', $hta.subst($0, $w - 1, :g); }
-  else { spurt '.htaccess', "Redirect 302 $root/year-$z/week-0 $root/year-$y/week-{$w -1}\n", :append; }
+  if $hta ~~/ '/year-'$y'/week-'(\d\d\n) / { spurt '.htaccess', $hta.subst($0, "{$w - 1}\n", :g); }
+  else { spurt '.htaccess', "Redirect 302 $root/year-$z/week-0 $root/year-$y/week-{$w - 1}\n", :append; }
   
 }
 
