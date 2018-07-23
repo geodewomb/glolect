@@ -7,3 +7,6 @@
 *.txt
 
 etc/fonts/*
+
+old
+test.pl6
