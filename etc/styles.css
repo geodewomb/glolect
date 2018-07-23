@@ -7,21 +7,21 @@ margin: 0; padding: 0; border: 0; box-sizing: border-box; font-size: 0px;
 
 h1,h2,h3,h4,h5,h6,p { font: normal 16px 'Istok Web', sans-serif; }
 
-html, body { height: 100%; }
+html, body { height: 100%; overflow-x: hidden; }
 
 svg { pointer-events: none; }
 svg g { pointer-events: visiblePainted; }
 
 /* colors */
 
-body.advent { background-color: #eaebfd; }
-body.christmas { background-color: #eeeedd; }
-body.epiphany { background-color: #ddf3dd; }
-body.lent { background-color: #e8e8ef; }
-body.holyweek { background-color: #eeeedd; }
-body.easter { background-color: #faeecf; }
-body.ordinary { background-color: #e8f2d8; }
-body.generic { background-color: #dddddd; }
+body.advent, body.novdec, body.july        { background-color: #eaebfd; }
+body.christmas, body.may                   { background-color: #eeeedd; }
+body.epiphany, body.january, body.august   { background-color: #ddf3dd; }
+body.lent, body.march, body.october        { background-color: #e8e8ef; }
+body.holyweek, body.april, body.november   { background-color: #eeeedd; }
+body.easter, body.february, body.september { background-color: #faeecf; }
+body.ordinary, body.june                   { background-color: #e8f2d8; }
+body.generic                               { background-color: #eeeeee;; }
 
 .generic h1 { color: #a02c5a; }
 .generic h2 { color: #ff0066; }
@@ -33,18 +33,18 @@ body.generic { background-color: #dddddd; }
    .easter h1,   .easter h2,   .easter h4 { color: #bb9b27; border-color: #cbab37; }
  .ordinary h1, .ordinary h2, .ordinary h4 { color: #8a916f; border-color: #ffffff; }
 
-.novdec h1, .july h1  { color: #5f5fd3; }
-.may h1, { color: #a02c5a; }
-.january h1, .august h1 { color: #3fb39c; }
-.march h1, .october h1{ color: #8a6f91; }
- .april h1, .november h1 { color: #ff0066; }
-.february h1,  .september h1 { color: #bb9b27; }
-.june h1 { color: #8a916f; }
+.novdec h1, .july h1        { color: #5f5fd3; }
+.may h1,                    { color: #a02c5a; }
+.january h1, .august h1     { color: #3fb39c; }
+.march h1, .october h1      { color: #8a6f91; }
+ .april h1, .november h1    { color: #ff0066; }
+.february h1, .september h1 { color: #bb9b27; }
+.june h1                    { color: #8a916f; }
 
 
 svg.generic #out, svg.generic #in     { fill: #ffffff00; }
-svg.generic-d #out, svg.generic-l #in     { fill: #aaaaaa; }
-svg.generic-l #out, svg.generic-d #in     { fill: #dddddd; }
+svg.generic-d #out, svg.generic-l #in { fill: #aaaaaa; }
+svg.generic-l #out, svg.generic-d #in { fill: #dddddd; }
 svg.advent #out                       { fill: #5f5fd3; }
 svg.advent #in                        { fill: #afafe9; }
 svg.christmas #out, svg.nativity #out { fill: #aaaaff; }
@@ -55,10 +55,10 @@ svg.epiphany #out, svg.baptism #out   { fill: #5fd3bc; }
 svg.epiphany #in, svg.baptism #in     { fill: #d5ffe6; }
 svg.transfiguration #out              { fill: #aaffee; }
 svg.transfiguration #in               { fill: #d0b95c; }
-svg.ashwednesday #out                 { fill: #eeebf3; }
-svg.ashwednesday #in                  { fill: #ddafe9; }
-section.tribar svg.ashwednesday #out  { fill: #dedbe3; }
-section.triber svg.ashwednesday #in   { fill: #ddafe9; }
+/* svg.ashwednesday #out                 { fill: #eeebf3; }
+svg.ashwednesday #in                  { fill: #ddafe9; } */
+svg.ashwednesday #out  { fill: #dedbe3; }
+svg.ashwednesday #in   { fill: #ddafe9; } 
 svg.lent #out, svg.palmsunday #out    { fill: #8a6491; }
 svg.lent #in, svg.palmsunday #in      { fill: #ddafe9; }
 svg.holyweek #out, svg.holymonday #out{ fill: #ff0066; }
@@ -69,10 +69,10 @@ svg.ascension #out                    { fill: #cbab37; }
 svg.ascension #in                     { fill: #c83771; }
 svg.pentecost #out                    { fill: #ff8080; }
 svg.pentecost #in                     { fill: #ffd5d5; }
-svg.trinity #out                      { fill: #ffe9e9; }
-svg.trinity #in                       { fill: #ffcc00; }
-section.tribar svg.trinity #out       { fill: #fdd7d7; }
-section.tribar svg.trinity #in        { fill: #ffcc00; }
+/* svg.trinity #out                      { fill: #ffe9e9; }
+svg.trinity #in                       { fill: #ffcc00; } */
+svg.trinity #out       { fill: #fdd7d7; }
+svg.trinity #in        { fill: #ffcc00; } 
 svg.ordinary #out, svg.proper #out    { fill: #abc837; }
 svg.ordinary #in, svg.proper #in      { fill: #dde9af; }
 svg.allsaints #out                    { fill: #abc837; }
@@ -85,7 +85,8 @@ svg#swipe-l polygon,svg#swipe-r polygon{ fill: #ffffff; }
 /* universal styles */
 
 nav ul { list-style-type: none; }
-nav li a { display: inline-block; color: #ff0066; 
+nav li a { 
+display: inline-block; color: #ff0066; 
 font-family: 'Lato',sans-serif; text-decoration: none; 
 }
 nav li a.generic { color: #a02c5a; text-transform: uppercase; }
@@ -93,21 +94,17 @@ nav li a.generic span.bigger { font: 'Istok Web',sans-serif; }
 
 section.tribar { 
 white-space: nowrap; overflow-x: hidden; overflow-y: visible;
-z-index: 5;
-position: relative; top: 5px;
-width: auto;
+z-index: 5; position: relative; top: 5px; width: auto;
 }
 
 section.tribar svg {
-display: inline-block;
-width: 45px; height: 40px;
-margin-left: -15px;
-vertical-align: text-top;
+display: inline-block; width: 45px; height: 40px;
+margin-left: -15px; vertical-align: text-top;
 }
 
 section.tribar svg.now { height: 80px; width: 90px; }
 section.tribar svg:hover #out { stroke: #ff0066; stroke-width: 2; }
-section.tribar svg.generic g, section.tribar svg.now g { pointer-events: none; }
+section.tribar svg.generic g, section.tribar svg.generic-l g, section.tribar svg.generic-d g, section.tribar svg.now g { pointer-events: none; }
 
 main { position: relative; max-width: 100%; }
 main:after { clear: both; content=' '; }
@@ -119,7 +116,7 @@ section.info svg.right { top: 0; right: 0; }
 section.info a:hover svg #out { fill: #ff0066; }
 section.info h1 { 
 margin-top: 4px; 
-padding: 8px; 
+padding: 10px 8px 6px 8px; 
 font-weight: bold; 
 font-size: 18px; 
 }
@@ -176,22 +173,142 @@ border-radius: 6px;
 }
 section.scrips p a:hover { color: #ff0066; }
 
-section.today h1 { padding: 4px; font-family: 'Lato',sans-serif; font-size: 20px;} 
+section.today h1 { padding: 4px; font-family: 'Lato',sans-serif; font-size: 20px; color: #a02c5a;} 
+section.today section.scrips { margin-top: 3px; }
+section.today section.scrips h4 { color: #ff0066;}
+section.today section.scrips p {color: #888888; margin: 0 0 3px 0;}
 section.today section.scrips h1, 
 section.today section.scrips h2, 
 section.today section.scrips h3 { display: none; }
 
 section.text { margin: 0 10px; }
-section.text h1 { font-size: 20px; font-family: 'Lato',sans-serif; text-transform: uppercase; }
+section.text h1 { text-align: center; font-size: 20px; font-family: 'Lato',sans-serif; text-transform: uppercase; }
 section.text h2 { padding: 20px 0 5px 0; }
 section.text p { padding: 5px 0; }
 
+section.menu { text-align: center; margin: 0 10px; }
+section.menu #years { text-align: center; display: inline-block; background-color: #dddddd; padding: 5px 0; width: 320px; }
+section.menu #summary { text-align: center; display: inline-block;}
+
+section.menu a, .morelinks a { text-decoration: none; margin: 5px; }
+section.menu a:hover, .morelinks a:hover { background-color: #eeeeee; }
+section.menu a.selected { background: #ffffff; pointer-events: none; }
+
+section.menu a {
+text-align: center;
+display: inline-block;
+padding: 6px 12px;
+border-radius: 6px;
+pointer-events: all;
+}
+
+section.menu a h1, section.menu a h2 {
+color: #a02c5a;
+font-family: 'Lato',sans-serif;
+font-size: 20px;
+text-transform: uppercase;
+}
+
+section.menu a h2 { font-size: 14px; }
+
+section.menu #options a h1{ font-size: 16px; padding: 2px 2px; }
+
+section.menu a.go-archive {
+font-family: 'Istok Web',sans-serif;
+color: #777777;
+font-size: 16px;
+text-transform: none;
+left: -16px;
+margin-right: 16px;
+display: none;
+}
+
+
+section.menu #summary h2 {
+font-family: 'Lato',sans-serif;
+font-size: 16px;
+color: #ff0066;
+display: inline-block;
+}
+
+section.menu #summary p {
+font-family: 'Istok Web',sans-serif;
+font-size: 14px;
+padding: 4px;
+}
+
+section.menu #summary p span {
+color: #666666;
+}
+
+section#morelinks {
+text-align: center;
+}
+
+section#morelinks a {
+font-size: 14px;
+text-decoration: none;
+color: #444444;
+text-transform: uppercase;
+font-family: 'Lato',sans-serif;
+display: inline-block;
+margin: 5px;
+}
+
+section#morelinks a h1 {
+display: inline-block;
+color: #444444;
+padding: 3px 10px;
+border-radius: 6px;
+text-align: center;
+text-transform: uppercase;
+font-family: 'Lato',sans-serif;
+}
+
+section#morelinks a h1:hover {
+background-color: #eaeaea;
+}
+
+section.yeardat { text-align: center; position: relative; top: 35px; max-width: 1200px;}
+
+section.yeardat article {
+position: relative;
+display: inline-block;
+padding: 20px 20px;
+}
+
+section.yeardat h1 {
+position: absolute;
+top: -16px;
+left: calc(50% - 50px);
+padding: 3px 10px;
+border-radius: 6px;i
+min-width: 100px;
+white-space: nowrap;
+text-align: center;
+text-transform: uppercase;
+font-family: 'Lato',sans-serif;
+}
+section.yeardat h1:hover { background-color: #ffffff;}
+section.yeardat article.christmas h1 { color: #ff0066; }
+section.yeardat article.holyweek h1 { color: #ff0066; }
+section.yeardat article.ordinary h1 { color: #8ba817; left: calc(50% - 92px); }
+
+section.yeardat a { color: inherit; text-decoration: none; }
+
+section.yeardat svg { float: left; margin-left: -12px; margin-bottom: 12px; }
+section.yeardat svg:hover #out { stroke: #ff0066; stroke-width: 2; }
+
+
+
 /* tiny <600 pixels */
 
-@media screen and (max-width: 615px) {
+@media screen and (max-width: 980px) {
 
-svg#swipe-l { position: fixed; width: 200%; right: 20%; top: 0; z-index: -5;}
+svg#swipe-l { position: fixed; width: 200%; right: 20%; top: 0; z-index: -5; display: none; }
 svg#swipe-r, section.tribar svg { display: none; }
+
+p#subtitle { display: none; }
 
 header {
 background-color: #ffffff;
@@ -202,46 +319,65 @@ width: calc(50% + 455px); height: 50px;
 section.tribar svg { display: inline-block; }
 section.tribar svg.now { margin-left: -38px; margin-right: -23px; }
 
-nav { position: relative; text-align: center; width: 100%; top: -8px; z-index: 1; }
+nav { position: relative; text-align: center; width: 100%; background-color: #ffffff; z-index: 1; }
 nav li { padding: 8px 12px; display: inline-block;}
-nav a {font-size: 24px; }
-nav li a.generic { font-size: 28px;}
-nav li a.generic span.bigger { font-size: 40px; position: relative; top: 3px; left: -3px;}
+nav a {font-size: 22px; }
+nav li a.generic { font-size: 24px;}
+nav li a.generic span.bigger { font-size: 32px; position: relative; top: 2px; left: -2px;}
 
-section.today { text-align: center; margin: 10px; min-height: 200px;}
-section.today section.scrips { display: inline-block; width: 200px; }
+section.today { text-align: center; padding: 10px; min-height: 200px; background-color: #ffffff;}
+section.today section.scrips { display: inline-block; width: 100%; }
 section.today a { text-decoration: none;}
-section.today a h1 { font-size: 18px; display: inline-block; width: 100%; margin-bottom: 10px;}
+section.today a h1 { font-size: 16px; display: inline-block; width: 100%; margin-bottom: 10px;}
+
+body.generic section.today { display: none; }
+
 section.scrips p, section.scrips p a { font-size: 18px; }
+section.today section.scrips p a { font-size: 22px; }
 section.scrips p { margin: 5px; }
 
-main { padding-top: 35px; }
+main { padding-top: 35px; background-color: inherit;}
 section.info { margin-bottom: 5px; }
 
 section.scrips div { display: block; }
 main section.scrips article { padding-top: 20px;}
 main section.scrips article { display: block; width: 100%;}
+
+section.menu #summary { padding: 10px 0; }
+section.menu #summary h2 { max-width: 280px; padding: 5px 0;}
+section.yeardat div {display: inline; }
 }
 
-@media screen and (max-width: 330px) {
-nav a {font-size: 24px; }
-nav li { padding: 8px 6px;}
+@media screen and (max-width: 350px) {
+nav a {font-size: 22px; }
+nav li { padding: 8px 4px;}
 section.today a h1 { font-size: 16px;}
+section.menu { margin: 0; }
+section.menu #years { width: 100%;}
+section.yeardat h1 { width: 100%; left: 0;}
+section.yeardat article { clear: both; min-width: 150px;}
 }
+
+
 
 /* medium 600 - 980 */
 
-@media screen and (min-width: 616px) {
+@media screen and (min-width: 980px) {
 
-svg#swipe-l { position: absolute; width: 700px; top: 134px; left: -350px;}
-svg#swipe-r { display: block; position: absolute; top: -350px; left: -120px; width: 600px;}
+ svg#swipe-l { display: none; position: absolute; width: 900px; top: 165px; left: -509px;}
+svg#swipe-r { position: absolute; top: -1000px; left: 390px; width: 1300px; }
+
+p#subtitle { position: absolute; top: 15px; left: 32px; color: #666666; font-size: 13px;}
+
+/* svg#swipe-l { position: fixed; width: 900px; top: 165px; left: -450px;}
+svg#swipe-r { display: block; position: fixed; top: -450px; left: 445px; width: 700px;} */
 
 nav { position: absolute; top: 40px; z-index: 1; }
-nav li { padding: 8px; margin-left: 8px; }
-nav li a { border-left: solid 3px #ffffff; font-size: 24px; padding: 3px 8px; }
+nav li { padding: 8px; margin-left: 8px; width: 100px; white-space: nowrap;}
+nav li a { border-left: solid 3px #ffffff00; font-size: 24px; padding: 3px 8px; }
 nav li a:hover { border-left: solid 3px #ff0066; }
 nav li a.generic { font-size: 40px; margin: 14px 0 75px 0px; letter-spacing: 2px; }
-nav li a.generic:hover { border-left: solid 3px #ffffff; }
+nav li a.generic:hover { border-left: solid 3px #ffffff00; }
 nav li a.generic span.bigger { font-size: 58px; position: relative; top: 4px; left: -5px;}
 
 header {
@@ -254,13 +390,14 @@ width: calc(100% + 120px); height: 50px;
 section.tribar svg { display: inline-block; }
 section.tribar svg.now { margin-left: -38px; margin-right: -23px; }
 
-section.today { position: absolute; top: 0; right: 0; 230px; text-align: left; width: 460px;}
-section.today a h1 { display: inline-block;  font-size: 20px; margin-bottom: 3px;}
-section.today section.scrips {
--webkit-columns: 150px 3;
-   -moz-columns: 150px 3;
-        columns: 150px 3;
-}
+section.today { position: absolute; top: 0; right: 0; text-align: left;}
+section.today h1 { display: inline-block;  font-size: 15px; font-weight: 700; margin-bottom: 3px;}
+/* section.today section.scrips {
+height: 150px;
+-webkit-columns: 180px 3;
+   -moz-columns: 180px 3;
+        columns: 180px 3;
+} */
 main { position: absolute; top: 235px; width: 100%;}
 section.info { position: relative; left: 140px; top: 20px; width: 400px; z-index: 10;}
 
@@ -274,32 +411,79 @@ section.text {
 margin: 0 50px 0 220px;
 max-width: 850px;
 }
+
+section.text h1 { text-align: left; }
+
+section.menu #years {
+display: inline-block;
+vertical-align: text-top; 
+margin: 20px 50px; 
 }
 
+section.menu #summary { max-width: 585px; }
+
+section#morelinks a { display: inline-block; margin: 15px;}
+}
 
 
 /* large 980+ */
 
 @media screen and (min-width: 980px) {
 
-header { left: 0px; width: 100%;}
-section.today { left: 420px; }
+header { left: -60px; width: calc(100% + 60px);}
+section.today { left: 470px; }
+section.today h1 { position: relative; left: 5px; }
 section.today section.scrips {
--webkit-columns: 185px 3;
-   -moz-columns: 185px 3;
-        columns: 185px 3;
+padding-top: 3px;
+height: 110px;
+max-width: 800px;
+-webkit-columns: 200px 4;
+   -moz-columns: 200px 4;
+        columns: 200px 4;
+column-fill: auto;
 }
 section.today section.scrips p, section.today section.scrips p a { font-size: 16px; }
 
 /* section.scrips article { min-height: 225px;} */
-section.info { left: 250px; }
-main section.scrips div.midweek { display: inline-block; width: auto;}
-main section.scrips div.sunday { padding-left: 0px;}
+section.info { left: 190px; }
+section.scrips div.week { 
+display: inline-block; 
+}
+section.menu {
+text-align: left;
+}
 
+section.menu #years {
+display: inline-block;
+vertical-align: text-top; 
+width: 320px; 
+margin: 0 0 0 200px;
+}
+section.menu #summary { 
+padding-left: 20px; 
+display: inline-block; 
+vertical-align: text-top; 
+text-align: left;
+max-width: calc(100% - 530px); 
+} 
+
+section.menu #summary p { max-width: 590px; }
+
+section.menu #summary h2 {
+padding: 4px 0px 2px 4px;
+}
+
+section#morelinks { position: absolute; left: 30px; top: 125px; z-index: 30;}
+section#morelinks a { display: block; margin: 15px 0;}
+section.yeardat { margin-left: 150px; text-align: left; max-width: calc( 100% - 240px); }
+section.yeardat article.ordinary h1 { color: #8ba817; left: 180px;}
+section.yeardat #row1 { position: relative; left: 90px; }
+section.yeardat #row2 { position: relative; left: 45px; }
 }
 
 @media screen and (min-width: 1200px) {
 
+section.today section.scrips p, section.today section.scrips p a { font-size: 18px; }
 main section.scrips article { width: 170px; }
 
 }
@@ -307,172 +491,5 @@ main section.scrips article { width: 170px; }
 
 
 
-section.menu {
-text-align: center;
-max-width: 100%;
-}
 
-section.menu a {
-text-decoration: none;
-margin: 0px 10px 10px 0px;
-}
-
-section.menu #years {
-padding-left: 120px;
-float: left;
-text-align: right;
-vertical-align: text-top;
-}
-
-section.menu  a:hover {
-background-color: #eaeaea;
-}
-
-section.menu a.selected {
-background: #ffffff;
-pointer-events: none;
-}
-
-section.menu #years a {
-text-align: center;
-display: inline-block;
-padding: 6px 12px;
-border-radius: 6px;
-}
-
-section.menu #years h1 {
-color: #a02c5a;
-font-family: 'Lato',sans-serif;
-font-size: 20px;
-text-transform: uppercase;
-}
-
-section.menu #years h2 {
-color: #a02c5a;
-font-size: 14px;
-text-align: center;
-}
-
-section.menu #options h1{
-font-size: 16px;
-padding: 2px 2px;
-}
-
-section.menu a.go-archive {
-font-family: 'Istok Web',sans-serif;
-color: #777777;
-font-size: 16px;
-text-transform: none;
-left: -16px;
-margin-right: 16px;
-}
-
-section.menu #summary {
-padding-left: 20px;
-border-left: solid 2px #a02c5a;
-display: inline-block;
-vertical-align: text-top;
-text-align: left;
-}
-
-section.menu #summary h2 {
-font-family: 'Lato',sans-serif;
-font-size: 16px;
-color: #ff0066;
-padding: 4px 0px 2px 4px;
-}
-
-section.menu #summary p {
-font-family: 'Istok Web',sans-serif;
-font-size: 14px;
-padding: 4px;
-}
-
-section.menu #summary p span {
-color: #666666;
-}
-
-section.yeardat {
-position: relative;
-text-align: center;
-padding-top: 20px;
-}
-
-section.yeardat div {
-margin: 20px 50px;
-}
-
-section.yeardat #row1 { margin-left: 320px; }
-
-section.yeardat #row2 { margin-left: 210px; }
-section.yeardat #row3 { margin-left: 65px; }
-
-section.yeardat article {
-position: relative;
-display: inline-block;
-padding: 20px 20px;
-}
-
-section.yeardat h1 {
-position: absolute;
-top: -20px;
-left: 30%;
-padding: 3px 10px;
-border-radius: 6px;
-white-space: nowrap;
-text-align: center;
-text-transform: uppercase;
-font-family: 'Lato',sans-serif;
-}
-
-section.yeardat a {
-color: inherit;
-text-decoration: none;
-}
-
-section.yeardat h1:hover {
-background-color: #eaeaea;
-}
-
-section.yeardat article.christmas h1 { color: #ff0066;  left: 10px;}
-
-section.yeardat article.holyweek h1 { color: #ff0066; left: -20px;}
-
-section.yeardat article.ordinary h1 { color: #8ba817;}
-
-section.yeardat svg {
-float: left;
-margin-left: -12px;
-margin-bottom: 12px;
-}
-
-section.yeardat svg:hover #out {
-stroke: #ffffff;
-stroke-width: 2;
-}
-
-
-#morelinks {
-position: absolute;
-top: 0;
-left: 80px;
-}
-
-#morelinks a {
-font-size: 14px;
-text-decoration: none;
-color: #444444;
-text-transform: uppercase;
-font-family: 'Lato',sans-serif;
-display: block;
-}
-
-#morelinks a h1 {
-display: inline-block;
-position: relative;
-top: 0;
-left: 0;
-margin-bottom: 10px;
-color: #444444;
-}
 

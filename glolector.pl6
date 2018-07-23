@@ -39,6 +39,30 @@ sub deduce_year( %d ) {
   return @letter[ (%d<date>.year + $bump) % 3 ];
 }
 
+sub find_eitherors( $s ) {
+ 
+  my $string =  $s;
+  # find either/or options and format
+  my token unit { <-[ {}| ]>+ }
+
+  while $string  ~~ / '{' (<unit> ['|' <unit>]+) '}' / { 
+    my @eitheror = $0.split('|');
+    my $i = @eitheror.elems - 1;
+    for 0..@eitheror.elems - 1 -> $e {
+      my @scrips = @eitheror[$e].split(';');
+      for @scrips {
+        next if $_.substr(0,3) eq '<p>';
+        $_ = gateway($_);
+      }
+      @eitheror[$e] = @scrips.join("</p>\n<p>");
+    }
+    
+    my $eitheror = qq|<p>/\c[NBSP]{ @eitheror.join("</p><p>or ") }\c[NBSP]/</p>|;
+    $string =  $/.prematch ~ $eitheror ~ $/.postmatch;
+  }
+  return $string;
+}
+
 
 sub gateway( $ref ) {   
 
@@ -55,28 +79,12 @@ sub gateway( $ref ) {
 
 sub html_daily( %d ) {   ### constructs index.html for daily entries
 
-  # find either/or options and format
-
-#  while %d<scrips> ~~ / '{' <!after '{'> (.+?) '}' / {
-  while %d<scrips> ~~ / '{' ( <-[ \{\} ]>+  '|' <-[ \{\} ]>+ ) '}' / {
-
-    my @eitheror = $0.split('|');
-    
-    for 0..3 -> $e {
-      next unless @eitheror[$e];
-      my @scrips = @eitheror[$e].split(';');
-      $_ = gateway($_) for @scrips;
-      @eitheror[$e] = @scrips.join("</p>\n<p>");
-    }
-
-    my $eitheror = qq|<p>/\c[NBSP]{ @eitheror.join("</p><p>or ") }\c[NBSP]/</p>|;
-    %d<scrips> = $/.prematch ~ $eitheror ~ $/.postmatch;
-  }
-
+  my $scrips = find_eitherors(%d<scrips>);
+  
 
   # divide scripture string and tag with html
 
-  my @list = %d<scrips>.split(';');
+  my @list = $scrips.split(';');
   for @list {
     given $_ {
       when / '[' (.+) ']' /   { $_ = qq|<h3>{ $0.Str }</h3>|; }
@@ -115,10 +123,23 @@ sub indexer( $content, $title, $season ) {  ### wrap content in site-wide index 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css?family=Istok+Web:400,400i,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">  
-  <link rel="stylesheet" type="text/css" href="{ $root }/etc/styles.css"> 
+  <link rel="stylesheet" type="text/css" media="screen" href="{ $root }/etc/styles.css"> 
+  <link rel="stylesheet" type="text/css" media="print" href="{ $root }/etc/printer-styles.css"> 
+  <link rel="apple-touch-icon" sizes="180x180" href="/~geneva/glolect/etc/favicon/apple-touch-icon.png?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/~geneva/glolect/etc/favicon/favicon-32x32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/~geneva/glolect/etc/favicon/favicon-16x16.png?v=2">
+  <link rel="manifest" href="/~geneva/glolect/etc/favicon/site.webmanifest?v=2">
+  <link rel="mask-icon" href="/~geneva/glolect/etc/favicon/safari-pinned-tab.svg?v=2" color="#5bbad5">
+  <link rel="shortcut icon" href="/~geneva/glolect/etc/favicon/favicon.ico?v=2">
+  <meta name="apple-mobile-web-app-title" content="Glo Lect">
+  <meta name="application-name" content="Glo Lect">
+  <meta name="msapplication-TileColor" content="#ffbbaa">
+  <meta name="msapplication-config" content="/~geneva/glolect/etc/favicon/browserconfig.xml?v=2">
+  <meta name="theme-color" content="#ffffff">
   <body class="{ $season }">
   <svg id="swipe-l" viewBox="0 0 45 40"><polygon points="0 0 45 0 22.5 40" fill="#ffffff00" /></svg>
   <svg id="swipe-r" viewBox="0 0 45 40"><polygon points="0 40 22.5 0 45 40" fill="#ffffff00" /></svg>
+  <p id="subtitle">daily scriptures from the Revised Common Lectionary<br>+ complete Bible reading plan</p>
   <!--#include virtual="{ $root }/today.html" -->
   <nav class="generic">
   <ul>
@@ -205,11 +226,11 @@ sub make_browser {
       $summary
       </div>
       </section>
-      <section class="yeardat">
-      <div id="morelinks">
+      <section id="morelinks">
       <a href="{ $root }/year-{ $y }/feasts"><h1>Sundays + Feast Days</h1></a>
-      <a href="{ $root }/year-{ $y }"><h1>All of { $yyyy-yyyy }</h1></a>
-      </div>
+      <a href="{ $root }/year-{ $y }"><h1>All of Year { $y.uc }</h1></a>
+      </section>
+      <section class="yeardat">
       <!--#include virtual="{ $root }/year-{ $y }/{ $type }.html" -->
       </section>
       END
@@ -232,11 +253,22 @@ sub make_faq {
   
 } 
 
-sub make_season_and_year {
+sub make_season_and_year { # indexes for seasons/years/months
 
   my @seasons = <advent christmas epiphany lent holyweek easter ordinary>;
 
   for ('a','b','c') -> $y {
+      
+      my $html = qq:to/END/;
+      <section class="text">
+      <h1>Sundays and Feast Days | Year { $y.uc }</h1>
+      </section>
+      <section class="scrips">
+      <!--#include virtual="scrips.html" -->
+      </section>
+      END
+      spurt "year-$y/feasts/index.shtml", indexer($html,"Year {$y.uc} | Sundays and Feasts Days", 'generic');
+      copy 'etc/tribar.html', "year-$y/feasts/tribar.html";
 
     for @seasons -> $s {
       my $title;
@@ -256,8 +288,25 @@ sub make_season_and_year {
       spurt "year-$y/$s/index.shtml", indexer($html,"Year {$y.uc} | {$title}",$s);
       copy 'etc/tribar.html', "year-$y/$s/tribar.html";
     }
+    
+    for @mon-name -> $m {
+      next if $m eq 'December';
+      my $title = $m;
+      if $m eq 'NovDec' { $title = "November / December"; }
+      
+      my $html = qq:to/END/;
+      <section class="text">
+      <h1>All readings for {$title} | Year { $y.uc }</h1>
+      </section>
+      <section class="scrips">
+      <!--#include virtual="scrips.html" -->
+      </section>
+      END
+      spurt "year-$y/{$m.lc}/index.shtml", indexer($html,"Year {$y.uc} | {$title}", $m.lc);
+      copy 'etc/tribar.html', "year-$y/{$m.lc}/tribar.html";
+    }
 
-    my $html = qq|<!--#include virtual="scrips.html" -->|;
+    $html = qq|<!--#include virtual="scrips.html" -->|;
     spurt "year-$y/index.shtml", indexer($html,"Year {$y.uc}",'generic');
   }
   
@@ -279,12 +328,14 @@ sub make_svg( $season, $link, $flip ) {
 }
 
 sub make_tribars( @data ) {
-
+  say @data;
   my @pre;
   my @post = @data;
   push @pre, %( feast => 'generic' ) for ^15;
   push @post, %( feast => 'generic' ) for ^50;
   
+  for @post { say $_; }
+
   for @data -> $w {
 
     my @tribar;
@@ -306,7 +357,6 @@ sub make_tribars( @data ) {
       push @tribar, make_svg(%w<feast>,$link,$flip);
       $flip = 1 - $flip;
     }
-    
     spurt "year-{$w<year>}/week-{$w<num>}/tribar.html", @tribar.join("\n");
 
     shift @pre;
@@ -318,22 +368,29 @@ sub make_tribars( @data ) {
 
 sub make_week(@week) {
 
+   spurt "year-{@week[0]<year>}/feasts/scrips.html", qq|<div class="week">|, :append;
+    
   # create files by date
+
   for 1..7 -> $d {
     my $date = @week[$d]<date>;
     my $dir = "{$date.year}/{$date.month}/{$date.day}"; 
     mkdir $dir unless $dir.IO.e;
- 
+    
+    # html-ify scriptures
+
     @week[$d]<scrips> = html_daily(@week[$d]);
     spurt "$dir/scrips.html", @week[$d]<scrips>;
-    spurt "$dir/refer.txt", "{@week[0]<year>}|{@week[0]<num>}|{@week[0]<feast>}"; 
+    spurt "$dir/refer.txt", "{@week[0]<year>}|{@week[0]<num>}|{@week[0]<feast>}";
     
-    my $svg = make_svg(@week[0]<feast>,$root,0);
+    unless @week[$d]<feast> ~~ /^advent$||^christmas$||^epiphany$||^lent$||^easter$||^ordinary$/ {
+      spurt "year-{@week[0]<year>}/feasts/scrips.html", "<article>\n{@week[$d]<scrips>}\n</article>", :append;
+    }  
   
     my $html = qq:to/END/;
     <section class="today { @week[0]<feast> }">
     <a href="{ $root }" class="date">
-    <h1>readings for // {@day-o-w[@week[$d]<date>.day-of-week].uc} {@week[$d]<date>.day} {@mon-name[@week[$d]<date>.month].uc}</h1>
+    <h1>// {@day-o-w[@week[$d]<date>.day-of-week].uc} // {@week[$d]<date>.day} {@mon-name[@week[$d]<date>.month]}</h1>
     </a>
     <section class="scrips">
     { @week[$d]<scrips> }
@@ -359,18 +416,24 @@ sub make_week(@week) {
   my $index = weekly_index($scrips,@week[0]);
   spurt "$dir/index.shtml", $index;
 
-  my $regist = "{@week[0]<num>}|{@week[0]<season>}|{@week[0]<feast>}|{@week[7]<date>.month}|{@week[7]<date>.year}\n";
+  my $regist = "{@week[0]<num>}|{@week[0]<season>}|{@week[0]<feast>}|{@week[1]<date>.month}|{@week[7]<date>.month}|{@week[7]<date>.year}\n";
   spurt "year-{@week[0]<year>}/yeardat.txt", $regist, :append;
+
+  my $html = qq|\n</div>|;
+  spurt "year-{@week[0]<year>}/feasts/scrips.html", $html, :append;
 
 }
 
 
 sub prepare_dirs {
   
-  for ('year-a','year-b','year-c','browse') {
-    mkdir $_ unless $_.IO.e;
-    unlink "$_/yeardat.txt";
+  for ('a','b','c') {
+    mkdir "year-$_" unless "year-$_".IO.e;
+    unlink "year-$_/yeardat.txt";
+
+    mkdir "year-$_/feasts" unless "year-$_/feasts".IO.e;
   }
+  mkdir 'browse' unless 'browse'.IO.e;
 }
 
 
@@ -378,22 +441,22 @@ sub process_data( $lectdat ) {   ### sort of the main program i guess
 
   my @workweek;
   my %info =  year => 'x', num => 0, season => '', count => 0;
-
   my @tribar-registry;
+  my @feasts;
 
   for $lectdat.IO.lines -> $line {
     given $line {
 
       when /^'#'/    { next; } # no comments
-      
+  
       when /^<:Lu>+/ { # process season header
 
-      # change seasons
+        # change seasons
 
         %info<season> = $line.split(' ').join.lc;
         %info<count> = 1;
        
-      # setup and reset year on year change 
+        # setup and reset year on year change 
        
         if $line.lc ~~ /advent/ {
           redirect_final_week(%info<year>,%info<num>);
@@ -404,10 +467,10 @@ sub process_data( $lectdat ) {   ### sort of the main program i guess
       }
       
       when /\t/      { # process days            
-
+#        say $line;
         my %day = lets_call_it_a_day($line);
 
-      # figure out seasons and feast 
+        # figure out seasons and feast 
 
         %day<season> = %info<season>;
         given %day<feast> { 
@@ -417,12 +480,12 @@ sub process_data( $lectdat ) {   ### sort of the main program i guess
           default { %info<feast> = %day<feast>.comb(/<:L>+/).join('').lc unless %info<feast>; }
         }
 
-      # load into working week
+        # load into working week
 
         my $y = %day<date>.day-of-week;
         @workweek[$y] = %day;
 
-      # once the week has 7 days wrap it up add final info
+        # once the week has reached Sunday, wrap it up add final info
 
         next unless $y == 7;
         unless $line ~~ / '=[' .+ ']' \t / { say "Sunday, but not Feast day. Verify data: $line"; }
@@ -430,15 +493,14 @@ sub process_data( $lectdat ) {   ### sort of the main program i guess
         %info<year> = deduce_year(@workweek[7]);
         %info<feast> = %info<season> unless %info<feast>;
 
-      # send completed week off to the printers
+        # send completed week off to the printers
 
         @workweek[0] = %info;
         make_week(@workweek);
 
-        my %tri-fo = %info;
-        push @tribar-registry, %tri-fo;
+        push @tribar-registry, {%info};
 
-      # reset working week
+        # reset working week
 
         %info<num>++;
         %info<count>++;
@@ -472,16 +534,17 @@ sub process_yeardat {   # prepare triangles for browse pages
     my @by-mon = qq:to/END/;
     <div id="row1">
     <article class="novdec">
-    <a href=""><h1> NOV / DEC</h1></a>
+    <a href="{$root}/year-{$y}/novdec"><h1> NOV / DEC</h1></a>
     END
   
     # while we're here we are also going to make the scrips pages for season and year!
     my @year-scrips;
     my @season-scrips;
+    my @month-scrips;
 
     for "year-$y/yeardat.txt".IO.lines -> $line {
 
-      my ($w, $s, $f, $m, $z) = $line.split('|');
+      my ($w, $s, $f, $m, $n, $z) = $line.split('|');
       once { push @split, ($z ~ '/' ~ $z + 1, $y); }
 
       my $week = slurp("year-$y/week-$w/scrips.html");
@@ -511,16 +574,32 @@ sub process_yeardat {   # prepare triangles for browse pages
       push @season-scrips, qq|<div class="week">\n{$week}\n</div>|;
 
       # divide data in html by month
+      
+      if $monum == 0 and $m > 10 { $m = 0; }
+      if $monum == 0 and $n > 10 { $n = 0; }
 
-      unless $m == $monum or ($monum == 0 and $m > 10) { 
+      unless $n == $monum {
+        if $m == $monum { push @month-scrips, qq|<div class="week">\n{$week}\n</div>|; } 
         push @by-mon, qq|</article>|;
 
-        given $m {
+        given $n {
           when 4  { push @by-mon, qq|</div>\n<div id="row2">|; proceed; }
           when 8  { push @by-mon, qq|</div>\n<div id="row3">|; proceed; }
-          default { push @by-mon, qq|<article class="{ @mon-name[$m].lc }"><a href=""><h1>{ @mon-name[$m].uc }</h1></a>|; }
+          default { push @by-mon, qq|<article class="{ @mon-name[$n].lc }"><a href="{$root}/year-{$y}/{@mon-name[$n].lc}"><h1>{ @mon-name[$n].uc }</h1></a>|; }
         }
-        $monum = $m; 
+
+        # store and reset month scriptures
+        mkdir "year-$y/{@mon-name[$monum].lc}" unless "year-$y/{@mon-name[$monum].lc}".IO.e;
+        spurt "year-$y/{@mon-name[$monum].lc}/scrips.html", @month-scrips.join("\n");
+
+        $monum = $n; 
+        @month-scrips = ();
+      }
+      push @month-scrips, qq|<div class="week">\n{$week}\n</div>|;
+
+      LAST { 
+        mkdir "year-$y/{@mon-name[$monum].lc}" unless "year-$y/{@mon-name[$monum].lc}".IO.e;
+        spurt "year-$y/{@mon-name[$monum].lc}/scrips.html", @month-scrips.join("\n");
       }
 
       # add triangle to both season and month browse lists
@@ -530,14 +609,11 @@ sub process_yeardat {   # prepare triangles for browse pages
       push @by-mon, $svg;
 
       $flip = 1 - $flip;
-
-     
+    
     }
 
     push @by-sea, "</article>\n</div>";
     push @by-mon, "</article>\n</div>";
-    mkdir "year-$y/$season" unless "year-$y/$season".IO.e;
-    spurt "year-$y/$season/scrips.html", @season-scrips.join("\n");
 
     # write month/season lists and year scrips to file
 
@@ -561,7 +637,6 @@ sub process_yeardat {   # prepare triangles for browse pages
 
 
 sub redirect_final_week($y,$w) { ### set up htaccess redirects to navigate trickily between years
-
   return if $y eq 'x';
   unless '.htaccess'.IO.e { say 'Did not update .htaccess, no file.'; return; }
   my $z = swap($y);
@@ -571,8 +646,8 @@ sub redirect_final_week($y,$w) { ### set up htaccess redirects to navigate trick
   else { spurt '.htaccess', "Redirect 302 $root/year-$y/week-$w $root/year-$z/week-1\n", :append; }
   
   $hta = slurp('.htaccess');
-  if $hta ~~/ '/year-'$y'/week-'(\d\d)\n / { spurt '.htaccess', $hta.subst($0, $w - 1, :g); }
-  else { spurt '.htaccess', "Redirect 302 $root/year-$z/week-0 $root/year-$y/week-{$w -1}\n", :append; }
+  if $hta ~~/ '/year-'$y'/week-'(\d\d\n) / { spurt '.htaccess', $hta.subst($0, "{$w - 1}\n", :g); }
+  else { spurt '.htaccess', "Redirect 302 $root/year-$z/week-0 $root/year-$y/week-{$w - 1}\n", :append; }
   
 }
 
@@ -604,22 +679,11 @@ sub swap($y) {    ### figure out what the next year letter is
 
 sub weekly_scrips( @w ) {    ### makes actual html file for a week out of daily chunks
 
-  my $mtw;
-  for 1..3 { $mtw ~= qq|<article>\n{ @w[$_]<scrips> }\n</article>|; }
+  my $scrips;
+  for 1..7 { $scrips ~= qq|<article>\n{ @w[$_]<scrips> }\n</article>|; }
 
-  my $tfs;
-  for 4..6 { $tfs ~= qq|<article>\n{ @w[$_]<scrips> }\n</article>|; }
-
-  return qq:to/END/  
-  <div class="midweek">
-  $mtw
-  $tfs
-  </div>
-  <div class="sunday">
-  <article>
-  { @w[7]<scrips> }
-  </article>
-  </div>
+  return qq:to/END/;
+  $scrips
   END
   
 }
